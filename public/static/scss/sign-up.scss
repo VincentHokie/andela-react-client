@@ -1,0 +1,24 @@
+
+@import "template";
+
+.container, img {
+    padding:0 !important;
+}
+
+label{
+    font-size : 12px;
+}
+
+.form-sign-up {
+
+   .btn-sign-up {
+        background: #f67a6e;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 300;
+        font-family: $font-stack;
+        box-shadow: 0 4px #e56b60;
+        margin-bottom: 20px;
+    }
+
+}

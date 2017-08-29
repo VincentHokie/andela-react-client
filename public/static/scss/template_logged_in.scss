@@ -1,0 +1,13 @@
+@import "template";
+
+nav.navbar.navbar-default {
+
+    background: $primary-color;
+    font-size: 14px;
+    font-weight: 300;
+    font-family: $font-stack;
+
+    a {
+        color:#fff;
+    }
+}

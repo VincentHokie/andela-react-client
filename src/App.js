@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 //import routing components
 import { Route, Switch} from 'react-router-dom'
-
-//import routing components
-import { Link } from 'react-router-dom'
 
 //import custom components
 import Login from "./components/login.component.jsx"

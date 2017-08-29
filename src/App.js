@@ -15,17 +15,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div>
-
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/sign-up">Sign up</Link></li>
-            <li><Link to="/shopping-lists">Shoppng li</Link></li>
-            <li><Link to="/email-confirmation">Email Confirmation</Link></li>
-            <li><Link to="/password-reset">Pwd Reset</Link></li>
-
-          </ul>
           <div>
             <Switch>
               <Route exact path='/' component={Login} />
@@ -37,8 +26,6 @@ class App extends Component {
               <Route exact path='*' component={PasswordReset} />
             </Switch>
           </div>
-        </div>
-        
       </div>
     );
   }

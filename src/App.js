@@ -9,7 +9,13 @@ import Login from "./components/login.component.jsx"
 import EmailConfirm from "./components/email_confirm.component.jsx"
 import PasswordReset from "./components/password_reset.component.jsx"
 import SignUp from "./components/sign_up.component.jsx"
+
 import ShoppingLists from "./components/shopping_lists.component.jsx"
+import CreateShoppingList from "./components/create_shopping_list.component.jsx"
+import UpdateShoppingList from "./components/update_shopping_list.component.jsx"
+
+import UpdateShoppingListItem from "./components/update_shopping_list_item.component.jsx"
+
 import NotFound from "./components/404.component.jsx"
 
 class App extends Component {
@@ -22,6 +28,9 @@ class App extends Component {
               <Route exact path='/login' component={Login} />
               <Route exact path='/sign-up' component={SignUp} />
               <Route exact path='/shopping-lists' component={ShoppingLists} />
+              <Route exact path='/shopping-lists/new' component={CreateShoppingList} />
+              <Route exact path='/shopping-list/:id/edit' component={UpdateShoppingList} />
+              <Route exact path='/shopping-list/:id/item/:item_id/edit' component={UpdateShoppingListItem} />
               <Route exact path='/email-confirmation' component={EmailConfirm} />
               <Route exact path='/password-reset/:token' component={PasswordReset} />
               <Route exact path='*' component={NotFound} />

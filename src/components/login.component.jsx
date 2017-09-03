@@ -55,7 +55,7 @@ handleSubmit(e) {
 
         //if a token is sent back, the login was successful, so we set global variables to store these states
         if( data["token"] ){
-          GLOBAL.LOGGED_ID = true;
+          GLOBAL.LOGGED_IN = true;
           GLOBAL.TOKEN = data["token"];
         }
 

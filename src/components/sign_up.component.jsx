@@ -9,9 +9,12 @@ class SignUp extends Component {
    this.state={
     email: '', username: '', password: '', password2: '',
     email_error: false, username_error: false, password_error: false, password2_error: false,
-    general_msg : false, loading : false
+    general_msg : false, loading : false,
+    logged_in : false
     }
 
+    this.state.logged_in = GLOBAL.LOGGED_IN;
+    
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
@@ -99,6 +102,14 @@ handleChange(event) {
 }
 
 render() {
+
+  if( this.state.logged_in ){
+
+      GLOBAL.FLASH = "You need to be logged out to create an account.";
+      return <Redirect push to="/shopping-lists" />;
+
+    }else{
+
     return (
 
       //<link href="{{ url_for('static', filename='css/sign-up.css') }}" rel="stylesheet" />
@@ -174,6 +185,7 @@ render() {
 
 
       );
+}
 }
 }
 

@@ -10,9 +10,12 @@ constructor(){
    this.state={
     email: '',
     email_error: false,
-    general_msg : false, loading : false
+    general_msg : false, loading : false,
+    logged_in : false
     }
 
+    this.state.logged_in = GLOBAL.LOGGED_IN;
+    
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
@@ -95,6 +98,14 @@ handleChange(event) {
 }
 
   render() {
+
+    if( this.state.logged_in ){
+
+      GLOBAL.FLASH = "You need to be logged out to reset your password!";
+      return <Redirect push to="/shopping-lists" />;
+
+    }else{
+
     return (
       
       <div className="container col-xs-12">
@@ -137,6 +148,7 @@ handleChange(event) {
       </div>
 
     );
+}
   }
 }
 

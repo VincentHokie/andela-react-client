@@ -8,7 +8,7 @@ class Login extends Component {
 constructor(){
    super();
    this.state={
-    username: '', password: ''
+    username: '', password: '',
     username_error: false, password_error: false,
     general_msg : false, loading : false
     }
@@ -67,7 +67,7 @@ handleSubmit(e) {
         var fields = ["username", "password"];
         for( field in fields ){
             if( data[field] )
-              thiz.setState({ field+"_error": data[field][0] })
+              thiz.setState({ [field+"_error"] : data[field][0] })
         }
     }
   

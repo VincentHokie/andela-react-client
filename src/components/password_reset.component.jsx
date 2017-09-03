@@ -25,7 +25,8 @@ handleSubmit(e) {
     var formData  = new FormData();
     var data = ["password", "password_confirm"];
     var thiz = this;
-
+    var token = this.props.match.params.token;
+    
     //reset error variables
     this.setState({ password_error: false  })
     this.setState({ password_confirm_error: false  })
@@ -36,7 +37,7 @@ handleSubmit(e) {
     for(var name in data) 
       formData.append(data[name], this.state[data[name]]);
 
-  fetch('https://andela-flask-api.herokuapp.com/auth/reset-password/token',{
+  fetch('https://andela-flask-api.herokuapp.com/auth/reset-password/'+token,{
       method: 'POST',
       body: formData,
       headers: {

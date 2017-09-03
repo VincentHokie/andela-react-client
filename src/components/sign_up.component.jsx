@@ -34,7 +34,7 @@ handleSubmit(e) {
 
 
     for(var name in data) 
-      formData.append(name, this.state[name]);
+      formData.append(name, this.state[data[name]]);
 
   fetch('https://andela-flask-api.herokuapp.com/auth/register',{
       method: 'POST',
@@ -65,9 +65,11 @@ handleSubmit(e) {
 
         var fields = ["username", "email", "password", "password2"];
         for( var field in fields ){
+            field = fields[field];
             if( data[field] )
               thiz.setState({ [field+"_error"]: data[field][0] })
         }
+
     }
   
   }) // still returns a promise object, U need to chain it again

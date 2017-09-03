@@ -34,7 +34,7 @@ handleSubmit(e) {
 
 
     for(var name in data) 
-      formData.append(name, this.state[name]);
+      formData.append(name, this.state[data[name]]);
 
   fetch('https://andela-flask-api.herokuapp.com/auth/reset-password/token',{
       method: 'POST',
@@ -66,6 +66,7 @@ handleSubmit(e) {
         //theres a form validation error(s), show it/them
         var fields = ["password", "password_confirm"];
         for( var field in fields ){
+          field = fields[field];
           if( data[field] )
             thiz.setState({ [field+"_error"]: data[field][0] })
         }

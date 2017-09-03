@@ -32,7 +32,7 @@ handleSubmit(e) {
 
 
     for(var name in data) 
-      formData.append(name, this.state[name]);
+      formData.append(name, this.state[data[name]]);
 
   fetch('https://andela-flask-api.herokuapp.com/auth/reset-password',{
       method: 'POST',

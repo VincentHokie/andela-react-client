@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 var GLOBAL = require("../globals.js")
 
@@ -102,7 +102,15 @@ handleChange(event) {
 }
 
   render() {
-    return (
+
+    if( this.state.logged_in ){
+
+      GLOBAL.FLASH = "If you'd like to login again, you have to log out first.";
+      return <Redirect push to="/shopping-lists" />;
+
+    }else{
+
+      return (
 
       <div className="container col-xs-12">
 
@@ -147,6 +155,9 @@ handleChange(event) {
       </div>
 
       );
+        
+    }
+    
 }
 }
 

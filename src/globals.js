@@ -1,5 +1,5 @@
 module.exports = {
-	LOGGED_ID : false,
+	LOGGED_IN : false,
 	TOKEN : false,
 	FLASH : false
 }

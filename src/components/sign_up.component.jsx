@@ -64,28 +64,9 @@ handleSubmit(e) {
         }
 
         var fields = ["username", "email", "password", "password2"];
-        for( var i = 0; i < fields.length; i++ ){
-
-            if( data[fields[i]] ){
-
-                switch (i){
-                    case 0:
-                        thiz.setState({ username_error: data[fields[i]][0] })
-                        break;
-                    case 1:
-                        thiz.setState({ email_error: data[fields[i]][0] })
-                        break;
-                    case 2:
-                        thiz.setState({ password_error: data[fields[i]][0] })
-                        break;
-                    case 3:
-                        thiz.setState({ password2_error: data[fields[i]][0] })
-                        break;
-                        
-                }
-            
-            }
-
+        for( field in fields ){
+            if( data[field] )
+              thiz.setState({ [field+"_error"]: data[field][0] })
         }
     }
   

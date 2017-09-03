@@ -115,11 +115,11 @@ handleChange(event) {
 
       <div className="input-wrap">
 
-      <span className="label label-danger">username error</span>
       <input type="text" placeholder="Username" name="username" className="form-control" required="required" autofocus />
+      { this.state.username_error ? <span className="label label-danger">{ this.state.username_error }<br/></span> : null }
 
-      <span className="label label-danger">password error</span>
       <input type="password" placeholder="Enter Password" name="password" className="form-control" required="required" />
+      { this.state.password_error ? <span className="label label-danger">{ this.state.password_error }<br/></span> : null }
 
       <button className="btn btn-md btn-login btn-block" type="submit">Sign in</button>
 

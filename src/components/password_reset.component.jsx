@@ -3,6 +3,20 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class PasswordReset extends Component {
+
+constructor(){
+   super();
+   this.state={
+    password: '', password_confirm: '',
+    password_error: false, password_confirm_error: false,
+    general_msg : false, loading : false
+    }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
+}
+
   render() {
     return (
       

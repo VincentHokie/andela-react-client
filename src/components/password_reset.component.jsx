@@ -17,6 +17,72 @@ constructor(){
 
 }
 
+handleSubmit(e) {
+
+    //prevent browser refresh on submit
+    e.preventDefault();
+
+    var formData  = new FormData();
+    var data = ["password", "password_confirm"];
+    var thiz = this;
+
+    //reset error variables
+    this.setState({ password_error: false  })
+    this.setState({ password_confirm_error: false  })
+    this.setState({ general_msg: false  })
+    this.setState({ loading: true  })
+
+
+    for(var name in data) 
+      formData.append(name, this.state[name]);
+
+  fetch('https://andela-flask-api.herokuapp.com/auth/reset-password/token',{
+      method: 'POST',
+      body: formData,
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+    }
+    })      // returns a promise object
+  .then((resp) => resp.json())
+  .then(function(data){
+
+    thiz.setState({ loading: false  })
+
+    if( data["success"] ){
+
+        data = data["success"];
+        thiz.setState({ general_msg: data })
+
+    }else if( data["error"] ){
+
+        data = data["error"];
+
+        //if the error is not a json object, create a general message..otherwise, its a form error
+        if( typeof data !== "object" ){
+          thiz.setState({ general_msg: data })
+          return true;
+        }
+
+        //theres a form validation error(s), show it/them
+        var fields = ["password", "password_confirm"];
+        for( field in fields ){
+
+          if( data[fields[i]] )
+            thiz.setState({ [field+"_error"]: data[field][0] })
+        
+        }
+
+      }
+    }
+  
+  }) // still returns a promise object, U need to chain it again
+  .catch(function(error){
+    thiz.setState({ loading: false  })
+    thiz.setState({ general_msg: "Check your internet connection and try again" })
+  });
+
+}
+
   render() {
     return (
       

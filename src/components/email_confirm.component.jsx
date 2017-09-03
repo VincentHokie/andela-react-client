@@ -99,7 +99,7 @@ handleChange(event) {
 
       <div className="input-wrap">
 
-      <span className="label label-danger">email error</span>
+      { this.state.email_error ? <span className="label label-danger">{ this.state.email_error }<br/></span> : null }
       <input type="text" placeholder="Your email address" name="email" className="form-control" required="required" autofocus />
 
       <div className="col-xs-12">

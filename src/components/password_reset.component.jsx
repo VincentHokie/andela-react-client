@@ -106,10 +106,10 @@ handleChange(event) {
 
       <div className="input-wrap">
 
-      <span className="label label-danger">password error</span>
+      { this.state.password_error ? <span className="label label-danger">{ this.state.password_error }<br/></span> : null }
       <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" />
 
-      <span className="label label-danger">password confirm error</span>
+      { this.state.password_confirm_error ? <span className="label label-danger">{ this.state.password_confirm_error }<br/></span> : null }
       <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" />
 
       <div className="col-xs-12">

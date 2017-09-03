@@ -21,7 +21,7 @@ handleSubmit(e) {
     e.preventDefault();
 
     var formData  = new FormData();
-    var data = this.state;
+    var data = ["email", "username", "password", "password2"];
     var thiz = this;
 
     //reset error variables
@@ -34,7 +34,7 @@ handleSubmit(e) {
 
 
     for(var name in data) 
-      formData.append(name, data[name]);
+      formData.append(name, this.state[name]);
 
   fetch('https://andela-flask-api.herokuapp.com/auth/register',{
       method: 'POST',

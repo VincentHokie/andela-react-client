@@ -66,10 +66,8 @@ handleSubmit(e) {
         //theres a form validation error(s), show it/them
         var fields = ["password", "password_confirm"];
         for( field in fields ){
-
-          if( data[fields[i]] )
+          if( data[field] )
             thiz.setState({ [field+"_error"]: data[field][0] })
-        
         }
 
       }

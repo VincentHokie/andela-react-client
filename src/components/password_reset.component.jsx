@@ -70,7 +70,6 @@ handleSubmit(e) {
             thiz.setState({ [field+"_error"]: data[field][0] })
         }
 
-      }
     }
   
   }) // still returns a promise object, U need to chain it again

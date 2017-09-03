@@ -65,7 +65,7 @@ handleSubmit(e) {
         if( data["email"] )
           thiz.setState({ email_error : data["email"][0] })
 
-    }
+    
   }
   
   }) // still returns a promise object, U need to chain it again

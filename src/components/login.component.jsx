@@ -3,6 +3,20 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
+
+
+constructor(){
+   super();
+   this.state={
+    username: '', password: ''
+    username_error: false, password_error: false,
+    general_msg : false, loading : false
+    }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
+}
   render() {
     return (
 

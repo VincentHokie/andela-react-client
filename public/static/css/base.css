@@ -55,6 +55,9 @@ body {
     padding: 20px; }
   .form span {
     font-size: 100%;
+    float: left;
+    clear: left; }
+  .form label {
     float: left; }
   .form .btn {
     background: #f67a6e;

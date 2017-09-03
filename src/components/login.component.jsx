@@ -65,7 +65,7 @@ handleSubmit(e) {
         }
 
         var fields = ["username", "password"];
-        for( field in fields ){
+        for( var field in fields ){
             if( data[field] )
               thiz.setState({ [field+"_error"] : data[field][0] })
         }

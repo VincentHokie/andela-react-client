@@ -10,6 +10,7 @@ import EmailConfirm from "./components/email_confirm.component.jsx"
 import PasswordReset from "./components/password_reset.component.jsx"
 import SignUp from "./components/sign_up.component.jsx"
 import ShoppingLists from "./components/shopping_lists.component.jsx"
+import NotFound from "./components/404.component.jsx"
 
 class App extends Component {
   render() {
@@ -23,7 +24,7 @@ class App extends Component {
               <Route exact path='/shopping-lists' component={ShoppingLists} />
               <Route exact path='/email-confirmation' component={EmailConfirm} />
               <Route exact path='/password-reset/:token' component={PasswordReset} />
-              <Route exact path='*' component={PasswordReset} />
+              <Route exact path='*' component={NotFound} />
             </Switch>
           </div>
       </div>

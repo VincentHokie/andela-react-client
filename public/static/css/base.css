@@ -67,5 +67,7 @@ body {
     font-family: "Open Sans", sans-serif;
     box-shadow: 0 4px #e56b60;
     margin-bottom: 20px; }
+  .form img {
+    padding: 0; }
 
 /*# sourceMappingURL=base.css.map */

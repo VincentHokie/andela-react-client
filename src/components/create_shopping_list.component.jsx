@@ -9,8 +9,11 @@ constructor(){
    this.state={
     username: '', password: '',
     username_error: false, password_error: false,
-    general_msg : false, loading : false
+    general_msg : false, loading : false,
+    logged_in : false
     }
+
+    this.state.logged_in = GLOBAL.LOGGED_IN;
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -103,6 +106,14 @@ handleChange(event) {
 }
 
   render() {
+
+    if( !this.state.logged_in ){
+
+      GLOBAL.FLASH = "You need to log in to create a shopping list!";
+      return <Redirect push to="/login" />;
+
+    }else{
+
     return (
 
       /* 
@@ -189,6 +200,7 @@ handleChange(event) {
 */
 
       );
+}
 }
 }
 

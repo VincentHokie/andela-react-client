@@ -107,10 +107,10 @@ handleChange(event) {
       <div className="input-wrap">
 
       { this.state.password_error ? <span className="label label-danger">{ this.state.password_error }<br/></span> : null }
-      <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" />
+      <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" onChange={this.handleChange} />
 
       { this.state.password_confirm_error ? <span className="label label-danger">{ this.state.password_confirm_error }<br/></span> : null }
-      <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" />
+      <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} />
 
       <div className="col-xs-12">
       { 

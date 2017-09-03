@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom';
 
+var GLOBAL = require("../globals.js")
+
 class PasswordReset extends Component {
 
 constructor(){
@@ -15,6 +17,18 @@ constructor(){
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
+}
+
+componentDidMount(){
+
+  //show a flash message if it exists in the globals module
+    if( GLOBAL.FLASH ){
+      
+      this.setState({ general_msg: GLOBAL.FLASH  });
+      GLOBAL.FLASH = false;
+
+    }
+    
 }
 
 handleSubmit(e) {

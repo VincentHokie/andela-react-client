@@ -23,6 +23,18 @@ constructor(){
 
 }
 
+componentDidMount(){
+
+  //show a flash message if it exists in the globals module
+    if( GLOBAL.FLASH ){
+      
+      this.setState({ general_msg: GLOBAL.FLASH  });
+      GLOBAL.FLASH = false;
+
+    }
+    
+}
+
 handleSubmit(e) {
 
     //prevent browser refresh on submit

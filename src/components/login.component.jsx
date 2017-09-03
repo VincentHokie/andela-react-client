@@ -60,6 +60,11 @@ handleSubmit(e) {
         if( data["token"] ){
           GLOBAL.LOGGED_IN = true;
           GLOBAL.TOKEN = data["token"];
+
+          setTimeout(function(){
+            thiz.setState({ logged_in: GLOBAL.LOGGED_IN  })
+          }, 2000);
+
         }
 
         data = data["success"];

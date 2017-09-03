@@ -110,22 +110,15 @@ handleChange(event) {
       { this.state.password_confirm_error ? <span className="label label-danger">{ this.state.password_confirm_error }<br/></span> : null }
       <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} />
 
-      <div className="col-xs-12">
       { 
         this.state.loading ? 
+        <div className="col-xs-12">
         <button className="btn btn-md btn-login col-xs-11" disabled type="submit">Reset Password</button>
-        :
-        <button className="btn btn-md btn-login col-xs-11" type="submit">Reset Password</button>
-      }
-      { 
-        this.state.loading ? 
         <img src='/static/images/loading.gif' className="col-xs-1" />
-        : null 
+        </div>
+        :
+        <button className="btn btn-md btn-login btn-block" type="submit">Reset Password</button>
       }
-      
-      </div>
-
-      
 
       </div>
 

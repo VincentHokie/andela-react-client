@@ -141,20 +141,15 @@ render() {
       </label>
       </div>
 
-      <div className="col-xs-12">
       { 
         this.state.loading ? 
+        <div className="col-xs-12">
         <button className="btn btn-md btn-sign-up col-xs-11" disabled type="submit">Sign Up</button>
-        :
-        <button className="btn btn-md btn-sign-up col-xs-11" type="submit">Sign Up</button>
-      }
-      { 
-        this.state.loading ? 
         <img src='/static/images/loading.gif' className="col-xs-1" />
-        : null 
+        </div>
+        :
+        <button className="btn btn-md btn-sign-up btn-block" type="submit">Sign Up</button>
       }
-      
-      </div>
 
       </div>
 

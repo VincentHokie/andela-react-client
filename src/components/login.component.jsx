@@ -109,20 +109,15 @@ handleChange(event) {
       { this.state.password_error ? <span className="label label-danger">{ this.state.password_error }<br/></span> : null }
       <input type="password" placeholder="Enter Password" name="password" className="form-control" required="required" onChange={this.handleChange} />
 
-      <div className="col-xs-12">
       { 
         this.state.loading ? 
+        <div className="col-xs-12">
         <button className="btn btn-md btn-login col-xs-11" disabled type="submit">Sign in</button>
-        :
-        <button className="btn btn-md btn-login col-xs-11" type="submit">Sign in</button>
-      }
-      { 
-        this.state.loading ? 
         <img src='/static/images/loading.gif' className="col-xs-1" />
-        : null 
+        </div>
+        :
+        <button className="btn btn-md btn-login btn-block" type="submit">Sign in</button>
       }
-      
-      </div>
 
       </div>
 

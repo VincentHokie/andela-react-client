@@ -20,7 +20,20 @@ class EmailConfirm extends Component {
       <span className="label label-danger">email error</span>
       <input type="text" placeholder="Your email address" name="email" className="form-control" required="required" autofocus />
 
-      <button className="btn btn-md btn-login btn-block" type="submit">Send E-Mail</button>
+      <div className="col-xs-12">
+      { 
+        this.state.loading ? 
+        <button className="btn btn-md btn-login col-xs-11" disabled type="submit">Send E-Mail</button>
+        :
+        <button className="btn btn-md btn-login col-xs-11" type="submit">Send E-Mail</button>
+      }
+      { 
+        this.state.loading ? 
+        <img src='/static/images/loading.gif' className="col-xs-1" />
+        : null 
+      }
+      
+      </div>
 
       </div>
 

@@ -24,7 +24,22 @@ class PasswordReset extends Component {
       <span className="label label-danger">password confirm error</span>
       <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" />
 
-      <button className="btn btn-md btn-login btn-block" type="submit">Reset Password</button>
+      <div className="col-xs-12">
+      { 
+        this.state.loading ? 
+        <button className="btn btn-md btn-login col-xs-11" disabled type="submit">Reset Password</button>
+        :
+        <button className="btn btn-md btn-login col-xs-11" type="submit">Reset Password</button>
+      }
+      { 
+        this.state.loading ? 
+        <img src='/static/images/loading.gif' className="col-xs-1" />
+        : null 
+      }
+      
+      </div>
+
+      
 
       </div>
 

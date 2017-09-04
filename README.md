@@ -32,12 +32,12 @@ After doing either of the instructions above ( and with node v > 6.11.2 installe
 
 
 ### TravisCI
-[![Build Status](https://travis-ci.org/VincentHokie/andela-flask-api.svg?branch=master)](https://travis-ci.org/VincentHokie/andela-flask-api)
+[![Build Status](https://travis-ci.org/VincentHokie/andela-react-client.svg?branch=master)](https://travis-ci.org/VincentHokie/andela-react-client)
 
 ### Coveralls
-[![Coverage Status](https://coveralls.io/repos/github/VincentHokie/andela-flask-api/badge.svg?branch=master)](https://coveralls.io/github/VincentHokie/andela-flask-api?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/VincentHokie/andela-react-client/badge.svg?branch=master)](https://coveralls.io/github/VincentHokie/andela-react-client?branch=master)
 
 ### Code Climate
-[![Code Climate](https://codeclimate.com/github/VincentHokie/andela-flask-api.svg)](https://codeclimate.com/github/VincentHokie/andela-flask-api)
+[![Code Climate](https://codeclimate.com/github/VincentHokie/andela-react-client.svg)](https://codeclimate.com/github/VincentHokie/andela-react-client)
 
 ## Enjoy

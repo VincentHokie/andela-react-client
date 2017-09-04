@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Redirect } from 'react-router-dom';
+
 var GLOBAL = require("../globals.js")
 
 class SignUp extends Component {

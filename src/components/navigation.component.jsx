@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Redirect } from 'react-router-dom';
 
+import './css/template_logged_in.css';
+
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 

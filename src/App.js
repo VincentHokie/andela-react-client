@@ -32,7 +32,7 @@ class App extends Component {
               <Route exact path='/login' component={Login} />
               <Route exact path='/sign-up' component={SignUp} />
               <Route exact path='/shopping-lists' component={ShoppingLists} />
-              <Route exact path='/shopping-lists/new' component={CreateShoppingList} />
+              <Route exact path='/shopping-list/new' component={CreateShoppingList} />
               <Route exact path='/shopping-list/:id/edit' component={UpdateShoppingList} />
               <Route exact path='/shopping-list/:id/item/:item_id/edit' component={UpdateShoppingListItem} />
               <Route exact path='/email-confirmation' component={EmailConfirm} />

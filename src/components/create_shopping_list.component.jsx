@@ -118,14 +118,8 @@ handleChange(event) {
 
     return (
 
-      /* 
-      --  page container      -- 
-      */
     <div className="container col-xs-12">
 
-    /* 
-    --    flash message logic    -- 
-    */
     { 
         this.state.general_msg ? 
         <div className="alert alert-info message col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
@@ -133,28 +127,13 @@ handleChange(event) {
         </div>
         : null 
     }
-    /* 
-    --    flash message logic end   -- 
-    */
 
-    /* 
-    --   shopping list form     -- 
-    */
     <form onSubmit={this.handleSubmit} className="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 form" name="create-shoppinglist">
 
-        /* 
-        --    form heading    -- 
-        */
         <h2 className="form-heading">New Andela Shopping list form</h2>
 
-        /* 
-        --    input element wrapper    -- 
-        */
         <div className="input-wrap">
 
-            /* 
-            --  shopping list name input logic    -- 
-            */
             <div className="col-xs-12">
                 <div className="form-group">
 
@@ -163,13 +142,7 @@ handleChange(event) {
 
                 </div>
             </div>
-            /* 
-            --  shopping list name input logic end   -- 
-            */
 
-            /* 
-            --  create shopping list button    -- 
-            */
             <div className="col-xs-12">
                     { 
                       this.state.loading ? 
@@ -181,25 +154,13 @@ handleChange(event) {
                       <button type="submit" name="Submit" className="btn btn-md btn-login btn-block">Create Shopping List</button>
                     }
             </div>
-            /* 
-            --  create shopping list button end    -- 
-            */
 
         </div>
-        /* 
-        --    input element wrapper end   -- 
-        */
 
 
     </form>
-    /* 
-    --   shopping list form end     -- 
-    */
 
 </div>
-/* 
---  page container end      -- 
-*/
 
       );
 }

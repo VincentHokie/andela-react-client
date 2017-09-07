@@ -18,6 +18,10 @@ import UpdateShoppingListItem from "./components/update_shopping_list_item.compo
 
 import NotFound from "./components/404.component.jsx"
 
+var vex = require('vex-js')
+vex.registerPlugin(require('vex-dialog'))
+vex.defaultOptions.className = 'vex-theme-os'
+
 class App extends Component {
   render() {
     return (

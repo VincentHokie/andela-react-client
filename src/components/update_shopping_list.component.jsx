@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Redirect } from 'react-router-dom';
 
+import Navigation from "./navigation.component.jsx"
+
 var GLOBAL = require("../globals.js")
 
 class UpdateShoppingList extends Component {
@@ -121,6 +123,8 @@ handleChange(event) {
 
     <div className="container col-xs-12">
 
+    <Navigation username="Vince" />
+    
     { 
         this.state.general_msg ? 
         <div className="alert alert-info message col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">

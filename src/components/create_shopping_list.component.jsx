@@ -158,7 +158,7 @@ handleChange(event) {
             <div className="col-xs-12">
                 <div className="form-group">
 
-                    { this.state.username_error ? <span className="label label-danger">{ this.state.name_error }<br/></span> : null }
+                    { this.state.name_error ? <span className="label label-danger">{ this.state.name_error }<br/></span> : null }
                     <input type="text" placeholder="Shopping List Name" name="name" className="form-control" required="required" autofocus onChange={this.handleChange} />
 
                 </div>

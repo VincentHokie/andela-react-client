@@ -58,6 +58,10 @@ handleSubmit(e) {
 
   fetch('https://andela-flask-api.herokuapp.com/auth/login',{
       method: 'POST',
+      headers: {
+         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN), 
+         'Content-Type': 'application/x-www-form-urlencoded'
+       },
       body: formData,
       headers: {
         "Access-Control-Allow-Origin": "*"

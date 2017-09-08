@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import './css/template_logged_in.css';
 
@@ -65,7 +65,9 @@ handleLogout(event) {
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href="#">Andela Shopping List</a>
+                <Link to="/login" className="navbar-brand">
+                  Andela Shopping List
+                </Link>
             </div>
             <div className="collapse navbar-collapse" id="myNavbar">
                 <ul className="nav navbar-nav navbar-right">

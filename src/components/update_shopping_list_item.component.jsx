@@ -145,7 +145,7 @@ handleChange(event) {
                 <div className="form-group">
 
                     { this.state.amount_error ? <span className="label label-danger">{ this.state.amount_error }<br/></span> : null }
-                    <input type="text" placeholder="Item amount" name="amount" className="form-control" required="required" autofocus onChange={this.handleChange} />
+                    <input type="number" placeholder="Item amount" name="amount" className="form-control" required="required" onChange={this.handleChange} />
 
                 </div>
             </div>

@@ -70,14 +70,7 @@ handleSubmit(e) {
 
     if( data["success"] ){
 
-        //if a token is sent back, the login was successful, so we set global variables to store these states
-        if( data["token"] ){
-          GLOBAL.LOGGED_ID = true;
-          GLOBAL.TOKEN = data["token"];
-        }
-
         data = data["success"];
-
         thiz.setState({ general_msg: data })
 
     }else if( data["error"] ){

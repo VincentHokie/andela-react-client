@@ -12,8 +12,8 @@ class UpdateShoppingList extends Component {
 constructor(){
    super();
    this.state={
-    username: '', password: '',
-    username_error: false, password_error: false,
+    name: '',
+    name_error: false,
     general_msg : false, loading : false,
     logged_in : false
     }
@@ -43,18 +43,17 @@ handleSubmit(e) {
     e.preventDefault();
 
     var formData  = new FormData();
-    var data = ["username", "password"];
+    var data = ["name"];
     var thiz = this;
 
     //reset error variables
-    this.setState({ username_error: false  })
-    this.setState({ password_error: false  })
+    this.setState({ name_error: false  })
     this.setState({ general_msg: false  })
     this.setState({ loading: true  })
 
-
-    for(var name in data) 
+    for(var name in data)
       formData.append(data[name], this.state[data[name]]);
+      
 
   fetch('https://andela-flask-api.herokuapp.com/auth/login',{
       method: 'POST',
@@ -94,7 +93,7 @@ handleSubmit(e) {
           return true;
         }
 
-        var fields = ["username", "password"];
+        var fields = ["name"];
         for( var field in fields ){
           field = fields[field];
             if( data[field] )

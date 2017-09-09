@@ -71,7 +71,7 @@ handleLogout(event) {
             </div>
             <div className="collapse navbar-collapse" id="myNavbar">
                 <ul className="nav navbar-nav navbar-right">
-                    <li><a href="#"><i className="fa fa-user"></i> Welcome  { this.props.username } </a></li>
+                    <li><a><i className="fa fa-user"></i> Welcome  { this.props.username } </a></li>
                     <li id="logoutButton" onClick={ this.handleLogout }><a><i className="fa fa-power-off"></i> Logout</a></li>
                 </ul>
             </div>

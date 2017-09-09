@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './css/template_logged_in.css';
 

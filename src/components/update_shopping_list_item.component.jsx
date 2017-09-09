@@ -61,10 +61,7 @@ handleSubmit(e) {
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN), 
          'Content-Type': 'application/x-www-form-urlencoded'
        },
-      body: formData,
-      headers: {
-        "Access-Control-Allow-Origin": "*"
-    }
+      body: formData
     })      // returns a promise object
   .then((resp) => resp.json())
   .then(function(data){

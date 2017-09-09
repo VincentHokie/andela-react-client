@@ -154,7 +154,7 @@ handleChange(event) {
                     { 
                       this.state.loading ? 
                       <div className="col-xs-12">
-                      <button type="submit" name="Submit" className="btn btn-md btn-login col-xs-1" disabled>Update Shopping List Item</button>
+                      <button type="submit" name="Submit" className="btn btn-md btn-login col-xs-11" disabled>Update Shopping List Item</button>
                       <img src='/static/images/loading.gif' className="col-xs-1" />
                       </div>
                       :

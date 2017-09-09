@@ -11,8 +11,8 @@ class CreateShoppingList extends Component {
 constructor(){
    super();
    this.state={
-    username: '', password: '',
-    username_error: false, password_error: false,
+    name: '',
+    name_error: false,
     general_msg : false, loading : false,
     logged_in : false
     }
@@ -42,20 +42,19 @@ handleSubmit(e) {
     e.preventDefault();
 
     var formData  = new FormData();
-    var data = ["username", "password"];
+    var data = ["name"];
     var thiz = this;
 
     //reset error variables
-    this.setState({ username_error: false  })
-    this.setState({ password_error: false  })
+    this.setState({ name_error: false  })
     this.setState({ general_msg: false  })
     this.setState({ loading: true  })
 
-
-    for(var name in data) 
+    for(var name in data)
       formData.append(data[name], this.state[data[name]]);
+    
 
-  fetch('https://andela-flask-api.herokuapp.com/auth/login',{
+  fetch('https://andela-flask-api.herokuapp.com/shoppinglists',{
       method: 'POST',
       headers: {
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN), 
@@ -70,14 +69,7 @@ handleSubmit(e) {
 
     if( data["success"] ){
 
-        //if a token is sent back, the login was successful, so we set global variables to store these states
-        if( data["token"] ){
-          GLOBAL.LOGGED_ID = true;
-          GLOBAL.TOKEN = data["token"];
-        }
-
         data = data["success"];
-
         thiz.setState({ general_msg: data })
 
     }else if( data["error"] ){
@@ -90,10 +82,10 @@ handleSubmit(e) {
           return true;
         }
 
-        var fields = ["username", "password"];
+        var fields = ["name"];
         for( var field in fields ){
           field = fields[field];
-            if( data[field] )
+            if( data["name"] )
               thiz.setState({ [field+"_error"] : data[field][0] })
         }
     }
@@ -149,15 +141,15 @@ handleChange(event) {
             </div>
 
             <div className="col-xs-12">
-                    { 
-                      this.state.loading ? 
-                      <div className="col-xs-12">
-                      <button type="submit" name="Submit" className="btn btn-md btn-login col-xs-1" disabled>Create Shopping List</button>
-                      <img src='/static/images/loading.gif' className="col-xs-1" />
-                      </div>
-                      :
-                      <button type="submit" name="Submit" className="btn btn-md btn-login btn-block">Create Shopping List</button>
-                    }
+                { 
+                  this.state.loading ? 
+                  <div className="col-xs-12">
+                  <button type="submit" name="Submit" className="btn btn-md btn-login col-xs-11" disabled>Create Shopping List</button>
+                  <img src='/static/images/loading.gif' className="col-xs-1" />
+                  </div>
+                  :
+                  <button type="submit" name="Submit" className="btn btn-md btn-login btn-block">Create Shopping List</button>
+                }
             </div>
 
         </div>

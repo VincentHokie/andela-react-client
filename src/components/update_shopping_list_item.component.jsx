@@ -55,8 +55,8 @@ handleSubmit(e) {
       formData.append(data[name], this.state[data[name]]);
       
 
-  fetch('https://andela-flask-api.herokuapp.com/auth/login',{
-      method: 'POST',
+  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+this.props.match.params.id+'/items/'+this.props.match.params.item_id,{
+      method: 'PUT',
       headers: {
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN), 
          'Content-Type': 'application/x-www-form-urlencoded'

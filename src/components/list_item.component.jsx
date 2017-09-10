@@ -84,6 +84,7 @@ handleItemCheckboxChange(event) {
 
   var listId = event.target.getAttribute('data-listid');
   var itemId = event.target.getAttribute('data-itemid');
+  var thiz = this;
 
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ listId +'/items/'+itemId,{
         method: 'DELETE',
@@ -95,12 +96,12 @@ handleItemCheckboxChange(event) {
       .then((resp) => resp.json())
       .then(function(data){
 
-        this.setState({ loading: false  })
+        thiz.setState({ loading: false  })
 
         if( data["success"] ){
 
           data = data["success"];
-          this.setState({ general_msg: data })
+          thiz.setState({ general_msg: data })
 
         }else if( data["error"] ){
 
@@ -108,7 +109,7 @@ handleItemCheckboxChange(event) {
 
           //if the error is not a json object, create a general messge..otherwise, its a form error
           if( typeof data !== "object" ){
-            this.setState({ general_msg: data })
+            thiz.setState({ general_msg: data })
             return true;
           }
 
@@ -116,8 +117,8 @@ handleItemCheckboxChange(event) {
 
     }) // still returns a promise object, U need to chain it again
   .catch(function(error){
-    this.setState({ loading: false  })
-    this.setState({ general_msg: "Check your internet connection and try again" })
+    thiz.setState({ loading: false  })
+    thiz.setState({ general_msg: "Check your internet connection and try again" })
   });
 
 }

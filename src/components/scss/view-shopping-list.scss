@@ -7,18 +7,18 @@
 }
 
 #list-panel .alert-default{
-    border: 1px solid #000;
+    border-bottom: 1px solid #000;
     clear:left ;
 }
 
 #list-panel .alert-default:hover{
     background-color: #dff0d8;
-    border: none;
+    border-bottom: 1px solid #8BC34A !important;
 }
 
 .chosen-alert {
     background-color: #dff0d8;
-    border: none;
+    border-bottom: 1px solid #8BC34A !important;
 }
 
 .shopping-list i { font-size: 12px; cursor:pointer }

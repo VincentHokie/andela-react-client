@@ -18,7 +18,7 @@ constructor(){
     name: '', amount: '',
     name_error: false, amount_error: false,
     general_msg : false, loading : false,
-    logged_in : false
+    logged_in : false, retrieved: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,6 +66,7 @@ componentDidMount(){
     //we got a list item object back, populate state & therefore input field
     thiz.setState({ name: data["name"]  })
     thiz.setState({ amount: data["amount"]  })
+    this.setState({ retrieved: true  });
 
   
   }) // still returns a promise object, U need to chain it again
@@ -171,7 +172,7 @@ handleChange(event) {
                 <div className="form-group">
 
                     { this.state.name_error ? <FormError error={ this.state.name_error } /> : null }
-                    <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} value={ this.state.name } disabled={ this.state.loading ? "disabled" : false } />
+                    <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} value={ this.state.name } disabled={ this.state.loading || !this.state.retrieved ? "disabled" : false } />
 
                 </div>
             </div>
@@ -180,13 +181,13 @@ handleChange(event) {
                 <div className="form-group">
 
                     { this.state.amount_error ? <FormError error={ this.state.amount_error } /> : null }
-                    <input type="number" min="1" placeholder="Item amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } disabled={ this.state.loading ? "disabled" : false } />
+                    <input type="number" min="1" placeholder="Item amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } disabled={ this.state.loading || !this.state.retrieved ? "disabled" : false } />
 
                 </div>
             </div>
 
             <div className="col-xs-12">
-               <FormButton loading={ this.state.loading } title="Update Shopping List Item" />
+               <FormButton loading={ this.state.loading || !this.state.retrieved } title="Update Shopping List Item" />
             </div>
 
         </div>

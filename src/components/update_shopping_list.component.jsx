@@ -19,7 +19,7 @@ constructor(){
     name: '',
     name_error: false,
     general_msg : false, loading : false,
-    logged_in : false
+    logged_in : false, retrieved: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,6 +66,7 @@ componentDidMount(){
 
     //we got a list object back, populate state & therefore input field
     thiz.setState({ name: data["name"]  })
+    this.setState({ retrieved: true  });
 
   
   }) // still returns a promise object, U need to chain it again
@@ -170,13 +171,13 @@ handleChange(event) {
                 <div className="form-group">
 
                     { this.state.name_error ? <FormError error={ this.state.name_error } /> : null }
-                    <input type="text" placeholder="Shopping List Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} value={ this.state.name } disabled={ this.state.loading ? "disabled" : false } />
+                    <input type="text" placeholder="Shopping List Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} value={ this.state.name } disabled={ this.state.loading || !this.state.retrieved ? "disabled" : false } />
 
                 </div>
             </div>
 
             <div className="col-xs-12">
-              <FormButton loading={ this.state.loading } title="Update Shopping List" />
+              <FormButton loading={ this.state.loading || !this.state.retrieved } title="Update Shopping List" />
             </div>
 
         </div>

@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom';
 import Navigation from "./navigation.component.jsx"
 import FlashMsg from "./flash_msg.component.jsx"
 
+import FormError from "./forms/form_error.component.jsx"
+
 var GLOBAL = require("../globals.js")
 
 class UpdateShoppingList extends Component {
@@ -130,7 +132,7 @@ handleChange(event) {
             <div className="col-xs-12">
                 <div className="form-group">
 
-                    { this.state.name_error ? <span className="label label-danger">{ this.state.name_error }<br/></span> : null }
+                    { this.state.name_error ? <FormError error={ this.state.name_error } /> : null }
                     <input type="text" placeholder="Shopping List Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} />
 
                 </div>

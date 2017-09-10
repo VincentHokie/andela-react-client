@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import FlashMsg from "./flash_msg.component.jsx"
+import FormError from "./forms/form_error.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
@@ -126,10 +127,10 @@ handleChange(event) {
 
       <div className="input-wrap">
 
-      { this.state.password_error ? <span className="label label-danger">{ this.state.password_error }<br/></span> : null }
+      { this.state.password_error ? <FormError error={ this.state.password_error } /> : null }
       <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" onChange={this.handleChange} />
 
-      { this.state.password_confirm_error ? <span className="label label-danger">{ this.state.password_confirm_error }<br/></span> : null }
+      { this.state.password_confirm_error ? <FormError error={ this.state.password_confirm_error } /> : null }
       <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} />
 
       { 

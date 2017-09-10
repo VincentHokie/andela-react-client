@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import FlashMsg from "./flash_msg.component.jsx"
+import FormError from "./forms/form_error.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
@@ -133,25 +134,25 @@ render() {
 
       <div className="form-group">
       <label for="username">Username</label><br/>
-      { this.state.username_error ? <span className="label label-danger">{ this.state.username_error }<br/></span> : null }
+      { this.state.username_error ? <FormError error={ this.state.username_error } /> : null }
       <input type="text" placeholder="Username" name="username" className="form-control" required="required" autofocus id="username" onChange={this.handleChange} />
       </div>
 
       <div className="form-group">
       <label for="email">Email address</label><br/>
-      { this.state.email_error ? <span className="label label-danger">{ this.state.email_error }<br/></span> : null }
+      { this.state.email_error ? <FormError error={ this.state.email_error } /> : null }
       <input type="email" placeholder="vince@hotmail.com" name="email" className="form-control" required="required" autofocus id="email" onChange={this.handleChange} />
       </div>
 
       <div className="form-group">
       <label for="password">Password</label><br/>
-      { this.state.password_error ? <span className="label label-danger">{ this.state.password_error }<br/></span> : null }
+      { this.state.password_error ? <FormError error={ this.state.password_error } /> : null }
       <input type="password" placeholder="Enter Password" name="password" className="form-control" required="required" id="password" onChange={this.handleChange} />
       </div>
 
       <div className="form-group">
       <label for="password2">Re-Enter Password</label><br/>
-      { this.state.password2_error ? <span className="label label-danger">{ this.state.password2_error }<br/></span> : null }
+      { this.state.password2_error ? <FormError error={ this.state.password2_error } /> : null }
       <input type="password" placeholder="Enter Password" name="password2" className="form-control" required="required" id="password2" onChange={this.handleChange} />
       </div>
 

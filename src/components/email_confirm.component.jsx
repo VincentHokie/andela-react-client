@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import FlashMsg from "./flash_msg.component.jsx"
+import FormError from "./forms/form_error.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
@@ -120,7 +121,7 @@ handleChange(event) {
 
       <div className="input-wrap">
 
-      { this.state.email_error ? <span className="label label-danger">{ this.state.email_error }<br/></span> : null }
+      { this.state.email_error ? <FormError error={ this.state.email_error } /> : null }
       <input type="text" placeholder="Your email address" name="email" className="form-control" required="required" autofocus onChange={this.handleChange} />
 
       { 

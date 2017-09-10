@@ -136,7 +136,7 @@ handleChange(event) {
       { this.state.password_confirm_error ? <FormError error={ this.state.password_confirm_error } /> : null }
       <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} />
 
-      <FormButton loading={ this.state.loading } />
+      <FormButton loading={ this.state.loading } title="Reset Password" />
 
       </div>
 

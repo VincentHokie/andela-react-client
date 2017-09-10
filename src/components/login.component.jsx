@@ -146,7 +146,7 @@ handleChange(event) {
       { this.state.password_error ? <FormError error={ this.state.password_error } /> : null }
       <input type="password" placeholder="Enter Password" name="password" className="form-control" required="required" onChange={this.handleChange} />
 
-      <FormButton loading={ this.state.loading } />
+      <FormButton loading={ this.state.loading } title="Log In" />
 
       </div>
 

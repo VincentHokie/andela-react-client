@@ -165,7 +165,7 @@ render() {
       </label>
       </div>
 
-      <FormButton loading={ this.state.loading } />
+      <FormButton loading={ this.state.loading } title="Sign Up" />
 
       </div>
 

@@ -127,7 +127,7 @@ handleChange(event) {
       { this.state.email_error ? <FormError error={ this.state.email_error } /> : null }
       <input type="text" placeholder="Your email address" name="email" className="form-control" required="required" autofocus onChange={this.handleChange} />
 
-      <FormButton loading={ this.state.loading } />
+      <FormButton loading={ this.state.loading } title="Verify Email" />
 
       </div>
 

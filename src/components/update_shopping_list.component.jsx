@@ -142,7 +142,7 @@ handleChange(event) {
             </div>
 
             <div className="col-xs-12">
-              <FormButton loading={ this.state.loading } />
+              <FormButton loading={ this.state.loading } title="Update Shopping List" />
             </div>
 
         </div>

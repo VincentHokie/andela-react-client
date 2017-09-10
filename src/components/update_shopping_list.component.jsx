@@ -40,6 +40,40 @@ componentDidMount(){
       GLOBAL.FLASH = false;
 
     }
+
+  var thiz = this;
+
+  thiz.setState({ loading: true  })
+
+  //get list object from database
+  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/?list_id='+this.props.match.params.id,{
+      method: 'GET',
+      headers: {
+         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN), 
+         'Content-Type': 'application/x-www-form-urlencoded'
+       }
+    })      // returns a promise object
+  .then((resp) => resp.json())
+  .then(function(data){
+
+    thiz.setState({ loading: false  })
+
+    //if the data is not a json object, create a general messge..otherwise, its a list object
+    if( typeof data !== "object" ){
+      thiz.setState({ general_msg: data })
+      return true;
+    }
+
+    //we got a list object back, populate state & therefore input field
+    thiz.setState({ name: data["name"]  })
+
+  
+  }) // still returns a promise object, U need to chain it again
+  .catch(function(error){
+    thiz.setState({ loading: false  })
+    thiz.setState({ general_msg: "Check your internet connection and try again" })
+  });
+
     
 }
 

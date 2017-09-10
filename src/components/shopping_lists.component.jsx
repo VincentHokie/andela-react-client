@@ -1,49 +1,415 @@
 import React, { Component } from 'react';
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+
+import './css/view-shopping-list.css';
+
+import Navigation from "./navigation.component.jsx"
+import ListItem from "./list_item.component.jsx"
+import List from "./list.component.jsx"
+
+import FlashMsg from "./flash_msg.component.jsx"
+
+import FormError from "./forms/form_error.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
+var vex = require('vex-js')
+vex.defaultOptions.className = 'vex-theme-os'
+
+var btoa = require('btoa')
+
 class ShoppingLists extends Component {
 
-  componentDidMount(){
+constructor(){
+   super();
+   this.state= {
+    name: '', amount: '',
+    name_error: false, amount_error: '',
+    general_msg : false, loading : false,
+    logged_in : false, list_data: [], item_data: [],
+    show_add_item: false, chosen_list: false, chosen_list_id: false,
+    small_screen: false, hide_items: false
+  }
+
+  this.state.logged_in = GLOBAL.LOGGED_IN;
+
+  this.handleSubmit = this.handleSubmit.bind(this);
+  this.handleChange = this.handleChange.bind(this);
+  this.handleListSelect = this.handleListSelect.bind(this);
+  this.toggleShowItemForm = this.toggleShowItemForm.bind(this);
+  this.handleBackButtonOnItems = this.handleBackButtonOnItems.bind(this);
+
+  
+
+}
+
+componentDidMount(){
 
   //show a flash message if it exists in the globals module
-    if( GLOBAL.FLASH ){
-      
-      this.setState({ general_msg: GLOBAL.FLASH  });
-      GLOBAL.FLASH = false;
+  if( GLOBAL.FLASH ){
 
+    this.setState({ general_msg: GLOBAL.FLASH  });
+    GLOBAL.FLASH = false;
+
+  }
+
+  //update screen size state
+  this.setState({ small_screen: window.innerWidth < 768 ? true : false  });
+
+  // Static data
+  const list_data = [
+    {
+      list_id: 1,
+      name: 'Honda Accord Crosstour'
+    },
+    {
+      list_id: 2,
+      name: 'Mercedes-Benz AMG GT Coupe'
+    },
+    {
+      list_id: 3,
+      name: 'BMW X6 SUV',
+    },
+    {
+      list_id: 4,
+      name: 'Ford Edge SUV'
+    },
+    {
+      list_id: 5,
+      name: 'Dodge Viper Coupe'
     }
-    
+  ];
+
+  const item_data = [
+    {
+      item_id: 1,
+      name: 'item 1 list 1',
+      amount: 100,
+      list_id: 1,
+      checked: false
+    },
+    {
+      item_id: 2,
+      name: 'item 2 list 1',
+      amount: 100,
+      list_id: 1,
+      checked: false
+    },
+    {
+      item_id: 3,
+      name: 'item 3 list 2',
+      amount: 100,
+      list_id: 2,
+      checked: false
+    },
+    {
+      item_id: 4,
+      name: 'item 4 list 2',
+      amount: 100,
+      list_id: 2,
+      checked: false
+    },
+    {
+      item_id: 5,
+      name: 'item 5 list 3',
+      amount: 100,
+      list_id: 3,
+      checked: false
+    },
+    {
+      item_id: 6,
+      name: 'item 6 list 3',
+      amount: 100,
+      list_id: 3,
+      checked: false
+    },
+    {
+      item_id: 7,
+      name: 'item 7 list 4',
+      amount: 100,
+      list_id: 4,
+      checked: false
+    },
+    {
+      item_id: 8,
+      name: 'item 8 list 4',
+      amount: 100,
+      list_id: 4,
+      checked: false
+    },
+    {
+      item_id: 9,
+      name: 'item 9 list 5',
+      amount: 100,
+      list_id: 5,
+      checked: false
+    },
+    {
+      item_id: 10,
+      name: 'item 10 list 5',
+      amount: 100,
+      list_id: 5,
+      checked: false
+    },
+    {
+      item_id: 11,
+      name: 'item 11 list 1',
+      amount: 100,
+      list_id: 1,
+      checked: true
+    },
+    {
+      item_id: 12,
+      name: 'item 12 list 2',
+      amount: 100,
+      list_id: 2,
+      checked: true
+    },
+    {
+      item_id: 13,
+      name: 'item 13 list 3',
+      amount: 100,
+      list_id: 3,
+      checked: true
+    },
+    {
+      item_id: 14,
+      name: 'item 14 list 4',
+      amount: 100,
+      list_id: 4,
+      checked: true
+    },
+    {
+      item_id: 15,
+      name: 'item 15 list 5',
+      amount: 100,
+      list_id: 5,
+      checked: true
+    }
+  ];
+
+  // Update state
+  this.setState({ list_data: list_data });
+  this.setState({ item_data: item_data });
+
 }
 
-  render() {
+handleSubmit(e) {
 
-    if( !this.state.logged_in ){
+    //prevent browser refresh on submit
+    e.preventDefault();
 
-      GLOBAL.FLASH = "You need to be logged in to look at your shopping lists!";
-      return <Redirect push to="/login" />;
+    var formData  = new FormData();
+    var data = ["name"];
+    var thiz = this;
 
-    }else{
+    //reset error variables
+    this.setState({ name_error: false  })
+    this.setState({ general_msg: false  })
+    this.setState({ loading: true  })
 
-    return (
-      
-      <div>
 
-        <div className="App">
-          <div className="App-header">
-            <h2>Welcome shoping lists to React</h2>
-          </div>
-          <p className="App-intro">
-            To get startedddd, edit <code>src/App.js</code> and save to reload.
-          </p>
-        </div>
-      </div>
+    for(var name in data) 
+      formData.append(data[name], this.state[data[name]]);
 
-    );
-  }
+    fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.state.chosen_list_id +'/items/',{
+      method: 'POST',
+      headers: {
+         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN), 
+         'Content-Type': 'application/x-www-form-urlencoded'
+       },
+      body: formData
+    })      // returns a promise object
+    .then((resp) => resp.json())
+    .then(function(data){
+
+      thiz.setState({ loading: false  })
+
+      if( data["success"] ){
+
+        data = data["success"];
+        thiz.setState({ general_msg: data })
+
+      }else if( data["error"] ){
+
+        data = data["error"];
+
+        //if the error is not a json object, create a general messge..otherwise, its a form error
+        if( typeof data !== "object" ){
+          thiz.setState({ general_msg: data })
+          return true;
+        }
+
+        var fields = ["name", "amount"];
+        for( var field in fields ){
+          field = fields[field];
+          if( data[field] )
+            thiz.setState({ [field+"_error"] : data[field][0] })
+        }
+      }
+
+  }) // still returns a promise object, U need to chain it again
+.catch(function(error){
+  thiz.setState({ loading: false  })
+  thiz.setState({ general_msg: "Check your internet connection and try again" })
+});
+
+}
+
+handleChange(event) {
+  this.setState({[event.target.name]: event.target.value});
+}
+
+toggleShowItemForm(event) {
+    this.setState({ show_add_item: !this.state.show_add_item  })
+}
+
+handleBackButtonOnItems(event) {
+  this.setState({ hide_items: !this.state.hide_items  })
+}
+
+handleListSelect(event) {
+  this.setState({ chosen_list: event.target.getAttribute("data-listname")  })
+  this.setState({ chosen_list_id: event.target.id  })
+
+  //on a mobile phone, completely hide the list panel and show the list items
+  if( this.state.small_screen ){
+      this.setState({ hide_items: !this.state.hide_items  })
   }
 }
+
+
+render() {
+
+  if( !this.state.logged_in ){
+
+    GLOBAL.FLASH = "You need to be logged in to look at your shopping lists!";
+    return <Redirect push to="/login" />;
+
+  }else{
+
+    // Map through lists and return linked lists
+    const listNode = this.state.list_data.map((list) => {
+      return ( <List chosen={ this.state.chosen_list_id } thisone={ list.list_id } list={ list } handleListSelect={ this.handleListSelect } key={ list.list_id } /> )
+    });
+
+
+    // Map through items and return linked items
+    const itemNode = this.state.item_data.map((item) => {
+      return ( <ListItem chosen={ this.state.chosen_list_id } item={ item } key={ item.item_id } list={ item.list_id } /> )
+    });
+
+return (
+
+  <div>
+
+  <Navigation username="Vince" />
+
+  { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
+
+  <div className="col-xs-12">
+
+  <div className={ this.state.hide_items ? "panel panel-default col-sm-6 col-xs-12 hideSomething" : "panel panel-default col-sm-6 col-xs-12" } id="list-panel">
+
+  <div className="panel-heading col-xs-12">
+  <h4 className="col-xs-10">Shopping lists</h4>
+
+  <Link to="/shopping-list/new" className="btn btn-success col-xs-2" style={{ padding:'10px 0'  }}>
+    <i className="fa fa fa-plus-circle"></i>
+  </Link>
+
+  </div>
+
+  <div className="panel-body col-xs-12">
+
+  <h5>Click a shopping list to see its items</h5>
+
+  { listNode }
+
+  </div>
+
+  </div>
+
+
+  <div className={ this.state.hide_items ? "panel panel-default col-sm-5 col-sm-offset-1 col-xs-12": "panel panel-default col-sm-5 col-sm-offset-1 col-xs-12 hidden-xs" } id="list-items-panel">
+
+  <div className="panel-heading col-xs-12">
+
+  <button className="btn hidden-md hidden-lg hidden-sm col-xs-1" onClick={ this.handleBackButtonOnItems } id="back-to-lists" style={{ padding:'10px 0' }}><i className="fa fa-arrow-circle-left"></i></button>
+
+  <h4 className="col-xs-10">Shopping list items</h4>
+
+  <button id="create-shopping-list-item" onClick={ this.toggleShowItemForm } className="btn btn-success col-sm-2 col-xs-1" style={{ padding:'10px 0' }}><i className="fa fa fa-plus-circle"></i></button>
+
+  </div>
+
+  <div className="panel-body">
+
+  <h4 className="col-xs-12">Shopping list - <span id="list-name">{ this.state.chosen_list ? this.state.chosen_list : null }</span></h4>
+  <h4 className="col-xs-12">Items</h4>
+
+  <div className={this.state.show_add_item ? 'well well-sm col-xs-12 showAddItemForm' :'well well-sm col-xs-12'} id="new-item-form">
+
+  <h5>Enter shopping list item to add below!</h5>
+
+  <form onSubmit={this.handleSubmit} id="addItemForm" className="form">
+
+  <input type="hidden" value="" name="shopping_list" />
+
+  <div className="row">
+
+  <div className="col-xs-6">
+  <div className="form-group">
+
+  { this.state.name_error ? <FormError error={ this.state.name_error } /> : null }
+  <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} />
+
+  </div>
+  </div>
+
+  <div className="col-xs-6">
+  <div className="form-group">
+
+  { this.state.amount_error ? <span className="label label-danger">{ this.state.amount_error }<br/></span> : null }
+  <input type="number" placeholder="Shopping List Item Amount" name="amount" className="form-control" required="required" onChange={this.handleChange} />
+
+  </div>
+  </div>
+
+
+  <div className="col-xs-12">
+  <button className={ this.state.loading ? "btn btn-md btn-sign-up col-xs-11" : "btn btn-md btn-sign-up col-xs-12" }
+    disabled={  this.state.loading || !this.state.chosen_list ? "disabled" : false } type="submit">Create Item</button>
+  { this.state.loading ? <img src='/static/images/loading.gif' alt="loading gif" className="col-xs-1" /> : null }
+  </div>
+
+
+  </div>
+
+  </form>
+
+  </div>
+
+
+  <ul className="list-group col-xs-12">
+
+  { itemNode }
+
+  </ul>
+
+  </div>
+
+  </div>
+
+  </div>
+
+  </div>
+
+  );
+}
+}
+}
+
 
 export default ShoppingLists

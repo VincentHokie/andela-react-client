@@ -30,7 +30,7 @@ handleLogout(event) {
           message: 'Are you sure you want to log out?',
           callback: function (value) {
 
-            if(value == true){
+            if(value === true){
 
                 fetch('https://andela-flask-api.herokuapp.com/auth/logout',{
                   method: 'POST'

@@ -36,7 +36,7 @@ handleDeleteItem(event) {
       message: 'Are you sure you want to delete this item!?',
       callback: function (value) {
 
-          if(value == true){
+          if(value === true){
 
             fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ listId +'/items/'+itemId,{
               method: 'DELETE',
@@ -126,7 +126,7 @@ handleItemCheckboxChange(event) {
 
     return (
 
-        <li className={ this.props.chosen == this.props.list ? "list-group-item col-xs-12 shopping-list-items showAddItemForm" : "list-group-item col-xs-12 shopping-list-items" } id={ this.props.item.item_id } style={{ padding:'0' }}>
+        <li className={ this.props.chosen === this.props.list ? "list-group-item col-xs-12 shopping-list-items showAddItemForm" : "list-group-item col-xs-12 shopping-list-items" } id={ this.props.item.item_id } style={{ padding:'0' }}>
 
         <label className="col-md-10 col-xs-12" style={{ padding: '5px 0 5px 5px' }}><input type="checkbox" onChange={ this.handleItemCheckboxChange } checked={ this.props.item.checked ? "checked" : false } /> { this.props.item.name } - UgX { this.props.item.amount } </label>
 

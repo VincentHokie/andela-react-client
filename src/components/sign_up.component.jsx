@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Redirect } from 'react-router-dom';
 
+import FlashMsg from "./flash_msg.component.jsx"
+
 var GLOBAL = require("../globals.js")
 
 class SignUp extends Component {
@@ -118,16 +120,7 @@ render() {
 
       <div className="container col-xs-12">
 
-      { 
-        this.state.general_msg ? 
-        <div className="alert alert-info message col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-          <strong><i className="fa fa-info-circle"></i></strong> { this.state.general_msg }
-        </div>
-        : null 
-      }
-
-      
-
+      { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 
       <img src='/static/images/shopping-list.jpg' className="col-sm-6 hidden-xs" />
 

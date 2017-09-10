@@ -20,11 +20,13 @@ constructor(){
     logged_in : false
     }
 
-    this.state.logged_in = GLOBAL.LOGGED_IN;
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
+}
+
+componentWillMount(){
+  this.setState({ logged_in: GLOBAL.LOGGED_IN  });
 }
 
 componentDidMount(){

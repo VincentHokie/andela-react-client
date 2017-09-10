@@ -32,8 +32,6 @@ constructor(){
     small_screen: false, hide_items: false
   }
 
-  this.state.logged_in = GLOBAL.LOGGED_IN;
-
   this.handleSubmit = this.handleSubmit.bind(this);
   this.handleChange = this.handleChange.bind(this);
   this.handleListSelect = this.handleListSelect.bind(this);
@@ -42,6 +40,10 @@ constructor(){
 
   
 
+}
+
+componentWillMount(){
+  this.setState({ logged_in: GLOBAL.LOGGED_IN  });
 }
 
 componentDidMount(){

@@ -124,7 +124,7 @@ render() {
 
       { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 
-      <img src='/static/images/shopping-list.jpg' className="col-sm-6 hidden-xs" />
+      <img src='/static/images/shopping-list.jpg' alt="decorative shopping list image" className="col-sm-6 hidden-xs" />
 
       <form onSubmit={this.handleSubmit} className="col-sm-6 col-xs-12 form-sign-up form" name="sign-up">
 

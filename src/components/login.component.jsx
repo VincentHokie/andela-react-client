@@ -141,10 +141,10 @@ handleChange(event) {
       <div className="input-wrap">
 
       { this.state.username_error ? <FormError error={ this.state.username_error } /> : null }
-      <input type="text" placeholder="Username" name="username" className="form-control" required="required" autofocus onChange={this.handleChange} />
+      <input type="text" placeholder="Username" name="username" className="form-control" required="required" autofocus onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
 
       { this.state.password_error ? <FormError error={ this.state.password_error } /> : null }
-      <input type="password" placeholder="Enter Password" name="password" className="form-control" required="required" onChange={this.handleChange} />
+      <input type="password" placeholder="Enter Password" name="password" className="form-control" required="required" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
 
       <FormButton loading={ this.state.loading } title="Log In" />
 

@@ -429,7 +429,7 @@ return (
   <div className="form-group">
 
   { this.state.name_error ? <FormError error={ this.state.name_error } /> : null }
-  <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} />
+  <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
 
   </div>
   </div>

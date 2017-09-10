@@ -131,10 +131,10 @@ handleChange(event) {
       <div className="input-wrap">
 
       { this.state.password_error ? <FormError error={ this.state.password_error } /> : null }
-      <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" onChange={this.handleChange} />
+      <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
 
       { this.state.password_confirm_error ? <FormError error={ this.state.password_confirm_error } /> : null }
-      <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} />
+      <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
 
       <FormButton loading={ this.state.loading } title="Reset Password" />
 

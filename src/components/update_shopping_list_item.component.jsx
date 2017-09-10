@@ -136,7 +136,7 @@ handleChange(event) {
                 <div className="form-group">
 
                     { this.state.name_error ? <FormError error={ this.state.name_error } /> : null }
-                    <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} />
+                    <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} value={ this.state.name } />
 
                 </div>
             </div>
@@ -145,7 +145,7 @@ handleChange(event) {
                 <div className="form-group">
 
                     { this.state.amount_error ? <FormError error={ this.state.amount_error } /> : null }
-                    <input type="number" min=1 placeholder="Item amount" name="amount" className="form-control" required="required" onChange={this.handleChange} />
+                    <input type="number" min=1 placeholder="Item amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } />
 
                 </div>
             </div>

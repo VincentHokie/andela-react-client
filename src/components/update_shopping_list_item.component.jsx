@@ -6,6 +6,7 @@ import Navigation from "./navigation.component.jsx"
 
 import FlashMsg from "./flash_msg.component.jsx"
 import FormError from "./forms/form_error.component.jsx"
+import FormButton from "./forms/form_button.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
@@ -148,15 +149,7 @@ handleChange(event) {
             </div>
 
             <div className="col-xs-12">
-                    { 
-                      this.state.loading ? 
-                      <div className="col-xs-12">
-                      <button type="submit" name="Submit" className="btn btn-md btn-login col-xs-11" disabled>Update Shopping List Item</button>
-                      <img src='/static/images/loading.gif' className="col-xs-1" />
-                      </div>
-                      :
-                      <button type="submit" name="Submit" className="btn btn-md btn-login btn-block">Update Shopping List Item</button>
-                    }
+               <FormButton loading={ this.state.loading } />
             </div>
 
         </div>

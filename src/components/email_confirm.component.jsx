@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 
 import FlashMsg from "./flash_msg.component.jsx"
 import FormError from "./forms/form_error.component.jsx"
+import FormButton from "./forms/form_button.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
@@ -124,15 +125,7 @@ handleChange(event) {
       { this.state.email_error ? <FormError error={ this.state.email_error } /> : null }
       <input type="text" placeholder="Your email address" name="email" className="form-control" required="required" autofocus onChange={this.handleChange} />
 
-      { 
-        this.state.loading ? 
-        <div className="col-xs-12">
-          <button className="btn btn-md btn-login col-xs-11" disabled type="submit">Send E-Mail</button>
-          <img src='/static/images/loading.gif' className="col-xs-1" />
-        </div>
-        :
-        <button className="btn btn-md btn-login btn-block" type="submit">Send E-Mail</button>
-      }
+      <FormButton loading={ this.state.loading } />
 
       </div>
 

@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 
 import FlashMsg from "./flash_msg.component.jsx"
 import FormError from "./forms/form_error.component.jsx"
+import FormButton from "./forms/form_button.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
@@ -133,15 +134,7 @@ handleChange(event) {
       { this.state.password_confirm_error ? <FormError error={ this.state.password_confirm_error } /> : null }
       <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} />
 
-      { 
-        this.state.loading ? 
-        <div className="col-xs-12">
-        <button className="btn btn-md btn-login col-xs-11" disabled type="submit">Reset Password</button>
-        <img src='/static/images/loading.gif' className="col-xs-1" />
-        </div>
-        :
-        <button className="btn btn-md btn-login btn-block" type="submit">Reset Password</button>
-      }
+      <FormButton loading={ this.state.loading } />
 
       </div>
 

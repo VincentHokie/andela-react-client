@@ -24,7 +24,7 @@ class ShoppingLists extends Component {
 constructor(){
    super();
    this.state= {
-    name: '', amount: '',
+    name: '', amount: 1,
     name_error: false, amount_error: '',
     general_msg : false, loading : false,
     logged_in : false, list_data: [], item_data: [],
@@ -374,7 +374,7 @@ return (
   <div className="form-group">
 
   { this.state.amount_error ? <span className="label label-danger">{ this.state.amount_error }<br/></span> : null }
-  <input type="number" placeholder="Shopping List Item Amount" name="amount" className="form-control" required="required" onChange={this.handleChange} />
+  <input type="number" min=1 value=1 placeholder="Shopping List Item Amount" name="amount" className="form-control" required="required" onChange={this.handleChange} />
 
   </div>
   </div>

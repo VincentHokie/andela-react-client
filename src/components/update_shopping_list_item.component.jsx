@@ -145,7 +145,7 @@ handleChange(event) {
                 <div className="form-group">
 
                     { this.state.amount_error ? <FormError error={ this.state.amount_error } /> : null }
-                    <input type="number" min=1 placeholder="Item amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } />
+                    <input type="number" min="1" placeholder="Item amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } />
 
                 </div>
             </div>

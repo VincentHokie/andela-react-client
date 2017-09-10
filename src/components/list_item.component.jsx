@@ -82,8 +82,6 @@ handleDeleteItem(event) {
 
 handleItemCheckboxChange(event) {
 
-  var listId = event.target.getAttribute('data-listid');
-  var itemId = event.target.getAttribute('data-itemid');
   var thiz = this;
 
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.props.item.list_id +'/items/'+this.props.item.item_id+'/checkbox',{

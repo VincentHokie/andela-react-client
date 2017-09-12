@@ -138,13 +138,13 @@ render() {
       <div className="form-group">
       <label for="username">Username</label><br/>
       { this.state.username_error ? <FormError error={ this.state.username_error } /> : null }
-      <input type="text" placeholder="Username" name="username" className="form-control" required="required" autofocus id="username" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
+      <input type="text" placeholder="Username" name="username" className="form-control" required="required" autoFocus id="username" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
       </div>
 
       <div className="form-group">
       <label for="email">Email address</label><br/>
       { this.state.email_error ? <FormError error={ this.state.email_error } /> : null }
-      <input type="email" placeholder="vince@hotmail.com" name="email" className="form-control" required="required" autofocus id="email" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
+      <input type="email" placeholder="vince@hotmail.com" name="email" className="form-control" required="required" id="email" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
       </div>
 
       <div className="form-group">

@@ -62,11 +62,10 @@ handleSubmit(e) {
 
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists',{
       method: 'POST',
+      body: formData,
       headers: {
-         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x'),
-         'Content-Type': 'application/x-www-form-urlencoded'
-       },
-      body: formData
+         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+       }
     })      // returns a promise object
   .then((resp) => resp.json())
   .then(function(data){

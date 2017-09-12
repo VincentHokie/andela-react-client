@@ -59,10 +59,7 @@ handleSubmit(e) {
 
   fetch('https://andela-flask-api.herokuapp.com/auth/reset-password',{
       method: 'POST',
-      body: formData,
-      headers: {
-        "Access-Control-Allow-Origin": "*"
-    }
+      body: formData
     })      // returns a promise object
   .then((resp) => resp.json())
   .then(function(data){

@@ -41,8 +41,7 @@ handleDeleteList(event) {
             fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+listId,{
               method: 'DELETE',
               headers: {
-                 'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x'),
-                 'Content-Type': 'application/x-www-form-urlencoded'
+                 'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
                },
             })      // returns a promise object
             .then((resp) => resp.json())

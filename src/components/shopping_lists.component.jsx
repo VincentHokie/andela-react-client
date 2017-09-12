@@ -281,8 +281,6 @@ return (
 
   <form onSubmit={this.handleSubmit} id="addItemForm" className="form">
 
-  <input type="hidden" value="" name="shopping_list" />
-
   <div className="row">
 
   <div className="col-xs-6">

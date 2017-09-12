@@ -95,7 +95,8 @@ handleSubmit(e) {
             if( data["name"] )
               thiz.setState({ [field+"_error"] : data[field][0] })
         }
-    }
+    }else
+      thiz.setState({ general_msg: "You have successfully created the List : " + thiz.state.name })
   
   }) // still returns a promise object, U need to chain it again
   .catch(function(error){

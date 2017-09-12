@@ -111,7 +111,7 @@ handleSubmit(e) {
     e.preventDefault();
 
     var formData  = new FormData();
-    var data = ["name"];
+    var data = ["name", "amount"];
     var thiz = this;
 
     //reset error variables

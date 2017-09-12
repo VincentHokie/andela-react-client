@@ -119,7 +119,6 @@ handleChange(event) {
 
     if( this.state.logged_in ){
 
-      GLOBAL.FLASH = "If you'd like to login again, you have to log out first.";
       return <Redirect push to="/shopping-lists" />;
 
     }else{

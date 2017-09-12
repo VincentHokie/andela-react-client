@@ -65,7 +65,7 @@ componentDidMount(){
 
     //we got a list object back, populate state & therefore input field
     thiz.setState({ name: data["name"]  })
-    this.setState({ retrieved: true  });
+    thiz.setState({ retrieved: true  });
 
   
   }) // still returns a promise object, U need to chain it again

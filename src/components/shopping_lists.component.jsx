@@ -140,7 +140,7 @@ handleSubmit(e) {
     for(var name in data) 
       formData.append(data[name], this.state[data[name]]);
 
-    fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.state.chosen_list_id +'/items/',{
+    fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.state.chosen_list_id +'/items',{
       method: 'POST',
       headers: {
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')

@@ -46,7 +46,7 @@ componentDidMount(){
   thiz.setState({ loading: true  })
 
   //get list object from database
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/?list_id='+this.props.match.params.id,{
+  fetch('https://andela-flask-api.herokuapp.com/shoppinglists?list_id='+this.props.match.params.id,{
       method: 'GET',
       headers: {
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')

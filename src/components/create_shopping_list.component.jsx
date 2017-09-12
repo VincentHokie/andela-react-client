@@ -95,8 +95,11 @@ handleSubmit(e) {
             if( data["name"] )
               thiz.setState({ [field+"_error"] : data[field][0] })
         }
-    }else
+    }else{
       thiz.setState({ general_msg: "You have successfully created the List : " + thiz.state.name })
+      thiz.setState({ name: '' })
+    }
+      
   
   }) // still returns a promise object, U need to chain it again
   .catch(function(error){
@@ -137,7 +140,7 @@ handleChange(event) {
                 <div className="form-group">
 
                     { this.state.name_error ? <FormError error={ this.state.name_error } /> : null }
-                    <input type="text" placeholder="Shopping List Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
+                    <input type="text" placeholder="Shopping List Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} value={ this.state.name } disabled={ this.state.loading ? "disabled" : false } />
 
                 </div>
             </div>

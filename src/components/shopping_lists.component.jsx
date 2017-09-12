@@ -155,8 +155,12 @@ handleSubmit(e) {
       }else{
 
         thiz.setState({ general_msg: "You have successfully created the item : " + thiz.state.name +" into list : " + thiz.state.chosen_list })
-        var current_items = this.state.item_data;
+        var current_items = thiz.state.item_data;
         current_items.push(data)
+
+        thiz.setState({ item_data: current_items })
+        thiz.setState({ name: '' })
+        thiz.setState({ amount: '' })
 
 
       }
@@ -273,7 +277,7 @@ return (
   <div className="form-group">
 
   { this.state.name_error ? <FormError error={ this.state.name_error } /> : null }
-  <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
+  <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } value={ this.state.name } />
 
   </div>
   </div>
@@ -282,7 +286,7 @@ return (
   <div className="form-group">
 
   { this.state.amount_error ? <span className="label label-danger">{ this.state.amount_error }<br/></span> : null }
-  <input type="number" min="1" placeholder="Shopping List Item Amount" name="amount" className="form-control" required="required" onChange={this.handleChange} />
+  <input type="number" min="1" placeholder="Shopping List Item Amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } />
 
   </div>
   </div>

@@ -7,6 +7,9 @@ import './css/template_logged_in.css';
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 
+var GLOBAL = require("../globals.js")
+var btoa = require('btoa')
+
 class Navigation extends Component {
 
 constructor(){
@@ -33,7 +36,10 @@ handleLogout(event) {
             if(value === true){
 
                 fetch('https://andela-flask-api.herokuapp.com/auth/logout',{
-                  method: 'POST'
+                  method: 'POST',
+                  headers: {
+                   'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+                 },
                 })      // returns a promise object
                 .then((resp) => resp.json())
                 .then(function(data){

@@ -67,17 +67,19 @@ handleSubmit(e) {
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
        }
     })      // returns a promise object
-  .then((resp) => resp.json())
+  .then((resp) => resp.text())
   .then(function(data){
 
+    data = JSON.parse(data)
     thiz.setState({ loading: false  })
 
-    if( data["success"] ){
+    //if the response is not a json object, create a general error messge
+    if( typeof data !== "object" ){
+      thiz.setState({ general_msg: "Something went wrong with your creation, please try again" })
+      return true;
+    }
 
-        data = data["success"];
-        thiz.setState({ general_msg: data })
-
-    }else if( data["error"] ){
+    if( data["error"] ){
 
         data = data["error"];
 

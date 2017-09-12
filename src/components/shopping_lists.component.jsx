@@ -70,20 +70,11 @@ componentDidMount(){
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
        }
     })      // returns a promise object
-  .then((resp) => resp.json())
+  .then((resp) => resp.text())
   .then(function(data){
 
+    thiz.setState({ list_data: JSON.parse(data) });
     thiz.setState({ loading: false  })
-
-    //if the data is not a json object, create a general messge..otherwise, its a list object
-    if( typeof data !== "object" ){
-      thiz.setState({ general_msg: data })
-      return true;
-    }
-
-    //we got list objects back, populate component state
-    this.setState({ list_data: data });
-
   
   }) // still returns a promise object, U need to chain it again
   .catch(function(error){
@@ -99,20 +90,12 @@ componentDidMount(){
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
        }
     })      // returns a promise object
-  .then((resp) => resp.json())
+  .then((resp) => resp.text())
   .then(function(data){
 
-    thiz.setState({ loading: false  })
-
-    //if the data is not a json object, create a general messge..otherwise, its a list object
-    if( typeof data !== "object" ){
-      thiz.setState({ general_msg: data })
-      return true;
-    }
-
     //we got item objects back, populate component state
-    this.setState({ item_data: data });
-
+    thiz.setState({ item_data: JSON.parse(data) });
+    thiz.setState({ loading: false  });
   
   }) // still returns a promise object, U need to chain it again
   .catch(function(error){
@@ -147,25 +130,21 @@ handleSubmit(e) {
        },
       body: formData
     })      // returns a promise object
-    .then((resp) => resp.json())
+    .then((resp) => resp.text())
     .then(function(data){
 
       thiz.setState({ loading: false  })
+      data = JSON.parse(data)
 
-      if( data["success"] ){
-
-        data = data["success"];
+      //if the error is not a json object, create a general messge..otherwise, its a form error
+      if( typeof data !== "object" ){
         thiz.setState({ general_msg: data })
-
-      }else if( data["error"] ){
+        return true;
+      }
+        
+      if( data["error"] ){
 
         data = data["error"];
-
-        //if the error is not a json object, create a general messge..otherwise, its a form error
-        if( typeof data !== "object" ){
-          thiz.setState({ general_msg: data })
-          return true;
-        }
 
         var fields = ["name", "amount"];
         for( var field in fields ){

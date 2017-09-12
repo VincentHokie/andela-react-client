@@ -190,7 +190,6 @@ render() {
 
   if( !this.state.logged_in ){
 
-    GLOBAL.FLASH = "You need to be logged in to look at your shopping lists!";
     return <Redirect push to="/login" />;
 
   }else{

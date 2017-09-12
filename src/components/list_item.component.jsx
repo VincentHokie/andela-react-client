@@ -42,7 +42,7 @@ handleDeleteItem(event) {
               method: 'DELETE',
               headers: {
                'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
-             },
+             }
             })      // returns a promise object
             .then((resp) => resp.json())
             .then(function(data){
@@ -87,7 +87,7 @@ handleItemCheckboxChange(event) {
         method: 'DELETE',
         headers: {
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
-       },
+       }
       })      // returns a promise object
       .then((resp) => resp.json())
       .then(function(data){

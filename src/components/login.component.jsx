@@ -83,7 +83,6 @@ handleSubmit(e) {
         }
 
         data = data["success"];
-
         thiz.setState({ general_msg: data })
 
     }else if( data["error"] ){

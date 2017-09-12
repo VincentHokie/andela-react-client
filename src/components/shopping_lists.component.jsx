@@ -141,7 +141,7 @@ handleSubmit(e) {
         thiz.setState({ general_msg: data })
         return true;
       }
-        
+
       if( data["error"] ){
 
         data = data["error"];
@@ -152,8 +152,15 @@ handleSubmit(e) {
           if( data[field] )
             thiz.setState({ [field+"_error"] : data[field][0] })
         }
-      }else
+      }else{
+
         thiz.setState({ general_msg: "You have successfully created the item : " + thiz.state.name +" into list : " + thiz.state.chosen_list })
+        var current_items = this.state.item_data;
+        current_items.push(data)
+
+
+      }
+        
 
   }) // still returns a promise object, U need to chain it again
 .catch(function(error){

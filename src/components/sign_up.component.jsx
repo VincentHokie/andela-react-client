@@ -136,25 +136,25 @@ render() {
       <div className="input-wrap">
 
       <div className="form-group">
-      <label for="username">Username</label><br/>
+      <label htmlFor="username">Username</label><br/>
       { this.state.username_error ? <FormError error={ this.state.username_error } /> : null }
       <input type="text" placeholder="Username" name="username" className="form-control" required="required" autoFocus id="username" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
       </div>
 
       <div className="form-group">
-      <label for="email">Email address</label><br/>
+      <label htmlFor="email">Email address</label><br/>
       { this.state.email_error ? <FormError error={ this.state.email_error } /> : null }
       <input type="email" placeholder="vince@hotmail.com" name="email" className="form-control" required="required" id="email" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
       </div>
 
       <div className="form-group">
-      <label for="password">Password</label><br/>
+      <label htmlFor="password">Password</label><br/>
       { this.state.password_error ? <FormError error={ this.state.password_error } /> : null }
       <input type="password" placeholder="Enter Password" name="password" className="form-control" required="required" id="password" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
       </div>
 
       <div className="form-group">
-      <label for="password2">Re-Enter Password</label><br/>
+      <label htmlFor="password2">Re-Enter Password</label><br/>
       { this.state.password2_error ? <FormError error={ this.state.password2_error } /> : null }
       <input type="password" placeholder="Enter Password" name="password2" className="form-control" required="required" id="password2" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
       </div>

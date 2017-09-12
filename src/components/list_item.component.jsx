@@ -21,8 +21,6 @@ constructor(){
 
 handleDeleteItem(event) {
 
-  var listId = event.target.getAttribute('data-listid');
-  var itemId = event.target.getAttribute('data-itemid');
   var thiz = this;
 
   vex.dialog.defaultOptions.showCloseButton = true;
@@ -38,7 +36,7 @@ handleDeleteItem(event) {
 
           if(value === true){
 
-            fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ listId +'/items/'+itemId,{
+            fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ thiz.props.list +'/items/'+thiz.props.item.item_id,{
               method: 'DELETE',
               headers: {
                'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')

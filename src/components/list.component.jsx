@@ -38,7 +38,7 @@ handleDeleteList(event) {
 
           if(value === true){
 
-            fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+listId,{
+            fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+thiz.props.thisone,{
               method: 'DELETE',
               headers: {
                  'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')

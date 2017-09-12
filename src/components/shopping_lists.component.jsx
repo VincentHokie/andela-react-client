@@ -64,7 +64,7 @@ componentDidMount(){
   thiz.setState({ loading: true  })
 
   //get user shopping list objects from database
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/',{
+  fetch('https://andela-flask-api.herokuapp.com/shoppinglists',{
       method: 'GET',
       headers: {
          'Authorization': 'Basic '+btoa(GLOBAL.TOKEN), 

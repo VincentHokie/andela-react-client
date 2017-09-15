@@ -287,7 +287,7 @@ return (
   <div className="form-group">
 
   { this.state.amount_error ? <span className="label label-danger">{ this.state.amount_error }<br/></span> : null }
-  <input type="number" min="1" placeholder="Shopping List Item Amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } />
+  <input type="number" min="1" placeholder="Shopping List Item Amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } disabled={ this.state.loading ? "disabled" : false } />
 
   </div>
   </div>

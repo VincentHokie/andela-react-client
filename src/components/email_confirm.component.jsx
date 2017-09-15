@@ -42,7 +42,8 @@ componentDidMount(){
 handleSubmit(e) {
 
     //prevent browser refresh on submit
-    e.preventDefault();
+    if(e)
+      e.preventDefault();
 
     var formData  = new FormData();
     var data = ["email"];

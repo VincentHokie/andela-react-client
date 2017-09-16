@@ -9,8 +9,6 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var GLOBAL = require("../../globals.js")
 
-var nock = require("nock");
-
 describe('Navigation bar', () => {
   let wrapper;
 

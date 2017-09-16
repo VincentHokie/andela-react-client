@@ -73,12 +73,6 @@ handleSubmit(e) {
     data = JSON.parse(data)
     thiz.setState({ loading: false  })
 
-    //if the response is not a json object, create a general error messge
-    if( typeof data !== "object" ){
-      thiz.setState({ general_msg: "Something went wrong with your creation, please try again" })
-      return true;
-    }
-
     if( data["error"] ){
 
         data = data["error"];

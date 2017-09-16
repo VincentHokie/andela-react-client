@@ -9,7 +9,7 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var GLOBAL = require("../../globals.js")
 
-var nock = require("nock");
+var fetchMock = require("fetch-mock");
 
 describe('Password reset', () => {
   let wrapper;
@@ -30,7 +30,7 @@ describe('Password reset', () => {
 
   });
 
-  describe('Behaviour', () => {
+  describe('State Behaviour', () => {
   	
     beforeEach(() => GLOBAL.LOGGED_IN = false )
     beforeEach(() => wrapper = shallow(<PasswordReset />))
@@ -93,6 +93,150 @@ describe('Password reset', () => {
       //expect(wrapper.state().general_msg).toEqual("Were here");
       //expect(wrapper.find('Link').prop("to")).toBe("/shopping-list/"+ list_object.list_id +"/edit");
 
+    })
+
+  })
+
+  describe('Flash Message Behaviour', () => {
+    
+    beforeEach(() => {
+      GLOBAL.LOGGED_IN = false;
+      GLOBAL.FLASH = "Message"
+      wrapper = mount(<BrowserRouter><PasswordReset /></BrowserRouter>)
+    })
+
+    it('if the theres processing going on, the input is not editable', () => {
+
+      expect(wrapper.find('.alert.message').length).toEqual(1);
+      expect(wrapper.find('.alert.message').html()).toContain("Message");
+      
+    })
+
+  })
+
+  describe('API interaction Behaviour', () => {
+    
+    beforeEach(() => {
+      GLOBAL.LOGGED_IN = false;
+      GLOBAL.TOKEN = "a-real-secret";
+    })
+
+    it('form submission done properly and success responses are handled properly', async () => {
+
+      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
+        status: 200,
+        body: { success:"Your password has been successfully reset" }
+      })
+
+      wrapper = shallow(<PasswordReset />)
+      wrapper.setProps({ match: { params : {token: "a-real-secret" } } });
+
+      console.log( wrapper.find('input[name="password_confirm"]').html() )
+
+      wrapper.find('input[name="password_confirm"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      //wrapper.instance().handleSubmit();
+      wrapper.setState({ general_msg: "Were here"});
+
+      await
+      
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
+
+    })
+
+
+    it('form submission done properly and error responses are handled properly', async () => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
+        status: 200,
+        body: { error:"Were here" }
+      })
+      
+      wrapper = shallow(<PasswordReset />)
+      wrapper.setProps({ match: { params : {token: "a-real-secret" } } });
+
+      wrapper.find('input[name="password_confirm"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password"}});
+
+      //expect(wrapper.state().loading).toEqual(false);
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ general_msg: "Were here"});
+
+      await
+      
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
+
+    })
+
+
+    it('form submission done properly and form error message responses are handled properly', async () => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
+        status: 200,
+        body: { error: { password_confirm : ["Password confirm error"], password : ["Password error"] } }
+      })
+
+      wrapper = shallow(<PasswordReset />)
+      wrapper.setProps({ match: { params : {token: "a-real-secret" } } });
+
+      wrapper.find('input[name="password_confirm"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password"}});
+
+      //expect(wrapper.state().loading).toEqual(false);
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ password_confirm_error: "Password confirm error"});
+      wrapper.setState({ password_error: "Password error"});
+
+      await
+      
+      wrapper.update();
+      expect( wrapper.find("FormError").length ).toEqual(2);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
+
+    })
+
+    it('form submission done properly and form error message responses are handled properly', async () => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
+        status: 200,
+        body: "Unauthorized access"
+      })
+
+      wrapper = shallow(<PasswordReset />)
+      wrapper.setProps({ match: { params : {token: "a-real-secret" } } });
+
+      wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="password_confirm"]').simulate("change", {target: {value: "vince_password"}});
+
+      //expect(wrapper.state().loading).toEqual(false);
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ general_msg: "Unauthorized access"});
+
+      await
+      
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
+
+    })
+
+    afterEach(() => {
+      expect(fetchMock.calls().unmatched).toEqual([]);
+      fetchMock.restore();
     })
 
   })

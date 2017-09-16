@@ -9,7 +9,8 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var GLOBAL = require("../../globals.js")
 
-var nock = require("nock");
+var fetchMock = require("fetch-mock");
+
 
 describe('Create Shopping list', () => {
   let wrapper;
@@ -30,14 +31,12 @@ describe('Create Shopping list', () => {
 
   });
 
-  describe('Behaviour', () => {
+  describe('State Behaviour', () => {
   	
     beforeEach(() => GLOBAL.LOGGED_IN = false )
     beforeEach(() => wrapper = shallow(<EmailConfirm />))
 
     it('if the theres processing going on, the input is not editable', () => {
-
-      
 
       wrapper.setState({ loading: false });
       expect(wrapper.find('input').prop("disabled")).toEqual(false);
@@ -48,7 +47,6 @@ describe('Create Shopping list', () => {
     })
 
     it('if the theres a form error, the error should show', () => {
-      
 
       wrapper.setState({ email_error: false });
       expect(wrapper.find('FormError').length).toEqual(0);
@@ -60,7 +58,6 @@ describe('Create Shopping list', () => {
 
     it('if the theres a flash message, expect the .message class, otherwise dont', () => {
 
-      
       wrapper.setState({ general_msg: false });
       expect(wrapper.find('FlashMsg').length).toEqual(0);
 
@@ -69,31 +66,140 @@ describe('Create Shopping list', () => {
       
     })
 
-    it('form submission done properly and responses are handled properly', () => {
+  })
+
+  describe('Flash Message Behaviour', () => {
+    
+    beforeEach(() => {
+      GLOBAL.LOGGED_IN = false
+      GLOBAL.FLASH = "Message"
+      wrapper = mount(<BrowserRouter><EmailConfirm /></BrowserRouter>)
+    })
+
+    it('if the theres processing going on, the input is not editable', () => {
+
+      expect(wrapper.find('.alert.message').length).toEqual(1);
+      expect(wrapper.find('.alert.message').html()).toContain("Message");
       
+    })
 
-      wrapper.setState({ email: "An email" });
+  })
+
+  describe('API interaction Behaviour', () => {
+    
+    beforeEach(() => {
+      GLOBAL.LOGGED_IN = false;
+    })
+
+    it('form submission done properly and success responses are handled properly', async () => {
+
+      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password", {
+        status: 200,
+        body: { success:"Were here" }
+      })
+
+      wrapper = shallow(<EmailConfirm />)
+
+      var input = wrapper.find('input');
+      input.simulate("change", {target: {value: "vince@gmail.com"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ general_msg: "Were here"});
+
+      await
+
       
-      expect(wrapper.state().loading).toEqual(false);
-      var email_verify = nock("https://andela-flask-api.herokuapp.com")
-                      .post("/auth/reset-password")
-                      .reply(200, {
-                        "success":"Were here"
-                      })
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
 
-      wrapper.instance().handleSubmit();
-      expect(wrapper.state().loading).toEqual(true);
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/auth/reset-password");
+
+    })
+
+
+    it('form submission done properly and error responses are handled properly', async () => {
       
+      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password", {
+        status: 200,
+        body: { error:"Were here" }
+      })
+      
+      wrapper = shallow(<EmailConfirm />)
 
-      //console.log("is done?: "+email_verify.isDone() );
-      // expect(wrapper.state().loading).toEqual(false);
+      var input = wrapper.find('input');
+      input.simulate("change", {target: {value: "vince@gmail.com"}});
 
-      //console.log(console.log(email_verify))
-      //console.log(wrapper.html());
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ general_msg: "Were here"});
 
-      //expect(wrapper.state().general_msg).toEqual("Were here");
-      //expect(wrapper.find('Link').prop("to")).toBe("/shopping-list/"+ list_object.list_id +"/edit");
+      await
 
+      
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/auth/reset-password");
+
+    })
+
+
+    it('form submission done properly and form error message responses are handled properly', async () => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password", {
+        status: 200,
+        body: { error: { email : ["Were here"] } }
+      })
+
+      wrapper = shallow(<EmailConfirm />)
+
+      var input = wrapper.find('input');
+      input.simulate("change", {target: {value: "vince@gmail.com"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ email_error: "Were here"});
+
+      await
+
+      
+      wrapper.update();
+      expect( wrapper.find("FormError").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/auth/reset-password");
+
+    })
+
+    it('form submission done properly and form error message responses are handled properly', async () => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password", {
+        status: 200,
+        body: "Unauthorized access"
+      })
+
+      wrapper = shallow(<EmailConfirm />)
+
+      var input = wrapper.find('input');
+      input.simulate("change", {target: {value: "vince@gmail.com"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ general_msg: "Unauthorized access"});
+
+      await
+
+      
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/auth/reset-password");
+
+    })
+
+    afterEach(() => {
+      expect(fetchMock.calls().unmatched).toEqual([]);
+      fetchMock.restore();
     })
 
   })

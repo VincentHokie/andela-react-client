@@ -9,6 +9,8 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var GLOBAL = require("../../globals.js")
 
+var fetchMock = require("fetch-mock");
+
 describe('Create Shopping list', () => {
   let wrapper;
 
@@ -68,14 +70,141 @@ describe('Create Shopping list', () => {
       
     })
 
-    // it('component properly uses and populates list object passed to it', () => {
-      
-    //   expect(wrapper.find('.alert-default').text()).toContain("A List");
-    //   expect(wrapper.find('.alert-default').text()).toContain("A Date");
-    //   expect(wrapper.find('#'+list_object.list_id).length).toEqual(1);
-    //   expect(wrapper.find('Link').prop("to")).toBe("/shopping-list/"+ list_object.list_id +"/edit");
+    describe('Flash Message Behaviour', () => {
+    
+    beforeEach(() => {
+      GLOBAL.LOGGED_IN = true;
+      GLOBAL.FLASH = "Message"
+      wrapper = mount(<BrowserRouter><CreateShoppingList /></BrowserRouter>)
+    })
 
-    // })
+    it('if the theres processing going on, the input is not editable', () => {
+
+      expect(wrapper.find('.alert.message').length).toEqual(1);
+      expect(wrapper.find('.alert.message').html()).toContain("Message");
+      
+    })
+
+  })
+
+  describe('API interaction Behaviour', () => {
+    
+    beforeEach(() => {
+      GLOBAL.LOGGED_IN = true;
+    })
+
+    it('form submission done properly and success responses are handled properly', async () => {
+
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
+        status: 200,
+        body: { success:"Were here" }
+      })
+
+      wrapper = shallow(<CreateShoppingList />)
+
+      var input = wrapper.find('input');
+      input.simulate("change", {target: {value: "vince@gmail.com"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ general_msg: "Were here"});
+
+      await
+
+      
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/shoppinglists");
+
+    })
+
+
+    it('form submission done properly and error responses are handled properly', async () => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
+        status: 200,
+        body: { error:"Were here" }
+      })
+      
+      wrapper = shallow(<CreateShoppingList />)
+
+      var input = wrapper.find('input');
+      input.simulate("change", {target: {value: "vince@gmail.com"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ general_msg: "Were here"});
+
+      await
+
+      
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/shoppinglists");
+
+    })
+
+
+    it('form submission done properly and form error message responses are handled properly', async () => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
+        status: 200,
+        body: { error: { name : ["Were here"] } }
+      })
+
+      wrapper = shallow(<CreateShoppingList />)
+
+      var input = wrapper.find('input');
+      input.simulate("change", {target: {value: "vince@gmail.com"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ name_error: "Were here"});
+
+      await
+
+      
+      wrapper.update();
+      expect( wrapper.find("FormError").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/shoppinglists");
+
+    })
+
+    it('form submission done properly and form error message responses are handled properly', async () => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
+        status: 200,
+        body: "Unauthorized access"
+      })
+
+      wrapper = shallow(<CreateShoppingList />)
+
+      var input = wrapper.find('input');
+      input.simulate("change", {target: {value: "vince@gmail.com"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.setState({ general_msg: "Unauthorized access"});
+
+      await
+
+      
+      wrapper.update();
+      expect( wrapper.find("FlashMsg").length ).toEqual(1);
+
+      expect(fetchMock.called()).toEqual(true);
+      expect(fetchMock.lastUrl()).toEqual("https://andela-flask-api.herokuapp.com/shoppinglists");
+
+    })
+
+    afterEach(() => {
+      expect(fetchMock.calls().unmatched).toEqual([]);
+      fetchMock.restore();
+    })
+
+  })
 
   })
 

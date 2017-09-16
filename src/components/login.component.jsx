@@ -44,8 +44,7 @@ componentDidMount(){
 handleSubmit(e) {
 
     //prevent browser refresh on submit
-    if(e)
-      e.preventDefault();
+    e.preventDefault();
 
     var formData  = new FormData();
     var data = ["username", "password"];

@@ -280,7 +280,7 @@ return (
   <div className="col-xs-6">
   <div className="form-group">
 
-  { this.state.amount_error ? <span className="label label-danger">{ this.state.amount_error }<br/></span> : null }
+  { this.state.amount_error ? <FormError error={ this.state.amount_error } />  : null }
   <input type="number" min="1" placeholder="Shopping List Item Amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={ this.state.amount } disabled={ this.state.loading ? "disabled" : false } />
 
   </div>

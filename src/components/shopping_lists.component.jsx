@@ -137,12 +137,6 @@ handleSubmit(e) {
       thiz.setState({ loading: false  })
       data = JSON.parse(data)
 
-      //if the error is not a json object, create a general messge..otherwise, its a form error
-      if( typeof data !== "object" ){
-        thiz.setState({ general_msg: data })
-        return true;
-      }
-
       if( data["error"] ){
 
         data = data["error"];

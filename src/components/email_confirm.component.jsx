@@ -46,7 +46,6 @@ handleSubmit(e) {
 
     var formData  = new FormData();
     var data = ["email"];
-    var thiz = this;
 
     //reset error variables
     this.setState({ email_error: false  })
@@ -61,15 +60,15 @@ handleSubmit(e) {
       method: 'POST',
       body: formData
     })      // returns a promise object
-  .then((resp) => resp.json())
-  .then(function(data){
+  .then( (resp) => resp.json())
+  .then( (data) => {
 
-    thiz.setState({ loading: false  })
+    this.setState({ loading: false  })
 
     if( data["success"] ){
 
         data = data["success"];
-        thiz.setState({ general_msg: data })
+        this.setState({ general_msg: data })
 
     }else if( data["error"] ){
 
@@ -77,21 +76,21 @@ handleSubmit(e) {
 
         //if the error is not a json object, create a general message..otherwise, its a form error
         if( typeof data !== "object" ){
-          thiz.setState({ general_msg: data })
+          this.setState({ general_msg: data })
           return true;
         }
 
         //if theres a form validation error(s) show it/them
         if( data["email"] )
-          thiz.setState({ email_error : data["email"][0] })
+          this.setState({ email_error : data["email"][0] })
 
     
   }
   
   }) // still returns a promise object, U need to chain it again
-  .catch(function(error){
-    thiz.setState({ loading: false  })
-    thiz.setState({ general_msg: "Check your internet connection and try again" })
+  .catch( (error) => {
+    this.setState({ loading: false  })
+    this.setState({ general_msg: "Check your internet connection and try again" })
   });
 
 }

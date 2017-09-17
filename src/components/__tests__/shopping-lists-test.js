@@ -159,11 +159,6 @@ describe('Shopping list', () => {
 
   })
 
-  afterEach(() => {
-       expect(fetchMock.calls().unmatched).toEqual([]);
-      fetchMock.restore();
-    })
-
   
   describe('API interaction Behaviour', () => {
     let list_data, item_data;
@@ -176,6 +171,11 @@ describe('Shopping list', () => {
   item_data = '[{"item_id":"1","name":"item 1 list 1","amount":"100","list_id":"1","checked":"false"},{"item_id":"2","name":"item 2 list 1","amount":"100","list_id":"1","checked":"false"},{"item_id":"3","name":"item 3 list 2","amount":"100","list_id":"2","checked":"false"},{"item_id":"4","name":"item 4 list 2","amount":"100","list_id":"2","checked":"false"},{"item_id":"5","name":"item 5 list 3","amount":"100","list_id":"3","checked":"false"},{"item_id":"6","name":"item 6 list 3","amount":"100","list_id":"3","checked":"false"},{"item_id":"7","name":"item 7 list 4","amount":"100","list_id":"4","checked":"false"},{"item_id":"8","name":"item 8 list 4","amount":"100","list_id":"4","checked":"false"},{"item_id":"9","name":"item 9 list 5","amount":"100","list_id":"5","checked":"false"},{"item_id":"10","name":"item 10 list 5","amount":"100","list_id":"5","checked":"false"},{"item_id":"11","name":"item 11 list 1","amount":"100","list_id":"1","checked":"true"},{"item_id":"12","name":"item 12 list 2","amount":"100","list_id":"2","checked":"true"},{"item_id":"13","name":"item 13 list 3","amount":"100","list_id":"3","checked":"true"},{"item_id":"14","name":"item 14 list 4","amount":"100","list_id":"4","checked":"true"},{"item_id":"15","name":"item 15 list 5","amount":"100","list_id":"5","checked":"true"}]';
 
 
+    })
+
+    afterEach(() => {
+       expect(fetchMock.calls().unmatched).toEqual([]);
+      fetchMock.restore();
     })
 
     it('form submission done properly and success responses are handled properly', async () => {

@@ -29,7 +29,7 @@ constructor(){
     general_msg : false, loading : false,
     logged_in : false, list_data: [], item_data: [],
     show_add_item: false, chosen_list: false, chosen_list_id: false,
-    small_screen: false, hide_items: false
+    small_screen: false, hide_items: false, flash: false, username: false, token: false
   }
 
   this.handleSubmit = this.handleSubmit.bind(this);

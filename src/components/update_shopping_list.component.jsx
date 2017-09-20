@@ -19,7 +19,7 @@ constructor(){
     name: '',
     name_error: false,
     general_msg : false, loading : false,
-    logged_in : false, retrieved: false
+    logged_in : false, retrieved: false, flash: false, username: false, token: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);

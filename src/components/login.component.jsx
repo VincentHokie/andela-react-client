@@ -17,7 +17,7 @@ constructor(){
     username: '', password: '',
     username_error: false, password_error: false,
     general_msg : false, loading : false,
-    logged_in : false
+    logged_in : false, flash: false, username: false, token: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);

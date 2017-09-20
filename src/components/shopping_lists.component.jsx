@@ -43,7 +43,10 @@ constructor(){
 }
 
 componentWillMount(){
-  this.setState({ logged_in: GLOBAL.LOGGED_IN  });
+  
+  //set global info and window refresh/ page change
+  GLOBAL.setGlobals(this);
+
 }
 
 componentDidMount(){

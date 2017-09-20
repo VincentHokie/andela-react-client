@@ -71,9 +71,9 @@ handleLogout(event) {
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                 </button>
-                <Link to="/login" className="navbar-brand">
+                <a href="/login" className="navbar-brand">
                   Andela Shopping List
-                </Link>
+                </a>
             </div>
             <div className="collapse navbar-collapse" id="myNavbar">
                 <ul className="nav navbar-nav navbar-right">

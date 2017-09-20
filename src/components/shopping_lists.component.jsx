@@ -226,9 +226,9 @@ return (
   <div className="panel-heading col-xs-12">
   <h4 className="col-xs-10">Shopping lists</h4>
 
-  <Link to="/shopping-list/new" className="btn btn-success col-xs-2" style={{ padding:'10px 0'  }}>
+  <a href="/shopping-list/new" className="btn btn-success col-xs-2" style={{ padding:'10px 0'  }}>
     <i className="fa fa fa-plus-circle"></i>
-  </Link>
+  </a>
 
   </div>
 

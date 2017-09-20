@@ -91,9 +91,9 @@ render() {
 
       <div className="col-md-1 col-xs-8" style={{ padding:'0' }}>
 
-      <Link to={ "/shopping-list/"+ this.props.list.list_id +"/edit" } className="col-xs-12 btn btn-primary" style={{ padding:'5px 0'  }}>
+      <a href={ "/shopping-list/"+ this.props.list.list_id +"/edit" } className="col-xs-12 btn btn-primary" style={{ padding:'5px 0'  }}>
         <i className="fa fa-edit"></i>
-      </Link>
+      </a>
 
       </div>
 

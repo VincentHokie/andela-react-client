@@ -129,7 +129,7 @@ handleChange(event) {
 
       <p className="col-xs-8 col-xs-offset-2">We will send an email to the email address you enter above, ensure you use the link within 10 minutes or it will expire.</p>
 
-      <p className="col-xs-8 col-xs-offset-2">or try and <Link to="/login">login</Link> again</p>
+      <p className="col-xs-8 col-xs-offset-2">or try and <a href="/login">login</a> again</p>
 
       </form>
 

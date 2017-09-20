@@ -145,9 +145,9 @@ handleChange(event) {
 
       </div>
 
-      <p className="col-xs-8 col-xs-offset-2">or <Link to="/sign-up">Sign Up</Link> if you dont have an account already</p>
+      <p className="col-xs-8 col-xs-offset-2">or <a href="/sign-up">Sign Up</a> if you dont have an account already</p>
 
-      <p className="col-xs-8 col-xs-offset-2"><Link to="/email-confirmation">Forgot your password?</Link></p>
+      <p className="col-xs-8 col-xs-offset-2"><a href="/email-confirmation">Forgot your password?</a></p>
 
       </form>
 

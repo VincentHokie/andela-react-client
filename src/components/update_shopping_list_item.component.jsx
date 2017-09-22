@@ -51,7 +51,7 @@ componentDidMount(){
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+this.props.match.params.id+'?item_id='+this.props.match.params.item_id,{
       method: 'GET',
       headers: {
-         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
        }
     })      // returns a promise object
   .then((resp) => resp.json())
@@ -102,7 +102,7 @@ handleSubmit(e) {
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+this.props.match.params.id+'/items/'+this.props.match.params.item_id,{
       method: 'PUT',
       headers: {
-         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
        },
       body: formData
     })      // returns a promise object

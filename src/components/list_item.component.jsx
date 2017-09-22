@@ -39,7 +39,7 @@ handleDeleteItem(event) {
             fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ thiz.props.list +'/items/'+thiz.props.item.item_id,{
               method: 'DELETE',
               headers: {
-               'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+               'Authorization': 'Basic '+btoa(this.state.token+':x')
              }
             })      // returns a promise object
             .then((resp) => resp.json())
@@ -84,7 +84,7 @@ handleItemCheckboxChange(event) {
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.props.item.list_id +'/items/'+this.props.item.item_id+'/checkbox',{
         method: 'DELETE',
         headers: {
-         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
        }
       })      // returns a promise object
       .then((resp) => resp.json())

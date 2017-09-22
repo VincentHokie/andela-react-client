@@ -70,7 +70,7 @@ componentDidMount(){
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists',{
       method: 'GET',
       headers: {
-         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
        }
     })      // returns a promise object
   .then((resp) => resp.text())
@@ -90,7 +90,7 @@ componentDidMount(){
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/items',{
       method: 'GET',
       headers: {
-         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
        }
     })      // returns a promise object
   .then((resp) => resp.text())
@@ -130,7 +130,7 @@ handleSubmit(e) {
     fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.state.chosen_list_id +'/items',{
       method: 'POST',
       headers: {
-         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
        },
       body: formData
     })      // returns a promise object

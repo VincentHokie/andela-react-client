@@ -67,7 +67,7 @@ handleSubmit(e) {
       method: 'POST',
       body: formData,
       headers: {
-         'Authorization': 'Basic '+btoa(GLOBAL.TOKEN+':x')
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
        }
     })      // returns a promise object
   .then((resp) => resp.text())

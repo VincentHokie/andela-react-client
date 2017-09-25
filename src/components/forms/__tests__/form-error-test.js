@@ -8,12 +8,12 @@ describe('Form Error', () => {
 
   it('wraps content in a span with .label class', () => {
     wrapper = shallow(<FormError />);
-    expect(wrapper.find('.label').length).toEqual(1);
+    expect(wrapper.find('.label').length).equal(1);
   });
 
   it('has an error passed as an error prop', () => {
     wrapper = mount(<FormError error="Form Error Passed" />)
-    expect(wrapper.find('span.label').text()).toBe("Form Error Passed")
+    expect(wrapper.find('span.label').text()).to("Form Error Passed")
   })
 
 })

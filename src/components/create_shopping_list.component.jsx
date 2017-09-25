@@ -18,7 +18,7 @@ constructor(){
     name: '',
     name_error: false,
     general_msg : false, loading : false,
-    logged_in : false, flash: false, username: false, token: false
+    logged_in : false, flash: false, user_username: false, token: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,10 +36,10 @@ componentWillMount(){
 componentDidMount(){
 
   //show a flash message if it exists in the globals module
-    if( GLOBAL.FLASH ){
+    if( this.state.flash ){
       
-      this.setState({ general_msg: GLOBAL.FLASH  });
-      GLOBAL.FLASH = false;
+      this.setState({ general_msg: this.state.flash  });
+      this.setState({ flash: true  });
 
     }
     

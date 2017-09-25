@@ -33,10 +33,10 @@ componentWillMount(){
 componentDidMount(){
 
   //show a flash message if it exists in the globals module
-    if( GLOBAL.FLASH ){
+    if( this.state.flash ){
       
-      this.setState({ general_msg: GLOBAL.FLASH  });
-      GLOBAL.FLASH = false;
+      this.setState({ general_msg: this.state.flash  });
+      this.setState({ flash: false  });
 
     }
     

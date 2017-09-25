@@ -29,17 +29,17 @@ componentWillMount(){
 
   //set global info and window refresh/ page change
   GLOBAL.setGlobals(this);
-  
+
 }
 
 componentDidMount(){
 
   //show a flash message if it exists in the globals module
-    if( GLOBAL.FLASH ){
+    if( this.state.flash ){
       
-      this.setState({ general_msg: GLOBAL.FLASH  });
-      GLOBAL.FLASH = false;
-
+      this.setState({ general_msg: this.state.flash  });
+      this.setState({ flash: false  });
+      
     }
     
 }
@@ -60,7 +60,7 @@ handleSubmit(e) {
     this.setState({ loading: true  })
 
 
-    for(var name in data) 
+    for(var name in data)
       formData.append(data[name], this.state[data[name]]);
 
   fetch('https://andela-flask-api.herokuapp.com/auth/login',{
@@ -74,19 +74,18 @@ handleSubmit(e) {
 
     if( data["success"] ){
 
+        thiz.setState({ general_msg: data["success"] })
+
         //if a token is sent back, the login was successful, so we set global variables to store these states
         if( data["token"] ){
-          GLOBAL.LOGGED_IN = true;
-          GLOBAL.TOKEN = data["token"];
+
+          thiz.setState({ token: data["token"]  })
 
           setTimeout(function(){
-            thiz.setState({ logged_in: GLOBAL.LOGGED_IN  })
+            thiz.setState({ logged_in: true  })
           }, 2000);
 
         }
-
-        data = data["success"];
-        thiz.setState({ general_msg: data })
 
     }else if( data["error"] ){
 

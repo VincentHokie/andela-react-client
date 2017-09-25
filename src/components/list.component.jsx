@@ -14,16 +14,63 @@ class Item extends Component {
 constructor(){
    super();
    this.state= {
-    small_screen: false
+    small_screen: false, loading: false
   }
 
    this.handleDeleteList = this.handleDeleteList.bind(this);
+}
+  
+componentWillMount(){
+  
+  //set global info and window refresh/ page change
+  GLOBAL.setGlobals(this);
+
+}
+
+deleteList(component) {
+
+  component.setState({ loading: true  })
+
+  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+component.props.thisone,{
+        method: 'DELETE',
+        headers: {
+           'Authorization': 'Basic '+btoa(this.state.token+':x')
+         }
+      })      // returns a promise object
+      .then((resp) => resp.json())
+      .then(function(data){
+
+        component.setState({ loading: false  })
+
+        if( data["success"] ){
+
+          data = data["success"];
+          component.setState({ general_msg: data })
+
+        }else if( data["error"] ){
+
+          data = data["error"];
+
+          //if the error is not a json object, create a general messge..otherwise, its a form error
+          if( typeof data !== "object" ){
+            component.setState({ general_msg: data })
+            return true;
+          }
+
+        }
+
+    }) // still returns a promise object, U need to chain it again
+  .catch(function(error){
+    component.setState({ loading: false  })
+    component.setState({ general_msg: "Check your internet connection and try again" })
+  });
+
 }
 
 handleDeleteList(event) {
 
   var listId = event.target.getAttribute('data-listid');
-  var thiz = this;
+  var component = this;
   
   vex.dialog.defaultOptions.showCloseButton = true;
   vex.dialog.defaultOptions.escapeButtonCloses = true;
@@ -34,46 +81,8 @@ handleDeleteList(event) {
 
   vex.dialog.confirm({
       message: 'Are you sure you want to delete this list and all it\'s items!?',
-      callback: function (value) {
-
-          if(value === true){
-
-            fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+thiz.props.thisone,{
-              method: 'DELETE',
-              headers: {
-                 'Authorization': 'Basic '+btoa(this.state.token+':x')
-               }
-            })      // returns a promise object
-            .then((resp) => resp.json())
-            .then(function(data){
-
-              thiz.setState({ loading: false  })
-
-              if( data["success"] ){
-
-                data = data["success"];
-                thiz.setState({ general_msg: data })
-
-              }else if( data["error"] ){
-
-                data = data["error"];
-
-                //if the error is not a json object, create a general messge..otherwise, its a form error
-                if( typeof data !== "object" ){
-                  thiz.setState({ general_msg: data })
-                  return true;
-                }
-
-              }
-
-          }) // still returns a promise object, U need to chain it again
-        .catch(function(error){
-          thiz.setState({ loading: false  })
-          thiz.setState({ general_msg: "Check your internet connection and try again" })
-        });
-
-          }
-
+      callback: function (value) { 
+        if(value === true){ deleteList(component) }
       }
   });
 

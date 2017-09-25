@@ -18,44 +18,52 @@ constructor(){
     this.handleLogout = this.handleLogout.bind(this);
 }
 
+logout(component){
+
+  component.setState({ loading: true  })
+
+  fetch('https://andela-flask-api.herokuapp.com/auth/logout',{
+        method: 'POST',
+        headers: {
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
+       },
+      })      // returns a promise object
+      .then((resp) => resp.json())
+      .then(function(data){
+
+        component.setState({ loading: false  })
+
+        console.log("Success: "+ JSON.stringify(component.state))
+
+    }) // still returns a promise object, U need to chain it again
+  .catch(function(error){
+
+    console.log("Error: "+ JSON.stringify(component.state))
+
+    component.setState({ loading: false  })
+    component.setState({ general_msg: "Check your internet connection and try again" })
+  });
+
+}
+
+
 handleLogout(event) {
     
     var thiz = this;
 
     vex.dialog.defaultOptions.showCloseButton = true;
-      vex.dialog.defaultOptions.escapeButtonCloses = true;
-      vex.dialog.defaultOptions.overlayClosesOnClick = true;
+    vex.dialog.defaultOptions.escapeButtonCloses = true;
+    vex.dialog.defaultOptions.overlayClosesOnClick = true;
 
-      vex.dialog.buttons.YES.text = 'Yes'
-      vex.dialog.buttons.NO.text = 'No, thank you!'
+    vex.dialog.buttons.YES.text = 'Yes'
+    vex.dialog.buttons.NO.text = 'No, thank you!'
 
-      vex.dialog.confirm({
-          message: 'Are you sure you want to log out?',
-          callback: function (value) {
-
-            if(value === true){
-
-                fetch('https://andela-flask-api.herokuapp.com/auth/logout',{
-                  method: 'POST',
-                  headers: {
-                   'Authorization': 'Basic '+btoa(this.state.token+':x')
-                 },
-                })      // returns a promise object
-                .then((resp) => resp.json())
-                .then(function(data){
-
-                  thiz.setState({ loading: false  })
-
-              }) // still returns a promise object, U need to chain it again
-            .catch(function(error){
-              thiz.setState({ loading: false  })
-              thiz.setState({ general_msg: "Check your internet connection and try again" })
-            });
-
-            }
-
-          }
-      });
+    vex.dialog.confirm({
+        message: 'Are you sure you want to log out?',
+        callback: function (value) {
+          if(value === true){}
+        }
+    });
 
 }
 

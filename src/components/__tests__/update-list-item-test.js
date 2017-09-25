@@ -17,7 +17,7 @@ var expect = require("chai").expect;
 describe('Update Shopping list', () => {
   let wrapper;
 
-  it('wraps content in a div with .container.col-xs-12 class if user is logged in', () => {
+  it('wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
     localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
     wrapper = shallow(<UpdateShoppingList />)
@@ -34,10 +34,10 @@ describe('Update Shopping list', () => {
   });
 
   describe('Behaviour', () => {
-  	
+    
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-      wrapper = shallow(<UpdateShoppingList />);
+      wrapper = shallow(<UpdateShoppingList />)
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -64,7 +64,7 @@ describe('Update Shopping list', () => {
       
     })
 
-    it('if the theres a flash message, expect the FlashMsg component, otherwise dont', () => {
+    it('if the theres a flash message, expect the .message class, otherwise dont', () => {
 
       wrapper.setState({ general_msg: false });
       expect(wrapper.find('FlashMsg').length).equal(0);
@@ -84,16 +84,17 @@ describe('Update Shopping list', () => {
         status: 200,
         body: []
       })
-
+      
       wrapper = mount(<MemoryRouter initialEntries={[ '/shopping-list/1/edit' ]}><App /></MemoryRouter>)
     })
 
-    it('if theres a flash message from a previous route, display it', () => {
+    it('if the theres processing going on, the input is not editable', () => {
 
       expect(wrapper.find('.alert.message').length).equal(1);
       expect(wrapper.find('.alert.message').html()).contain("Message");
 
-      fetchMock.restore()
+      fetchMock.restore();
+
       
     })
 
@@ -144,12 +145,12 @@ describe('Update Shopping list', () => {
       })
 
       wrapper = mount(<MemoryRouter initialEntries={[ '/shopping-list/1/edit' ]}><App /></MemoryRouter>)
-      wrapper.setState({ general_msg: "Unauthorized access"});
 
       await
       
       setTimeout(function(){
 
+        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1");
 
@@ -173,7 +174,6 @@ describe('Update Shopping list', () => {
 
       //expect(wrapper.state().loading).equal(false);
       wrapper.find('form').simulate("submit", { preventDefault() {} });
-      wrapper.setState({ general_msg: "Were here"});
 
       await
 
@@ -203,7 +203,6 @@ describe('Update Shopping list', () => {
 
       //expect(wrapper.state().loading).equal(false);
       wrapper.find('form').simulate("submit", { preventDefault() {} });
-      wrapper.setState({ general_msg: "Were here"});
 
       await
       
@@ -262,7 +261,6 @@ describe('Update Shopping list', () => {
 
       //expect(wrapper.state().loading).equal(false);
       wrapper.find('form').simulate("submit", { preventDefault() {} });
-      wrapper.setState({ name_error: "Name error"});
 
       await
 
@@ -295,12 +293,12 @@ describe('Update Shopping list', () => {
       await
 
       setTimeout(function(){
-
+        
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect( wrapper.find("FlashMsg").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
+        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
 
       }, 100);
 

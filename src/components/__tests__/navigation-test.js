@@ -52,15 +52,15 @@ describe('Navigation bar', () => {
 
       await
       
-      //setTimeout(() => {
+      setTimeout(() => {
       
         expect( wrapper.state().general_msg ).equal("You have successfully logged out");
-        expect( wrapper.state().loading ).equal(true);
+        expect( wrapper.state().loading ).equal(false);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/logout");
 
-      //}, 1000)
+      }, 1000)
 
     })
 

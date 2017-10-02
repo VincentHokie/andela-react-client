@@ -19,6 +19,13 @@ constructor(){
     this.logout = this.logout.bind(this);
 }
 
+componentWillMount(){
+
+  //set global info and window refresh/ page change
+  GLOBAL.setGlobals(this);
+
+}
+
 logout(component){
 
   component.setState({ loading: true  })
@@ -60,7 +67,6 @@ logout(component){
 handleLogout(event) {
     
     var component = this;
-    component.logout(component.props.parent);
 
     vex.dialog.defaultOptions.showCloseButton = true;
     vex.dialog.defaultOptions.escapeButtonCloses = true;

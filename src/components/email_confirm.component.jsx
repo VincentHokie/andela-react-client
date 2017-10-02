@@ -103,14 +103,7 @@ handleChange(event) {
 }
 
   render() {
-
-    if( this.state.logged_in ){
-
-      GLOBAL.FLASH = "You need to be logged out to reset your password!";
-      return <Redirect push to="/shopping-lists" />;
-
-    }else{
-
+    
     return (
       
       <div className="container col-xs-12">
@@ -139,7 +132,7 @@ handleChange(event) {
       </div>
 
     );
-}
+
   }
 }
 

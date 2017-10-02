@@ -147,13 +147,6 @@ handleChange(event) {
 
   render() {
 
-    if( !this.state.logged_in ){
-
-      GLOBAL.FLASH = "You need to log in to update a shopping list!";
-      return <Redirect push to="/login" />;
-
-    }else{
-
     return (
 
     <div className="container col-xs-12">
@@ -189,7 +182,7 @@ handleChange(event) {
 </div>
 
       );
-}
+
 }
 }
 

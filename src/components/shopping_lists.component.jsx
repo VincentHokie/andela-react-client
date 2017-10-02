@@ -197,12 +197,6 @@ handleListSelect(event) {
 
 render() {
 
-  if( !this.state.logged_in ){
-
-    return <Redirect push to="/login" />;
-
-  }else{
-
     // Map through lists and return linked lists
     const listNode = this.state.list_data.map((list) => {
       return ( <List chosen={ this.state.chosen_list_id } thisone={ list.list_id } list={ list } handleListSelect={ this.handleListSelect } key={ list.list_id } /> )
@@ -319,7 +313,7 @@ return (
   </div>
 
   );
-}
+
 }
 }
 

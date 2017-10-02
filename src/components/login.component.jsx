@@ -119,12 +119,6 @@ handleChange(event) {
 
   render() {
 
-    if( this.state.logged_in ){
-
-      return <Redirect push to="/shopping-lists" />;
-
-    }else{
-
       return (
 
       <div className="container col-xs-12">
@@ -156,8 +150,6 @@ handleChange(event) {
       </div>
 
       );
-        
-    }
     
 }
 }

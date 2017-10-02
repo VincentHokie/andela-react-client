@@ -111,13 +111,6 @@ handleChange(event) {
 
 render() {
 
-  if( this.state.logged_in ){
-
-      GLOBAL.FLASH = "You need to be logged out to create an account.";
-      return <Redirect push to="/shopping-lists" />;
-
-    }else{
-
     return (
 
       //<link href="{{ url_for('static', filename='css/sign-up.css') }}" rel="stylesheet" />
@@ -176,7 +169,7 @@ render() {
 
 
       );
-}
+
 }
 }
 

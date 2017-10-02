@@ -16,7 +16,7 @@ class SignUp extends Component {
     email: '', username: '', password: '', password2: '',
     email_error: false, username_error: false, password_error: false, password2_error: false,
     general_msg : false, loading : false,
-    logged_in : false, flash: false, username: false, token: false
+    logged_in : false, flash: false, user_username: false, token: false
     }
     
     this.handleSubmit = this.handleSubmit.bind(this);

@@ -22,7 +22,7 @@ module.exports = {
 				JSON.stringify({
 					logged_in: component.state.logged_in,
 					token: component.state.token,
-					user_username: component.state.username,
+					user_username: component.state.user_username,
 					flash: component.state.flash
 				})
 			)

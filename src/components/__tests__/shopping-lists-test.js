@@ -25,14 +25,6 @@ describe('Shopping list', () => {
 
   });
 
-  it('wraps content in a Redirect is not logged in', () => {
-
-    localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
-    wrapper = shallow(<ShoppingLists />)
-    expect(wrapper.find('Redirect').length).equal(1);
-
-  });
-
   describe('Behaviour', () => {
   	
     beforeEach(() => {
@@ -171,19 +163,16 @@ describe('Shopping list', () => {
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
 
-  list_data = '[{"list_id": "1","name":"Honda Accord Crosstour"},{"list_id": "2","name":"Mercedes-Benz AMG GT Coupe"},{"list_id": "3","name":"BMW X6 SUV"},{"list_id": "4","name":"Ford Edge SUV"},{"list_id": "5","name":"Dodge Viper Coupe"}]';
+  list_data = "[{\"list_id\": \"1\",\"name\":\"Honda Accord Crosstour\"},{\"list_id\": \"2\",\"name\":\"Mercedes-Benz AMG GT Coupe\"},{\"list_id\": \"3\",\"name\":\"BMW X6 SUV\"},{\"list_id\": \"4\",\"name\":\"Ford Edge SUV\"},{\"list_id\": \"5\",\"name\":\"Dodge Viper Coupe\"}]";
 
-  item_data = '[{"item_id":"1","name":"item 1 list 1","amount":"100","list_id":"1","checked":"false"},{"item_id":"2","name":"item 2 list 1","amount":"100","list_id":"1","checked":"false"},{"item_id":"3","name":"item 3 list 2","amount":"100","list_id":"2","checked":"false"},{"item_id":"4","name":"item 4 list 2","amount":"100","list_id":"2","checked":"false"},{"item_id":"5","name":"item 5 list 3","amount":"100","list_id":"3","checked":"false"},{"item_id":"6","name":"item 6 list 3","amount":"100","list_id":"3","checked":"false"},{"item_id":"7","name":"item 7 list 4","amount":"100","list_id":"4","checked":"false"},{"item_id":"8","name":"item 8 list 4","amount":"100","list_id":"4","checked":"false"},{"item_id":"9","name":"item 9 list 5","amount":"100","list_id":"5","checked":"false"},{"item_id":"10","name":"item 10 list 5","amount":"100","list_id":"5","checked":"false"},{"item_id":"11","name":"item 11 list 1","amount":"100","list_id":"1","checked":"true"},{"item_id":"12","name":"item 12 list 2","amount":"100","list_id":"2","checked":"true"},{"item_id":"13","name":"item 13 list 3","amount":"100","list_id":"3","checked":"true"},{"item_id":"14","name":"item 14 list 4","amount":"100","list_id":"4","checked":"true"},{"item_id":"15","name":"item 15 list 5","amount":"100","list_id":"5","checked":"true"}]';
+  item_data = "[{\"item_id\":\"1\",\"name\":\"item 1 list 1\",\"amount\":\"100\",\"list_id\":\"1\",\"checked\":\"false\"},{\"item_id\":\"2\",\"name\":\"item 2 list 1\",\"amount\":\"100\",\"list_id\":\"1\",\"checked\":\"false\"},{\"item_id\":\"3\",\"name\":\"item 3 list 2\",\"amount\":\"100\",\"list_id\":\"2\",\"checked\":\"false\"},{\"item_id\":\"4\",\"name\":\"item 4 list 2\",\"amount\":\"100\",\"list_id\":\"2\",\"checked\":\"false\"},{\"item_id\":\"5\",\"name\":\"item 5 list 3\",\"amount\":\"100\",\"list_id\":\"3\",\"checked\":\"false\"},{\"item_id\":\"6\",\"name\":\"item 6 list 3\",\"amount\":\"100\",\"list_id\":\"3\",\"checked\":\"false\"},{\"item_id\":\"7\",\"name\":\"item 7 list 4\",\"amount\":\"100\",\"list_id\":\"4\",\"checked\":\"false\"},{\"item_id\":\"8\",\"name\":\"item 8 list 4\",\"amount\":\"100\",\"list_id\":\"4\",\"checked\":\"false\"},{\"item_id\":\"9\",\"name\":\"item 9 list 5\",\"amount\":\"100\",\"list_id\":\"5\",\"checked\":\"false\"},{\"item_id\":\"10\",\"name\":\"item 10 list 5\",\"amount\":\"100\",\"list_id\":\"5\",\"checked\":\"false\"},{\"item_id\":\"11\",\"name\":\"item 11 list 1\",\"amount\":\"100\",\"list_id\":\"1\",\"checked\":\"true\"},{\"item_id\":\"12\",\"name\":\"item 12 list 2\",\"amount\":\"100\",\"list_id\":\"2\",\"checked\":\"true\"},{\"item_id\":\"13\",\"name\":\"item 13 list 3\",\"amount\":\"100\",\"list_id\":\"3\",\"checked\":\"true\"},{\"item_id\":\"14\",\"name\":\"item 14 list 4\",\"amount\":\"100\",\"list_id\":\"4\",\"checked\":\"true\"},{\"item_id\":\"15\",\"name\":\"item 15 list 5\",\"amount\":\"100\",\"list_id\":\"5\",\"checked\":\"true\"}]";
 
 
     })
 
-    afterEach(() => {
-       expect(fetchMock.calls().unmatched).to.be.empty;
-      fetchMock.restore();
-    })
+    it('form submission done properly and success responses are handled properly', (done) => {
 
-    it('form submission done properly and success responses are handled properly', async () => {
+      console.log("LIST DATA: " + list_data)
 
       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
         status: 200,
@@ -199,11 +188,12 @@ describe('Shopping list', () => {
 
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
-        expect( wrapper.state().loading ).equal(true);
+        wrapper.update()
+        expect( wrapper.state().loading ).equal(false);
+
+        console.log( wrapper.state() );
 
         expect( wrapper.state().list_data ).equal(JSON.parse(list_data));
         expect( wrapper.state().item_data ).equal(JSON.parse(item_data));
@@ -214,11 +204,13 @@ describe('Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
 
+        done();
+
       }, 100);
 
     })
     
-    it('form submission done properly and success responses are handled properly', async () => {
+    it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
         status: 401,
@@ -234,8 +226,6 @@ describe('Shopping list', () => {
       expect( wrapper.state().loading ).equal(true);
       
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().loading ).equal(false);
@@ -245,17 +235,19 @@ describe('Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
 
+        done();
+
       }, 100);
 
     })
 
 
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
         status: 200,
-        body: { success:"Were here" }
+        body: JSON.stringify({ success:"Were here" })
       })
       
       wrapper = shallow(<ShoppingLists />)
@@ -269,7 +261,40 @@ describe('Shopping list', () => {
 
       expect( wrapper.state().loading ).equal(true);
 
-      await
+      setTimeout(function(){
+
+        expect( wrapper.state().loading ).equal(false);
+
+        expect( wrapper.state().general_msg ).equal("You have successfully created the item : vince into list : false");
+        expect( wrapper.find("FlashMsg").length ).equal(1);
+
+        expect(fetchMock.called()).equal(true);
+        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
+
+        done();
+
+      }, 100);
+
+    })
+
+
+    it('form submission done properly and error responses are handled properly', (done) => {
+      
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
+        status: 200,
+        body: JSON.stringify({ error:"Were here" })
+      })
+      
+      wrapper = shallow(<ShoppingLists />)
+      wrapper.setState({ chosen_list_id: 1 });
+
+      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
+      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
+
+      //expect(wrapper.state().loading).equal(false);
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+
+      expect( wrapper.state().loading ).equal(true);
 
       setTimeout(function(){
 
@@ -281,46 +306,13 @@ describe('Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
 
-      }, 100);
-
-    })
-
-
-    it('form submission done properly and error responses are handled properly', async () => {
-      
-      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
-        status: 200,
-        body: { error:"Were here" }
-      })
-      
-      wrapper = shallow(<ShoppingLists />)
-      wrapper.setState({ chosen_list_id: 1 });
-
-      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
-      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
-
-      //expect(wrapper.state().loading).equal(false);
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
-
-      expect( wrapper.state().loading ).equal(true);
-
-      await
-      
-      setTimeout(function(){
-
-        expect( wrapper.state().loading ).equal(false);
-
-        expect( wrapper.state().general_msg ).equal("Were here");
-        expect( wrapper.find(".message").length ).equal(1);
-
-        expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
+        done();
 
       }, 100);
 
     })
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
         status: 200,
@@ -338,24 +330,24 @@ describe('Shopping list', () => {
 
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().loading ).equal(false);
 
-        expect( wrapper.state().general_msg ).equal("Unauthorized access");
+        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect( wrapper.find("FlashMsg").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
+
+        done();
 
       }, 100);
 
     })
 
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
         status: 200,
@@ -373,8 +365,6 @@ describe('Shopping list', () => {
       
       expect( wrapper.state().loading ).equal(true);
 
-      await
-
       setTimeout(function(){
 
         expect( wrapper.state().loading ).equal(false);
@@ -386,11 +376,13 @@ describe('Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
 
+        done();
+
       }, 100);
 
     })
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
         status: 200,
@@ -407,8 +399,6 @@ describe('Shopping list', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       expect( wrapper.state().loading ).equal(true);
 
-      await
-
       setTimeout(function(){
 
         expect( wrapper.state().loading ).equal(false);
@@ -419,8 +409,15 @@ describe('Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
 
+        done();
+
       }, 100);
 
+    })
+
+    afterEach(() => {
+       expect(fetchMock.calls().unmatched).to.be.empty;
+        fetchMock.restore();
     })
 
   })

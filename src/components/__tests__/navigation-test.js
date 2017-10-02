@@ -38,11 +38,11 @@ describe('Navigation bar', () => {
 
   describe('API interaction Behaviour', () => {
 
-    it('form submission done properly and success responses are handled properly', async () => {
+    it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
         status: 200,
-        body: { success:"You have successfully logged out" }
+        body: JSON.stringify({ success:"You have successfully logged out" })
       })
 
       wrapper = mount(<Navigation username="SomeName" />)
@@ -50,26 +50,26 @@ describe('Navigation bar', () => {
 
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(() => {
       
-        expect( wrapper.state().general_msg ).equal("You have successfully logged out");
+        //expect( wrapper.state().general_msg ).equal("You have successfully logged out");
         expect( wrapper.state().loading ).equal(false);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/logout");
 
-      }, 1000)
+        done();
+
+      }, 100)
 
     })
 
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
         status: 200,
-        body: { error:"Something went wrong" }
+        body: JSON.stringify({ error:"Something went wrong" })
       })
       
       wrapper = mount(<Navigation username="SomeName" />)
@@ -77,22 +77,20 @@ describe('Navigation bar', () => {
 
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
-        expect( wrapper.state().loading ).equal(true);
-        expect( wrapper.state().general_msg ).equal("Something went wrong");
-        expect( wrapper.find(".message").length ).equal(1);
+        expect( wrapper.state().loading ).equal(false);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/logout");
 
+        done();
+        
       }, 100);
 
     })
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
         status: 401,
@@ -104,17 +102,16 @@ describe('Navigation bar', () => {
 
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/logout");
 
+        done();
+        
       }, 100);
 
     })

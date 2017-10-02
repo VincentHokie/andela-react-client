@@ -25,14 +25,6 @@ describe('Email confirmation', () => {
 
   });
 
-  it('wraps content in a Redirect is not logged in', () => {
-
-    localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-    wrapper = shallow(<EmailConfirm />)
-    expect(wrapper.find('Redirect').length).equal(1);
-
-  });
-
   describe('State Behaviour', () => {
   	
     beforeEach(() => {
@@ -92,7 +84,7 @@ describe('Email confirmation', () => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
     })
 
-    it('form submission done properly and success responses are handled properly', async () => {
+    it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password", {
         status: 200,
@@ -107,8 +99,6 @@ describe('Email confirmation', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       wrapper.setState({ general_msg: "Were here"});
 
-      await
-
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Were here");
@@ -118,12 +108,14 @@ describe('Email confirmation', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password");
         
+        done();
+
       }, 100);      
 
     })
 
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password", {
         status: 200,
@@ -137,8 +129,6 @@ describe('Email confirmation', () => {
 
       wrapper.find('form').simulate("submit", { preventDefault() {} });
 
-      await
-
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Were here");
@@ -148,12 +138,14 @@ describe('Email confirmation', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password");
 
+        done();
+
       }, 100);
 
     })
 
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password", {
         status: 200,
@@ -168,22 +160,22 @@ describe('Email confirmation', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       wrapper.setState({ email_error: "Were here"});
 
-      await
-
       setTimeout(function(){
 
-        expect( wrapper.state().general_msg ).equal("Were here");
+        expect( wrapper.state().email_error ).equal("Were here");
 
         expect( wrapper.find("FormError").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password");
 
+        done();
+
       }, 100);
 
     })
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password", {
         status: 200,
@@ -197,8 +189,6 @@ describe('Email confirmation', () => {
 
       wrapper.find('form').simulate("submit", { preventDefault() {} });
 
-      await
-
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
@@ -206,6 +196,8 @@ describe('Email confirmation', () => {
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password");
+
+        done();
 
       }, 100);
 

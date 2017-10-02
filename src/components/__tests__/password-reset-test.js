@@ -25,14 +25,6 @@ describe('Password reset', () => {
 
   });
 
-  it('wraps content in a Redirect is not logged in', () => {
-
-    localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-    wrapper = shallow(<PasswordReset />)
-    expect(wrapper.find('Redirect').length).equal(1);
-
-  });
-
   describe('State Behaviour', () => {
   	
     beforeEach(() => {
@@ -96,11 +88,11 @@ describe('Password reset', () => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false, "token":"a-real-secret"}));
     })
 
-    it('form submission done properly and success responses are handled properly', async () => {
+    it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
         status: 200,
-        body: { success:"Your password has been successfully reset" }
+        body: JSON.stringify({ success:"Your password has been successfully reset" })
       })
 
       wrapper = shallow(<PasswordReset />)
@@ -113,8 +105,6 @@ describe('Password reset', () => {
 
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Your password has been successfully reset");
@@ -124,16 +114,18 @@ describe('Password reset', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
 
+        done();
+        
       }, 100);
 
     })
 
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
         status: 200,
-        body: { error:"Were here" }
+        body: JSON.stringify({ error:"Were here" })
       })
       
       wrapper = shallow(<PasswordReset />)
@@ -146,27 +138,27 @@ describe('Password reset', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
-        expect( wrapper.state().loading ).equal(true);
+        expect( wrapper.state().loading ).equal(false);
         expect( wrapper.state().general_msg ).equal("Were here");
         expect( wrapper.find("FlashMsg").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
 
+        done();
+        
       }, 100);
 
     })
 
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
         status: 200,
-        body: { error: { password_confirm : ["Password confirm error"], password : ["Password error"] } }
+        body: JSON.stringify({ error: { password_confirm : ["Password confirm error"], password : ["Password error"] } })
       })
 
       wrapper = shallow(<PasswordReset />)
@@ -179,8 +171,6 @@ describe('Password reset', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().password_confirm_error ).equal("Password confirm error");
@@ -191,11 +181,13 @@ describe('Password reset', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
 
+        done();
+        
       }, 100);
 
     })
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
         status: 200,
@@ -212,8 +204,6 @@ describe('Password reset', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
@@ -223,6 +213,8 @@ describe('Password reset', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
 
+        done();
+        
       }, 100);
 
     })

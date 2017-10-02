@@ -25,14 +25,6 @@ describe('Sign Up Component', () => {
 
   });
 
-  it('wraps content in a Redirect is not logged in', () => {
-
-    localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-    wrapper = shallow(<SignUp />)
-    expect(wrapper.find('Redirect').length).equal(1);
-
-  });
-
   describe('Behaviour', () => {
   	
     beforeEach(() => {
@@ -109,7 +101,7 @@ describe('Sign Up Component', () => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
     })
 
-    it('form submission done properly and success responses are handled properly', async () => {
+    it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/register", {
         status: 200,
@@ -126,8 +118,6 @@ describe('Sign Up Component', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Were here");
@@ -137,12 +127,14 @@ describe('Sign Up Component', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");
 
+        done();
+        
       }, 100);
 
     })
 
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/register", {
         status: 200,
@@ -158,8 +150,6 @@ describe('Sign Up Component', () => {
 
       wrapper.find('form').simulate("submit", { preventDefault() {} });
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Were here");
@@ -170,12 +160,14 @@ describe('Sign Up Component', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");
 
+        done();
+        
       }, 100);
 
     })
 
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/register", {
         status: 200,
@@ -192,27 +184,27 @@ describe('Sign Up Component', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().loading ).equal(false);
 
         expect( wrapper.state().username_error ).equal("Username error");
-        expect( wrapper.state().email ).equal("Email error");
-        expect( wrapper.state().password ).equal("Password error");
-        expect( wrapper.state().password2 ).equal("Password2 error");
+        expect( wrapper.state().email_error ).equal("Email error");
+        expect( wrapper.state().password_error ).equal("Password error");
+        expect( wrapper.state().password2_error ).equal("Password2 error");
 
         expect( wrapper.find("FormError").length ).equal(4);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");
 
+        done();
+        
       }, 100);
 
     })
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/register", {
         status: 200,
@@ -229,8 +221,6 @@ describe('Sign Up Component', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       expect( wrapper.state().loading ).equal(true);
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
@@ -241,6 +231,8 @@ describe('Sign Up Component', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");
 
+        done();
+        
       }, 100);
 
     })

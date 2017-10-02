@@ -25,14 +25,6 @@ describe('Update Shopping list', () => {
 
   });
 
-  it('wraps content in a Redirect is not logged in', () => {
-
-    localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
-    wrapper = shallow(<UpdateShoppingList />)
-    expect(wrapper.find('Redirect').length).equal(1);
-
-  });
-
   describe('Behaviour', () => {
   	
     beforeEach(() => {
@@ -116,7 +108,7 @@ describe('Update Shopping list', () => {
 
     })
 
-    it('form submission done properly and success responses are handled properly', async () => {
+    it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
         status: 200,
@@ -125,18 +117,18 @@ describe('Update Shopping list', () => {
 
       wrapper = mount(<MemoryRouter initialEntries={[ '/shopping-list/1/edit' ]}><App /></MemoryRouter>)
 
-      await
-      
       setTimeout(function(){
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1");
 
+        done();
+
       }, 100);
 
     })
     
-    it('form submission done properly and success responses are handled properly', async () => {
+    it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
         status: 401,
@@ -146,12 +138,12 @@ describe('Update Shopping list', () => {
       wrapper = mount(<MemoryRouter initialEntries={[ '/shopping-list/1/edit' ]}><App /></MemoryRouter>)
       wrapper.setState({ general_msg: "Unauthorized access"});
 
-      await
-      
       setTimeout(function(){
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1");
+
+        done();
 
       }, 100);
 
@@ -159,7 +151,7 @@ describe('Update Shopping list', () => {
 
 
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
         status: 200,
@@ -175,8 +167,6 @@ describe('Update Shopping list', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       wrapper.setState({ general_msg: "Were here"});
 
-      await
-
       setTimeout(function(){
 
         expect( wrapper.find("FlashMsg").length ).equal(1);
@@ -184,12 +174,14 @@ describe('Update Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
 
+        done();
+
       }, 100);
 
     })
 
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
         status: 200,
@@ -205,8 +197,6 @@ describe('Update Shopping list', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       wrapper.setState({ general_msg: "Were here"});
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.find("FlashMsg").length ).equal(1);
@@ -214,11 +204,13 @@ describe('Update Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
 
+        done();
+
       }, 100);
 
     })
 
-    it('form submission done properly and error responses are handled properly', async () => {
+    it('form submission done properly and error responses are handled properly', (done) => {
       
       fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
         status: 200,
@@ -234,8 +226,6 @@ describe('Update Shopping list', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       wrapper.setState({ general_msg: "Were here"});
 
-      await
-      
       setTimeout(function(){
 
         expect( wrapper.find("FlashMsg").length ).equal(1);
@@ -243,12 +233,14 @@ describe('Update Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
 
+        done();
+
       }, 100);
 
     })
 
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
         status: 200,
@@ -264,8 +256,6 @@ describe('Update Shopping list', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
       wrapper.setState({ name_error: "Name error"});
 
-      await
-
       setTimeout(function(){
 
         expect( wrapper.find("FormError").length ).equal(1);
@@ -273,11 +263,13 @@ describe('Update Shopping list', () => {
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
 
+        done();
+
       }, 100);
 
     })
 
-    it('form submission done properly and form error message responses are handled properly', async () => {
+    it('form submission done properly and form error message responses are handled properly', (done) => {
       
       fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
         status: 200,
@@ -292,8 +284,6 @@ describe('Update Shopping list', () => {
       //expect(wrapper.state().loading).equal(false);
       wrapper.find('form').simulate("submit", { preventDefault() {} });
 
-      await
-
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
@@ -301,6 +291,8 @@ describe('Update Shopping list', () => {
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
+
+        done();
 
       }, 100);
 

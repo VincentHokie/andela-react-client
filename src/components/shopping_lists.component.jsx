@@ -212,7 +212,7 @@ return (
 
   <div className="sh-list-container">
 
-  <Navigation username="Vince" />
+  <Navigation username={ this.state.user_username } parent={ this } />
 
   { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 

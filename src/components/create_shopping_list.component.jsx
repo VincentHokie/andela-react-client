@@ -116,7 +116,7 @@ handleChange(event) {
 
     <div className="container col-xs-12">
 
-    <Navigation username="Vince" />
+    <Navigation username={ this.state.user_username } parent={ this } />
     
     { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 

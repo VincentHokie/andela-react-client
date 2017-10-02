@@ -7,6 +7,7 @@ import FlashMsg from "./flash_msg.component.jsx"
 
 import FormError from "./forms/form_error.component.jsx"
 import FormButton from "./forms/form_button.component.jsx"
+import BackButton from "./back_button.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
@@ -143,6 +144,8 @@ handleChange(event) {
 
 
     </form>
+
+    <BackButton />
 
 </div>
 

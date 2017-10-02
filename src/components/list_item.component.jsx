@@ -16,6 +16,7 @@ constructor(){
 
    this.handleDeleteItem = this.handleDeleteItem.bind(this);
    this.handleItemCheckboxChange = this.handleItemCheckboxChange.bind(this);
+   this.deleteItem = this.deleteItem.bind(this);
    
 }
 
@@ -81,7 +82,7 @@ handleDeleteItem(event) {
   vex.dialog.confirm({
       message: 'Are you sure you want to delete this item!?',
       callback: function (value) {
-        if(value === true){ deleteItem(component); }
+        if(value === true){ component.deleteItem(component); }
       }
   });
 
@@ -92,7 +93,7 @@ handleItemCheckboxChange(event) {
   var thiz = this;
 
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.props.item.list_id +'/items/'+this.props.item.item_id+'/checkbox',{
-        method: 'DELETE',
+        method: 'PUT',
         headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')
        }

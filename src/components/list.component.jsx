@@ -18,6 +18,7 @@ constructor(){
   }
 
    this.handleDeleteList = this.handleDeleteList.bind(this);
+   this.deleteList = this.deleteList.bind(this);
 }
   
 componentWillMount(){
@@ -82,7 +83,7 @@ handleDeleteList(event) {
   vex.dialog.confirm({
       message: 'Are you sure you want to delete this list and all it\'s items!?',
       callback: function (value) { 
-        if(value === true){ deleteList(component) }
+        if(value === true){ component.deleteList(component) }
       }
   });
 

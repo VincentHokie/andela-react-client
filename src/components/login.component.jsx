@@ -80,9 +80,11 @@ handleSubmit(e) {
         if( data["token"] ){
 
           thiz.setState({ token: data["token"]  })
+          thiz.setState({ user_username: thiz.state.username  })
+          thiz.state.logged_in = true;
 
           setTimeout(function(){
-            thiz.setState({ logged_in: true  })
+            window.location = "/shopping-lists";
           }, 2000);
 
         }

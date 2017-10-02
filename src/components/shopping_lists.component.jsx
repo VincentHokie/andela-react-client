@@ -43,7 +43,7 @@ constructor(){
 }
 
 componentWillMount(){
-  
+
   //set global info and window refresh/ page change
   GLOBAL.setGlobals(this);
 
@@ -51,6 +51,8 @@ componentWillMount(){
 
 componentDidMount(){
 
+  this.setState({ loading: true  })
+  
   //show a flash message if it exists in the globals module
   if( this.state.flash ){
 
@@ -64,8 +66,6 @@ componentDidMount(){
 
   var thiz = this;
 
-  thiz.setState({ loading: true  })
-
   //get user shopping list objects from database
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists',{
       method: 'GET',
@@ -73,7 +73,10 @@ componentDidMount(){
          'Authorization': 'Basic '+btoa(this.state.token+':x')
        }
     })      // returns a promise object
-  .then((resp) => resp.text())
+  .then((resp) => {
+    console.log(JSON.stringify(resp))
+    return resp.text() 
+  })
   .then(function(data){
 
     thiz.setState({ list_data: JSON.parse(data) });
@@ -81,6 +84,7 @@ componentDidMount(){
   
   }) // still returns a promise object, U need to chain it again
   .catch(function(error){
+    console.log("ERROR: "+ error )
     thiz.setState({ loading: false  })
     thiz.setState({ general_msg: "Check your internet connection and try again" })
   });
@@ -96,6 +100,7 @@ componentDidMount(){
   .then((resp) => resp.text())
   .then(function(data){
 
+    console.log("DATA: "+data)
     //we got item objects back, populate component state
     thiz.setState({ item_data: JSON.parse(data) });
     thiz.setState({ loading: false  });
@@ -144,6 +149,12 @@ handleSubmit(e) {
 
         data = data["error"];
 
+        //if the error is not a json object, create a general messge..otherwise, its a form error
+        if( typeof data !== "object" ){
+          thiz.setState({ general_msg: data })
+          return true;
+        }
+        
         var fields = ["name", "amount"];
         for( var field in fields ){
           field = fields[field];

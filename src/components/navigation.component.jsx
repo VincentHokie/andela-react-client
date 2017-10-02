@@ -16,6 +16,7 @@ constructor(){
    super();
    this.state={ username: '' }
     this.handleLogout = this.handleLogout.bind(this);
+    this.logout = this.logout.bind(this);
 }
 
 logout(component){
@@ -33,12 +34,21 @@ logout(component){
 
         component.setState({ loading: false  })
 
-        console.log("Success: "+ JSON.stringify(component.state))
+        if( data["success"] ){
+
+          component.setState({ flash: data["success"]  })
+          component.setState({ user_username: false  })
+          component.setState({ logged_in: false  })
+          component.setState({ token: false  })
+
+          window.location = "/login";
+
+        }
+        else
+          component.setState({ flash: data["error"]  })
 
     }) // still returns a promise object, U need to chain it again
   .catch(function(error){
-
-    console.log("Error: "+ JSON.stringify(component.state))
 
     component.setState({ loading: false  })
     component.setState({ general_msg: "Check your internet connection and try again" })
@@ -49,7 +59,8 @@ logout(component){
 
 handleLogout(event) {
     
-    var thiz = this;
+    var component = this;
+    component.logout(component.props.parent);
 
     vex.dialog.defaultOptions.showCloseButton = true;
     vex.dialog.defaultOptions.escapeButtonCloses = true;
@@ -61,7 +72,7 @@ handleLogout(event) {
     vex.dialog.confirm({
         message: 'Are you sure you want to log out?',
         callback: function (value) {
-          if(value === true){}
+          if(value === true){ component.logout(component.props.parent); }
         }
     });
 

@@ -93,8 +93,7 @@ describe('Login page', () => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
     })
 
-    it('form submission done properly and success responses are handled properly', function(done){
-      this.timeout(500);
+    it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/login", {
         status: 200,
@@ -130,7 +129,7 @@ describe('Login page', () => {
 
         done();
 
-      }, 100)
+      }, 3000)
 
 
     })

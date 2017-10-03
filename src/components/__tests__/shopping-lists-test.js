@@ -170,76 +170,72 @@ describe('Shopping list', () => {
 
     })
 
-    it('form submission done properly and success responses are handled properly', (done) => {
+    // it('form submission done properly and success responses are handled properly', (done) => {
 
-      console.log("LIST DATA: " + list_data)
+    //   fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+    //     status: 200,
+    //     body: list_data
+    //   })
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-        status: 200,
-        body: list_data
-      })
+    //   fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+    //     status: 200,
+    //     body: item_data
+    //   })
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-        status: 200,
-        body: item_data
-      })
+    //   wrapper = mount(<ShoppingLists />)
 
-      wrapper = mount(<ShoppingLists />)
+    //   expect( wrapper.state().loading ).equal(true);
 
-      expect( wrapper.state().loading ).equal(true);
+    //   setTimeout(function(){
 
-      setTimeout(function(){
+    //     wrapper.update()
+    //     expect( wrapper.state().loading ).equal(false);
 
-        wrapper.update()
-        expect( wrapper.state().loading ).equal(false);
+    //     expect( wrapper.state().list_data ).equal(JSON.parse(list_data));
+    //     expect( wrapper.state().item_data ).equal(JSON.parse(item_data));
 
-        console.log( wrapper.state() );
+    //     expect( wrapper.find(".shopping-list-items").length ).equal(15);
+    //     expect( wrapper.find(".shopping-list").length ).equal(5);
 
-        expect( wrapper.state().list_data ).equal(JSON.parse(list_data));
-        expect( wrapper.state().item_data ).equal(JSON.parse(item_data));
+    //     expect(fetchMock.called()).equal(true);
+    //     expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
 
-        expect( wrapper.find(".shopping-list-items").length ).equal(15);
-        expect( wrapper.find(".shopping-list").length ).equal(5);
+    //     done();
 
-        expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
+    //   }, 100);
 
-        done();
-
-      }, 100);
-
-    })
+    // })
     
-    it('form submission done properly and success responses are handled properly', (done) => {
+    // it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-        status: 401,
-        body: "Unauthorized access"
-      })
+    //   fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+    //     status: 401,
+    //     body: "Unauthorized access"
+    //   })
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-        status: 401,
-        body: "Unauthorized access"
-      })
+    //   fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+    //     status: 401,
+    //     body: "Unauthorized access"
+    //   })
 
-      wrapper = mount(<ShoppingLists />)
-      expect( wrapper.state().loading ).equal(true);
+    //   wrapper = mount(<ShoppingLists />)
+    //   expect( wrapper.state().loading ).equal(true);
       
 
-      setTimeout(function(){
+    //   setTimeout(function(){
 
-        expect( wrapper.state().loading ).equal(false);
+    //     expect( wrapper.state().loading ).equal(false);
 
-        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
+    //     expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
 
-        expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
+    //     expect(fetchMock.called()).equal(true);
+    //     expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
 
-        done();
+    //     done();
 
-      }, 100);
+    //   }, 100);
 
-    })
+    // })
 
 
 

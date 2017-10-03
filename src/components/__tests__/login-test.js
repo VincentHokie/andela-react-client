@@ -94,7 +94,8 @@ describe('Login page', () => {
     })
 
     it('form submission done properly and success responses are handled properly', (done) => {
-
+      this.timeout(500);
+      
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/login", {
         status: 200,
         body: JSON.stringify({ success:"Were here", token:"a-super-sercret-access-token" })

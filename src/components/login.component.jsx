@@ -85,7 +85,7 @@ handleSubmit(e) {
 
           setTimeout(function(){
             window.location = "/shopping-lists";
-          }, 2000);
+          }, 500);
 
         }
 

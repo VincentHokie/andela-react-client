@@ -129,7 +129,7 @@ describe('Login page', () => {
 
         done();
 
-      }, 3000)
+      }, 1500)
 
 
     })

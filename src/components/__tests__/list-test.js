@@ -1,17 +1,21 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import ListItem from '../list.component.jsx';
+import ListItem from '../list.component.js';
 import { BrowserRouter } from 'react-router-dom'
 
 
 var fetchMock = require("fetch-mock");
-
 var expect = require("chai").expect;
+import "../localStorage.js";
 
 describe('Shopping list', () => {
   let wrapper;
   let list_object = {name:"A List",date:"A Date",list_id:"1"};
+
+    beforeEach(() => {
+      localStorage.setItem("globals", JSON.stringify({"logged_in":true, "token":"a-secret-token"}));
+    })
 
   it('wraps content in a div with .shopping-list class', () => {
     wrapper = render(<BrowserRouter><ListItem list={list_object} chosen="1" thisone="1" /></BrowserRouter>);
@@ -20,6 +24,10 @@ describe('Shopping list', () => {
 
   describe('List behaviour', () => {
   	let wrapper;
+
+    beforeEach(() => {
+      localStorage.setItem("globals", JSON.stringify({"logged_in":true, "token":"a-secret-token"}));
+    })
 
     it('if the chosen list is the same is this list, add class to it otherwise let it appear as it was', () => {
 
@@ -45,11 +53,15 @@ describe('Shopping list', () => {
 
   describe('API interaction Behaviour', () => {
 
+    beforeEach(() => {
+      localStorage.setItem("globals", JSON.stringify({"logged_in":true, "token":"a-secret-token"}));
+    })
+
     it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.delete("https://andela-flask-api.herokuapp.com/shoppinglists/2", {
         status: 200,
-        body: JSON.stringify({ success:"The list has been successfully deleted" })
+        body: { success:"The list has been successfully deleted" }
       })
 
       wrapper = mount(<ListItem list={list_object} chosen="1" thisone="2" />);
@@ -76,7 +88,7 @@ describe('Shopping list', () => {
       
       fetchMock.delete("https://andela-flask-api.herokuapp.com/shoppinglists/2", {
         status: 200,
-        body: JSON.stringify({ error:"Something went wrong" })
+        body: { error:"Something went wrong" }
       })
       
       wrapper = mount(<ListItem list={list_object} chosen="1" thisone="2" />);

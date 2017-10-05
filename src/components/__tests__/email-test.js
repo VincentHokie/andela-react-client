@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import EmailConfirm from '../email_confirm.component.jsx';
+import EmailConfirm from '../email_confirm.component.js';
 
 import App from '../../App.js';
 
@@ -9,10 +9,9 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 
 var GLOBAL = require("../../globals.js")
-
 var fetchMock = require("fetch-mock");
-
 var expect = require("chai").expect;
+import "../localStorage.js";
 
 describe('Email confirmation', () => {
   let wrapper;
@@ -29,7 +28,7 @@ describe('Email confirmation', () => {
   	
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
-      wrapper = shallow(<EmailConfirm />);
+      wrapper = mount(<EmailConfirm />);
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -45,17 +44,17 @@ describe('Email confirmation', () => {
     it('if the theres a form error, the error should show', () => {
 
       wrapper.setState({ email_error: false });
-      expect(wrapper.find('FormError').length).equal(0);
+      expect(wrapper.find('span.label').length).equal(0);
 
       wrapper.setState({ email_error: "Error" });
-      expect(wrapper.find('FormError').length).equal(1);
+      expect(wrapper.find('span.label').length).equal(1);
       
     })
 
     it('if the theres a flash message, expect the FlashMsg component, otherwise dont', () => {
 
       wrapper.setState({ general_msg: false });
-      expect(wrapper.find('FlashMsg').length).equal(0);
+      expect(wrapper.find('.message').length).equal(0);
 
       wrapper.setState({ general_msg: "A flash message" });
       expect(wrapper.find('FlashMsg').length).equal(1);

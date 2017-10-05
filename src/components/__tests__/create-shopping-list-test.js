@@ -1,17 +1,16 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import CreateShoppingList from '../create_shopping_list.component.jsx';
+import CreateShoppingList from '../create_shopping_list.component.js';
 
 import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var expect = require("chai").expect;
-
 var GLOBAL = require("../../globals.js")
-
 var fetchMock = require("fetch-mock");
+import "../localStorage.js";
 
 let wrapper;
 
@@ -33,7 +32,7 @@ describe('Create Shopping list', () => {
   	
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-      wrapper = shallow(<CreateShoppingList />)
+      wrapper = mount(<CreateShoppingList />)
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -49,20 +48,20 @@ describe('Create Shopping list', () => {
     it('if the theres a form error, the error should show', () => {
 
       wrapper.setState({ name_error: false });
-      expect(wrapper.find('FormError').length).equal(0);
+      expect(wrapper.find('span.label').length).equal(0);
 
       wrapper.setState({ name_error: "Error" });
-      expect(wrapper.find('FormError').length).equal(1);
+      expect(wrapper.find('span.label').length).equal(1);
       
     })
 
     it('if the theres a flash message, expect the .message class, otherwise dont', () => {
 
       wrapper.setState({ general_msg: false });
-      expect(wrapper.find('FlashMsg').length).equal(0);
+      expect(wrapper.find('.message').length).equal(0);
 
       wrapper.setState({ general_msg: "A flash message" });
-      expect(wrapper.find('FlashMsg').length).equal(1);
+      expect(wrapper.find('.message').length).equal(1);
       
     })
 });

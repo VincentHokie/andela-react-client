@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import FlashMsg from '../flash_msg.component.jsx';
+import FlashMsg from '../flash_msg.component.js';
 
 var expect = require("chai").expect;
 

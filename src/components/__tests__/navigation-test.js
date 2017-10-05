@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import Navigation from '../navigation.component.jsx';
+import Navigation from '../navigation.component.js';
 
 import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import fetchMock from "fetch-mock";
-
+import "../localStorage.js";
 
 var GLOBAL = require("../../globals.js")
 
@@ -16,33 +16,44 @@ var expect = require("chai").expect;
 describe('Navigation bar', () => {
   let wrapper;
 
+  beforeEach(() => {
+      localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
+    })
+
   it('wraps content in a nav', () => {
 
-    wrapper = shallow(<Navigation />)
+    wrapper = mount(<Navigation />)
     expect(wrapper.find('nav').length).equal(1);
 
   });
 
   describe('Behaviour', () => {
 
+    beforeEach(() => {
+      localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
+    })
+
     it('Ensure usename properly shows', () => {
 
-      wrapper = shallow(<Navigation username="SomeName" />)
+      wrapper = mount(<Navigation username="SomeName" />)
       expect(wrapper.find("ul li a").first().text()).contain(" Welcome  SomeName");
       
     })
-
 
     })
 
 
   describe('API interaction Behaviour', () => {
 
+    beforeEach(() => {
+      localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
+    })
+
     it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
         status: 200,
-        body: JSON.stringify({ success:"You have successfully logged out" })
+        body: { success:"You have successfully logged out" }
       })
 
       wrapper = mount(<Navigation username="SomeName" />)
@@ -69,7 +80,7 @@ describe('Navigation bar', () => {
       
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
         status: 200,
-        body: JSON.stringify({ error:"Something went wrong" })
+        body: { error:"Something went wrong" }
       })
       
       wrapper = mount(<Navigation username="SomeName" />)

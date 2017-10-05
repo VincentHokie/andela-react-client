@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import { Link, Redirect } from 'react-router-dom';
 
-import FlashMsg from "./flash_msg.component.jsx"
-import FormError from "./forms/form_error.component.jsx"
-import FormButton from "./forms/form_button.component.jsx"
+import FlashMsg from "./flash_msg.component.js"
+import FormError from "./forms/form_error.component.js"
+import FormButton from "./forms/form_button.component.js"
 
 var GLOBAL = require("../globals.js")
 
@@ -34,10 +34,10 @@ componentWillMount(){
 componentDidMount(){
 
   //show a flash message if it exists in the globals module
-    if( GLOBAL.FLASH ){
+    if( this.state.flash ){
       
-      this.setState({ general_msg: GLOBAL.FLASH  });
-      GLOBAL.FLASH = false;
+      this.setState({ general_msg: this.state.flash  });
+      this.setState({ flash: false  });
 
     }
     
@@ -111,13 +111,6 @@ handleChange(event) {
 
   render() {
 
-    if( this.state.logged_in ){
-
-      GLOBAL.FLASH = "You need to be logged out to reset your password!";
-      return <Redirect push to="/shopping-lists" />;
-
-    }else{
-
     return (
       
       <div className="container col-xs-12">
@@ -147,7 +140,7 @@ handleChange(event) {
       </div>
 
     );
-}
+
   }
 }
 

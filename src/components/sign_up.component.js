@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import { Redirect } from 'react-router-dom';
 
-import FlashMsg from "./flash_msg.component.jsx"
-import FormError from "./forms/form_error.component.jsx"
-import FormButton from "./forms/form_button.component.jsx"
+import FlashMsg from "./flash_msg.component.js"
+import FormError from "./forms/form_error.component.js"
+import FormButton from "./forms/form_button.component.js"
 
 var GLOBAL = require("../globals.js")
 
@@ -16,7 +16,7 @@ class SignUp extends Component {
     email: '', username: '', password: '', password2: '',
     email_error: false, username_error: false, password_error: false, password2_error: false,
     general_msg : false, loading : false,
-    logged_in : false, flash: false, username: false, token: false
+    logged_in : false, flash: false, user_username: false, token: false
     }
     
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,12 +34,12 @@ componentWillMount(){
 componentDidMount(){
 
   //show a flash message if it exists in the globals module
-    if( GLOBAL.FLASH ){
-      
-      this.setState({ general_msg: GLOBAL.FLASH  });
-      GLOBAL.FLASH = false;
+  if( this.state.flash ){
 
-    }
+    this.setState({ general_msg: this.state.flash  });
+    this.setState({ flash: false  });
+
+  }
     
 }
 
@@ -111,13 +111,6 @@ handleChange(event) {
 
 render() {
 
-  if( this.state.logged_in ){
-
-      GLOBAL.FLASH = "You need to be logged out to create an account.";
-      return <Redirect push to="/shopping-lists" />;
-
-    }else{
-
     return (
 
       //<link href="{{ url_for('static', filename='css/sign-up.css') }}" rel="stylesheet" />
@@ -176,7 +169,7 @@ render() {
 
 
       );
-}
+
 }
 }
 

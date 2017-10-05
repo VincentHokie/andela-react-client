@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 
 import { Redirect } from 'react-router-dom';
 
-import Navigation from "./navigation.component.jsx"
+import Navigation from "./navigation.component.js"
 
-import FlashMsg from "./flash_msg.component.jsx"
-import FormError from "./forms/form_error.component.jsx"
-import FormButton from "./forms/form_button.component.jsx"
+import FlashMsg from "./flash_msg.component.js"
+import FormError from "./forms/form_error.component.js"
+import FormButton from "./forms/form_button.component.js"
+import BackButton from "./back_button.component.js"
 
 var GLOBAL = require("../globals.js")
 
@@ -36,12 +37,12 @@ componentWillMount(){
 componentDidMount(){
 
   //show a flash message if it exists in the globals module
-    if( GLOBAL.FLASH ){
-      
-      this.setState({ general_msg: GLOBAL.FLASH  });
-      GLOBAL.FLASH = false;
+  if( this.state.flash ){
 
-    }
+    this.setState({ general_msg: this.state.flash  });
+    this.setState({ flash: false  });
+
+  }
 
   var thiz = this;
 
@@ -148,18 +149,11 @@ handleChange(event) {
 
   render() {
 
-    if( !this.state.logged_in ){
-
-      GLOBAL.FLASH = "You need to log in to update a shopping list item!";
-      return <Redirect push to="/login" />;
-
-    }else{
-
     return (
 
     <div className="container col-xs-12">
 
-    <Navigation username="Vince" />
+    <Navigation username={ this.state.user_username } parent={ this } />
     
     { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 
@@ -196,10 +190,12 @@ handleChange(event) {
 
     </form>
 
+    <BackButton />
+
 </div>
 
       );
-}
+
 }
 }
 

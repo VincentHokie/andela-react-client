@@ -16,12 +16,61 @@ constructor(){
 
    this.handleDeleteItem = this.handleDeleteItem.bind(this);
    this.handleItemCheckboxChange = this.handleItemCheckboxChange.bind(this);
+   this.deleteItem = this.deleteItem.bind(this);
    
+}
+
+componentWillMount(){
+  
+  //set global info and window refresh/ page change
+  GLOBAL.setGlobals(this);
+
+}
+
+deleteItem(component){
+
+  component.setState({ loading: true  })
+
+  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ component.props.list +'/items/'+component.props.item.item_id,{
+        method: 'DELETE',
+        headers: {
+         'Authorization': 'Basic '+btoa(this.state.token+':x')
+       }
+      })      // returns a promise object
+      .then((resp) => resp.json())
+      .then(function(data){
+
+        component.setState({ loading: false  })
+
+        if( data["success"] ){
+
+          data = data["success"];
+          component.setState({ general_msg: data })
+
+        }else if( data["error"] ){
+
+          data = data["error"];
+
+          //if the error is not a json object, create a general messge..otherwise, its a form error
+          if( typeof data !== "object" ){
+            component.setState({ general_msg: data })
+            return true;
+          }
+
+        }
+
+    }) // still returns a promise object, U need to chain it again
+  .catch(function(error){
+    component.setState({ loading: false  })
+    component.setState({ general_msg: "Check your internet connection and try again" })
+  });
+
+
 }
 
 handleDeleteItem(event) {
 
-  var thiz = this;
+  var component = this;
 
   vex.dialog.defaultOptions.showCloseButton = true;
   vex.dialog.defaultOptions.escapeButtonCloses = true;
@@ -33,45 +82,7 @@ handleDeleteItem(event) {
   vex.dialog.confirm({
       message: 'Are you sure you want to delete this item!?',
       callback: function (value) {
-
-          if(value === true){
-
-            fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ thiz.props.list +'/items/'+thiz.props.item.item_id,{
-              method: 'DELETE',
-              headers: {
-               'Authorization': 'Basic '+btoa(this.state.token+':x')
-             }
-            })      // returns a promise object
-            .then((resp) => resp.json())
-            .then(function(data){
-
-              thiz.setState({ loading: false  })
-
-              if( data["success"] ){
-
-                data = data["success"];
-                thiz.setState({ general_msg: data })
-
-              }else if( data["error"] ){
-
-                data = data["error"];
-
-                //if the error is not a json object, create a general messge..otherwise, its a form error
-                if( typeof data !== "object" ){
-                  thiz.setState({ general_msg: data })
-                  return true;
-                }
-
-              }
-
-          }) // still returns a promise object, U need to chain it again
-        .catch(function(error){
-          thiz.setState({ loading: false  })
-          thiz.setState({ general_msg: "Check your internet connection and try again" })
-        });
-
-          }
-
+        if(value === true){ component.deleteItem(component); }
       }
   });
 
@@ -82,7 +93,7 @@ handleItemCheckboxChange(event) {
   var thiz = this;
 
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.props.item.list_id +'/items/'+this.props.item.item_id+'/checkbox',{
-        method: 'DELETE',
+        method: 'PUT',
         headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')
        }

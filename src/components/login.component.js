@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 
 import { Link, Redirect } from 'react-router-dom';
 
-import FlashMsg from "./flash_msg.component.jsx"
-import FormError from "./forms/form_error.component.jsx"
-import FormButton from "./forms/form_button.component.jsx"
+import FlashMsg from "./flash_msg.component.js"
+import FormError from "./forms/form_error.component.js"
+import FormButton from "./forms/form_button.component.js"
 
 var GLOBAL = require("../globals.js")
-
-var localStorage = require("jest-localstorage-mock");
 
 class Login extends Component {
 
@@ -19,7 +17,7 @@ constructor(){
     username: '', password: '',
     username_error: false, password_error: false,
     general_msg : false, loading : false,
-    logged_in : false, flash: false, username: false, token: false
+    logged_in : false, flash: false, user_username: false, token: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,11 +35,11 @@ componentWillMount(){
 componentDidMount(){
 
   //show a flash message if it exists in the globals module
-    if( GLOBAL.FLASH ){
+    if( this.state.flash ){
       
-      this.setState({ general_msg: GLOBAL.FLASH  });
-      GLOBAL.FLASH = false;
-
+      this.setState({ general_msg: this.state.flash  });
+      this.setState({ flash: false  });
+      
     }
     
 }
@@ -62,7 +60,7 @@ handleSubmit(e) {
     this.setState({ loading: true  })
 
 
-    for(var name in data) 
+    for(var name in data)
       formData.append(data[name], this.state[data[name]]);
 
   fetch('https://andela-flask-api.herokuapp.com/auth/login',{
@@ -76,19 +74,20 @@ handleSubmit(e) {
 
     if( data["success"] ){
 
+        thiz.setState({ general_msg: data["success"] })
+
         //if a token is sent back, the login was successful, so we set global variables to store these states
         if( data["token"] ){
-          GLOBAL.LOGGED_IN = true;
-          GLOBAL.TOKEN = data["token"];
+
+          thiz.setState({ token: data["token"]  })
+          thiz.setState({ user_username: thiz.state.username  })
+          thiz.state.logged_in = true;
 
           setTimeout(function(){
-            thiz.setState({ logged_in: GLOBAL.LOGGED_IN  })
-          }, 2000);
+            window.location = "/shopping-lists";
+          }, 500);
 
         }
-
-        data = data["success"];
-        thiz.setState({ general_msg: data })
 
     }else if( data["error"] ){
 
@@ -122,12 +121,6 @@ handleChange(event) {
 
   render() {
 
-    if( this.state.logged_in ){
-
-      return <Redirect push to="/shopping-lists" />;
-
-    }else{
-
       return (
 
       <div className="container col-xs-12">
@@ -159,8 +152,6 @@ handleChange(event) {
       </div>
 
       );
-        
-    }
     
 }
 }

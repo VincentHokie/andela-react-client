@@ -4,13 +4,13 @@ import { Redirect, Link } from 'react-router-dom';
 
 import './css/view-shopping-list.css';
 
-import Navigation from "./navigation.component.jsx"
-import ListItem from "./list_item.component.jsx"
-import List from "./list.component.jsx"
+import Navigation from "./navigation.component.js"
+import ListItem from "./list_item.component.js"
+import List from "./list.component.js"
 
-import FlashMsg from "./flash_msg.component.jsx"
+import FlashMsg from "./flash_msg.component.js"
 
-import FormError from "./forms/form_error.component.jsx"
+import FormError from "./forms/form_error.component.js"
 
 var GLOBAL = require("../globals.js")
 
@@ -29,7 +29,7 @@ constructor(){
     general_msg : false, loading : false,
     logged_in : false, list_data: [], item_data: [],
     show_add_item: false, chosen_list: false, chosen_list_id: false,
-    small_screen: false, hide_items: false, flash: false, username: false, token: false
+    small_screen: false, hide_items: false, flash: false, user_username: false, token: false
   }
 
   this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,7 +43,7 @@ constructor(){
 }
 
 componentWillMount(){
-  
+
   //set global info and window refresh/ page change
   GLOBAL.setGlobals(this);
 
@@ -51,11 +51,13 @@ componentWillMount(){
 
 componentDidMount(){
 
+  this.setState({ loading: true  })
+  
   //show a flash message if it exists in the globals module
-  if( GLOBAL.FLASH ){
+  if( this.state.flash ){
 
-    this.setState({ general_msg: GLOBAL.FLASH  });
-    GLOBAL.FLASH = false;
+    this.setState({ general_msg: this.state.flash  });
+    this.setState({ flash: false  });
 
   }
 
@@ -64,8 +66,6 @@ componentDidMount(){
 
   var thiz = this;
 
-  thiz.setState({ loading: true  })
-
   //get user shopping list objects from database
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists',{
       method: 'GET',
@@ -73,9 +73,10 @@ componentDidMount(){
          'Authorization': 'Basic '+btoa(this.state.token+':x')
        }
     })      // returns a promise object
-  .then((resp) => resp.text())
+  .then((resp) => {
+    return resp.text() 
+  })
   .then(function(data){
-
     thiz.setState({ list_data: JSON.parse(data) });
     thiz.setState({ loading: false  })
   
@@ -144,6 +145,12 @@ handleSubmit(e) {
 
         data = data["error"];
 
+        //if the error is not a json object, create a general messge..otherwise, its a form error
+        if( typeof data !== "object" ){
+          thiz.setState({ general_msg: data })
+          return true;
+        }
+        
         var fields = ["name", "amount"];
         for( var field in fields ){
           field = fields[field];
@@ -197,12 +204,6 @@ handleListSelect(event) {
 
 render() {
 
-  if( !this.state.logged_in ){
-
-    return <Redirect push to="/login" />;
-
-  }else{
-
     // Map through lists and return linked lists
     const listNode = this.state.list_data.map((list) => {
       return ( <List chosen={ this.state.chosen_list_id } thisone={ list.list_id } list={ list } handleListSelect={ this.handleListSelect } key={ list.list_id } /> )
@@ -216,9 +217,9 @@ render() {
 
 return (
 
-  <div>
+  <div className="sh-list-container">
 
-  <Navigation username="Vince" />
+  <Navigation username={ this.state.user_username } parent={ this } />
 
   { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 
@@ -319,7 +320,7 @@ return (
   </div>
 
   );
-}
+
 }
 }
 

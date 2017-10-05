@@ -22,6 +22,8 @@ var vex = require('vex-js')
 vex.registerPlugin(require('vex-dialog'))
 vex.defaultOptions.className = 'vex-theme-os'
 
+var localStorage = require("jest-localstorage-mock");
+
 class App extends Component {
   render() {
     return (

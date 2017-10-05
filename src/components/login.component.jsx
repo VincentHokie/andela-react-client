@@ -8,6 +8,8 @@ import FormButton from "./forms/form_button.component.jsx"
 
 var GLOBAL = require("../globals.js")
 
+var localStorage = require("jest-localstorage-mock");
+
 class Login extends Component {
 
 

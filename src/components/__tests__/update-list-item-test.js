@@ -19,6 +19,11 @@ describe('Update Shopping list', () => {
 
   it('wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
+    fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+        status: 200,
+        body: []
+      })
+
     localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
     wrapper = mount(<UpdateShoppingList match={ url_param } />)
     expect(wrapper.find('.container.col-xs-12').length).equal(1);

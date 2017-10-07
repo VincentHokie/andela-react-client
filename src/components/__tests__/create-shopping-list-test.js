@@ -15,8 +15,6 @@ import "../localStorage.js";
 
 let wrapper;
 
-let wrapper;
-
 describe('Create Shopping list', () => {
 
   it('wraps content in a div with .col-xs-12 class if user is logged in', () => {

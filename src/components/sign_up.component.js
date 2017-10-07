@@ -77,6 +77,7 @@ handleSubmit(e) {
 
         data = data["success"];
         thiz.setState({ general_msg: data })
+        thiz.setState({ success: true })
 
     }else if( data["error"] ){
 
@@ -118,6 +119,8 @@ render() {
       <div className="container col-xs-12">
 
       { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
+
+      <center className={ this.state.success ? "" : "hidden-lg hidden-md hidden-sm hidden-xs"} style={{ clear: "left", "margin-bottom": "20px" }}><a href='/login' className='btn btn-success' role='button'>Login now</a></center>
 
       <img src='/static/images/shopping-list.jpg' alt="decorative shopping list" className="col-sm-6 hidden-xs" />
 

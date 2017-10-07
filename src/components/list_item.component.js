@@ -14,6 +14,8 @@ class ListItem extends Component {
 constructor(){
    super();
 
+    this.state= { show: true }
+
    this.handleDeleteItem = this.handleDeleteItem.bind(this);
    this.handleItemCheckboxChange = this.handleItemCheckboxChange.bind(this);
    this.deleteItem = this.deleteItem.bind(this);
@@ -46,6 +48,7 @@ deleteItem(component){
 
           data = data["success"];
           component.setState({ general_msg: data })
+          component.setState({ show: false })
 
         }else if( data["error"] ){
 
@@ -132,6 +135,8 @@ handleItemCheckboxChange(event) {
 
     return (
 
+        <div className={ this.state.show ? "" : "hidden-lg hidden-md hidden-sm hidden-xs" }>
+
         <li className={ this.props.chosen == this.props.list ? "list-group-item col-xs-12 shopping-list-items showAddItemForm" : "list-group-item col-xs-12 shopping-list-items" } id={ this.props.item.item_id } style={{ padding:'0' }}>
 
         <label className="col-md-10 col-xs-12" style={{ padding: '5px 0 5px 5px' }}><input type="checkbox" onChange={ this.handleItemCheckboxChange } checked={ this.props.item.checked ? "checked" : false } /> { this.props.item.name } - UgX { this.props.item.amount } </label>
@@ -151,6 +156,8 @@ handleItemCheckboxChange(event) {
         </div>
 
         </li>
+
+        </div>
 
 
     );

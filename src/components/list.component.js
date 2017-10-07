@@ -14,7 +14,7 @@ class Item extends Component {
 constructor(){
    super();
    this.state= {
-    small_screen: false, loading: false
+    small_screen: false, loading: false, show: true
   }
 
    this.handleDeleteList = this.handleDeleteList.bind(this);
@@ -47,6 +47,7 @@ deleteList(component) {
 
           data = data["success"];
           component.setState({ general_msg: data })
+          component.setState({ show: false })
 
         }else if( data["error"] ){
 
@@ -93,7 +94,7 @@ render() {
 
   return (
 
-      <div className="col-xs-12 shopping-list">
+      <div className={ this.state.show ? "col-xs-12 shopping-list" : "hidden-lg hidden-md hidden-sm hidden-xs" }>
 
       <div className={ this.props.chosen == this.props.thisone ? "alert alert-default col-md-10 col-xs-12 chosen-alert" : "alert alert-default col-md-10 col-xs-12" } onClick={ this.props.handleListSelect } data-listname={ this.props.list.name } id={ this.props.list.list_id }>
       <strong>{ this.props.list.name }</strong> -  { this.props.list.date }

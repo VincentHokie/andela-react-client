@@ -82,6 +82,7 @@ componentDidMount(){
   
   }) // still returns a promise object, U need to chain it again
   .catch(function(error){
+    console.log("ERROR: "+ error )
     thiz.setState({ loading: false  })
     thiz.setState({ general_msg: "Check your internet connection and try again" })
   });
@@ -97,6 +98,7 @@ componentDidMount(){
   .then((resp) => resp.text())
   .then(function(data){
 
+    console.log("DATA: "+data)
     //we got item objects back, populate component state
     thiz.setState({ item_data: JSON.parse(data) });
     thiz.setState({ loading: false  });

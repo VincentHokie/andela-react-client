@@ -13,6 +13,8 @@ var fetchMock = require("fetch-mock");
 var expect = require("chai").expect;
 import "../localStorage.js";
 
+var expect = require("chai").expect;
+
 describe('Update Shopping list', () => {
   let wrapper;
   let url_param = JSON.parse('{"params": {"id" : 1 }}');
@@ -26,6 +28,7 @@ describe('Update Shopping list', () => {
 
     localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
     wrapper = mount(<UpdateShoppingList match={ url_param } />)
+
     expect(wrapper.find('.container.col-xs-12').length).equal(1);
 
   });
@@ -41,6 +44,7 @@ describe('Update Shopping list', () => {
       })
 
       wrapper = mount(<UpdateShoppingList match={ url_param } />)
+
     })
 
     it('if the theres processing going on, the input is not editable', () => {

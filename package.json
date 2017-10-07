@@ -19,10 +19,24 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --env=jsdom",
+    "test": "BABEL_ENV=test nyc --reporter=html --reporter=text mocha  --require mock-local-storage --require jsdom-global/register --compilers js:babel-core/register,css:css-dnt-compiler.js src/components/*/*-test.js  --recursive && nyc report --reporter=text-lcov | coveralls ",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "jest": "^20.0.4"
-  }
+    "coveralls": "^3.0.0",
+    "jest": "^20.0.4",
+    "jsdom": "11.2.0",
+    "jsdom-global": "3.0.2"
+  },
+  "description": "====================================",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VincentHokie/andela-react-client.git"
+  },
+  "author": "Vince",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VincentHokie/andela-react-client/issues"
+  },
+  "homepage": "https://github.com/VincentHokie/andela-react-client#readme"
 }

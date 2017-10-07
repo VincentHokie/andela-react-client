@@ -8,9 +8,12 @@ import App from '../../App.js';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var expect = require("chai").expect;
+
 var GLOBAL = require("../../globals.js")
 var fetchMock = require("fetch-mock");
 import "../localStorage.js";
+
+let wrapper;
 
 let wrapper;
 
@@ -21,8 +24,6 @@ describe('Create Shopping list', () => {
     localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
     wrapper = mount(<CreateShoppingList />)
     expect(wrapper.find('.container.col-xs-12').length).equal(1);
-
-
 
   });
 

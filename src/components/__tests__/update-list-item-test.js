@@ -36,6 +36,7 @@ describe('Update Shopping list', () => {
       })
 
       wrapper = mount(<UpdateShoppingList match={ url_param } />)
+
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -170,7 +171,7 @@ describe('Update Shopping list', () => {
         status: 200,
         body: { success:"Were here" }
       })
-      
+
       wrapper = mount(<UpdateShoppingList match={ url_param } />)
       wrapper.setProps({ match: { params : {id: 1 } } });
 
@@ -199,7 +200,7 @@ describe('Update Shopping list', () => {
         status: 200,
         body: { error:"Were here" }
       })
-      
+
       wrapper = mount(<UpdateShoppingList match={ url_param } />)
       wrapper.setProps({ match: { params : {id: 1 } } });
 
@@ -227,7 +228,7 @@ describe('Update Shopping list', () => {
         status: 200,
         body: "Unauthorized access"
       })
-      
+
       wrapper = mount(<UpdateShoppingList match={ url_param } />)
       wrapper.setProps({ match: { params : {id: 1 } } });
 

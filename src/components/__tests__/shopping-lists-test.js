@@ -7,11 +7,12 @@ import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-
 var GLOBAL = require("../../globals.js")
 var fetchMock = require("fetch-mock");
 var expect = require("chai").expect;
 import "../localStorage.js";
+
+var expect = require("chai").expect;
 
 describe('Shopping list', () => {
   let wrapper;
@@ -150,11 +151,10 @@ describe('Shopping list', () => {
 
       expect(wrapper.find('.message').length).equal(1);
       expect(wrapper.state().general_msg).equal("Message");
-      
+
     })
 
   })
-
   
   describe('API interaction Behaviour', () => {
     let list_data, item_data;

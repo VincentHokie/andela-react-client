@@ -5,6 +5,8 @@ import FlashMsg from '../flash_msg.component.js';
 
 var expect = require("chai").expect;
 
+var expect = require("chai").expect;
+
 describe('Flash Message', () => {
   let wrapper;
 

@@ -7,11 +7,12 @@ import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-
 var GLOBAL = require("../../globals.js")
 var fetchMock = require("fetch-mock");
 var expect = require("chai").expect;
 import "../localStorage.js";
+
+var expect = require("chai").expect;
 
 describe('Login page', () => {
   let wrapper;

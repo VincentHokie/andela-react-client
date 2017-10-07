@@ -7,11 +7,12 @@ import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-
 var GLOBAL = require("../../globals.js")
 var fetchMock = require("fetch-mock");
 var expect = require("chai").expect;
 import "../localStorage.js";
+
+var expect = require("chai").expect;
 
 describe('Sign Up Component', () => {
   let wrapper;
@@ -155,7 +156,6 @@ describe('Sign Up Component', () => {
         expect( wrapper.find(".message").length ).equal(1);
 
         expect( wrapper.state().loading ).equal(false);
-
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");
 

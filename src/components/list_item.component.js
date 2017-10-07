@@ -77,7 +77,6 @@ handleDeleteItem(event) {
 
   vex.dialog.buttons.YES.text = 'Yes'
   vex.dialog.buttons.NO.text = 'No, thank you!'
-
   vex.dialog.confirm({
       message: 'Are you sure you want to delete this item!?',
       callback: function (value) {

@@ -7,6 +7,7 @@ import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import fetchMock from "fetch-mock";
+
 import "../localStorage.js";
 
 var GLOBAL = require("../../globals.js")
@@ -54,6 +55,7 @@ describe('Navigation bar', () => {
       fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
         status: 200,
         body: { success:"You have successfully logged out" }
+
       })
 
       wrapper = mount(<Navigation username="SomeName" />)

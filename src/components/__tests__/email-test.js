@@ -7,7 +7,6 @@ import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-
 var GLOBAL = require("../../globals.js")
 var fetchMock = require("fetch-mock");
 var expect = require("chai").expect;
@@ -103,7 +102,6 @@ describe('Email confirmation', () => {
         expect( wrapper.state().general_msg ).equal("Were here");
 
         expect( wrapper.find("FlashMsg").length ).equal(1);
-
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password");
         

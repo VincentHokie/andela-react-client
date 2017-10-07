@@ -1,7 +1,5 @@
- module.exports = {
-	LOGGED_IN : false,
-	TOKEN : false,
-	FLASH : false,
+
+module.exports = {
 	setGlobals : (component) => {
 
 		//get global variables
@@ -25,11 +23,12 @@
 				JSON.stringify({
 					logged_in: component.state.logged_in,
 					token: component.state.token,
-					user_username: component.state.username,
+					user_username: component.state.user_username,
 					flash: component.state.flash
 				})
 			)
 		});
 
 	}
+
  }

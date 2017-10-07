@@ -7,11 +7,12 @@ import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-
 var GLOBAL = require("../../globals.js")
 var fetchMock = require("fetch-mock");
 var expect = require("chai").expect;
 import "../localStorage.js";
+
+var expect = require("chai").expect;
 
 describe('Password reset', () => {
   let wrapper;
@@ -29,6 +30,7 @@ describe('Password reset', () => {
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
       wrapper = mount(<PasswordReset />)
+
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -44,7 +46,7 @@ describe('Password reset', () => {
     })
 
     it('if the theres a form error, the error should show', () => {
-      
+
       expect(wrapper.find('span.label').length).equal(0);
 
       wrapper.setState({ password_error: "Error" });
@@ -52,7 +54,7 @@ describe('Password reset', () => {
 
       wrapper.setState({ password_confirm_error: "Error" });
       expect(wrapper.find('span.label').length).equal(2);
-      
+
     })
 
     it('if the theres a flash message, expect the .message class, otherwise dont', () => {
@@ -175,6 +177,7 @@ describe('Password reset', () => {
         expect( wrapper.state().password_confirm_error ).equal("Password confirm error");
         expect( wrapper.state().password_error ).equal("Password error");
         expect( wrapper.state().loading ).equal(false);
+
         expect( wrapper.find("span.label").length ).equal(2);
 
         expect(fetchMock.called()).equal(true);

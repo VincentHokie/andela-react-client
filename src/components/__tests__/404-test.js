@@ -5,6 +5,8 @@ import NotFound from '../404.component.js';
 
 var expect = require("chai").expect;
 
+var expect = require("chai").expect;
+
 describe('404 error page', () => {
   let wrapper;
 

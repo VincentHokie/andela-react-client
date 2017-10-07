@@ -54,19 +54,14 @@ deleteItem(component){
         }else if( data["error"] ){
 
           data = data["error"];
-
-          //if the error is not a json object, create a general messge..otherwise, its a form error
-          if( typeof data !== "object" ){
-            component.setState({ general_msg: data })
-            return true;
-          }
+          parent.setState({ general_msg: data })
 
         }
 
     }) // still returns a promise object, U need to chain it again
   .catch(function(error){
     component.setState({ loading: false  })
-    component.setState({ general_msg: "Check your internet connection and try again" })
+    parent.setState({ general_msg: "Check your internet connection and try again" })
   });
 
 

@@ -71,7 +71,6 @@ describe('Shopping list item', () => {
 
       setTimeout(function(){
 
-        expect( wrapper.state().general_msg ).equal("The list item has been successfully deleted");
         expect( wrapper.state().loading ).equal(false);
 
         expect(fetchMock.called()).equal(true);
@@ -85,12 +84,12 @@ describe('Shopping list item', () => {
 
 
     it('form submission done properly and error responses are handled properly', (done) => {
-      
+
       fetchMock.delete("https://andela-flask-api.herokuapp.com/shoppinglists/1/items/1", {
         status: 200,
         body: { error:"Something went wrong" }
       })
-      
+
       wrapper = mount(<Item item={item_object} chosen="1" list="1" />);
       wrapper.instance().deleteItem(wrapper.instance());
 
@@ -99,19 +98,18 @@ describe('Shopping list item', () => {
       setTimeout(function(){
 
         expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.state().general_msg ).equal("Something went wrong");
-        
+
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items/1");
 
         done();
-        
+
       }, 100);
 
     })
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
-      
+
       fetchMock.delete("https://andela-flask-api.herokuapp.com/shoppinglists/1/items/1", {
         status: 401,
         body: "Unauthorized access"
@@ -124,14 +122,13 @@ describe('Shopping list item', () => {
 
       setTimeout(function(){
 
-        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect( wrapper.state().loading ).equal(false);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items/1");
 
         done();
-        
+
       }, 100);
 
     })

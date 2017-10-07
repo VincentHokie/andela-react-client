@@ -32,6 +32,7 @@ componentWillMount(){
 deleteItem(component){
 
   component.setState({ loading: true  })
+  var parent = component._reactInternalInstance._currentElement._owner._instance;
 
   fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ component.props.list +'/items/'+component.props.item.item_id,{
         method: 'DELETE',
@@ -47,7 +48,7 @@ deleteItem(component){
         if( data["success"] ){
 
           data = data["success"];
-          component.setState({ general_msg: data })
+          parent.setState({ general_msg: data })
           component.setState({ show: false })
 
         }else if( data["error"] ){

@@ -88,6 +88,7 @@ describe('Login page', () => {
   describe('API interaction Behaviour', () => {
     
     let origTO = 0;
+    let history_param = {"push": function(){}};
 
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
@@ -100,7 +101,7 @@ describe('Login page', () => {
         body: JSON.stringify({ success:"Were here", token:"a-super-sercret-access-token" })
       })
 
-      wrapper = mount(<Login />)
+      wrapper = mount(<Login history={ history_param }/>)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name: "username"}});
       wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name: "password"}});

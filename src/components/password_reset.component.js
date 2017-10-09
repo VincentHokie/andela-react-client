@@ -21,6 +21,7 @@ constructor(){
     
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.pushNavigation = this.pushNavigation.bind(this);
 
 }
 
@@ -41,6 +42,10 @@ componentDidMount(){
 
     }
     
+}
+
+pushNavigation(event){
+    this.props.history.push(event.target.getAttribute("href"))
 }
 
 handleSubmit(e) {
@@ -133,7 +138,7 @@ handleChange(event) {
 
       </div>
 
-      <p className="col-xs-8 col-xs-offset-2"><a href="/login">Try login again</a> if youve had a thought or <a href="/sign-up">Sign Up</a> </p>
+      <p className="col-xs-8 col-xs-offset-2"><a href="/login" onClick={ this.pushNavigation }>Try login again</a> if youve had a thought or <a href="/sign-up">Sign Up</a> </p>
 
       </form>
 

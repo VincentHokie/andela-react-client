@@ -21,6 +21,7 @@ class SignUp extends Component {
     
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.pushNavigation = this.pushNavigation.bind(this);
 
 }
 
@@ -41,6 +42,10 @@ componentDidMount(){
 
   }
     
+}
+
+pushNavigation(event){
+    this.props.history.push(event.target.getAttribute("href"))
 }
 
 handleSubmit(e) {
@@ -120,7 +125,7 @@ render() {
 
       { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 
-      <center className={ this.state.success ? "" : "hidden-lg hidden-md hidden-sm hidden-xs"} style={{ clear: "left", "margin-bottom": "20px" }}><a href='/login' className='btn btn-success' role='button'>Login now</a></center>
+      <center className={ this.state.success ? "" : "hidden-lg hidden-md hidden-sm hidden-xs"} style={{ clear: "left", "margin-bottom": "20px" }}><a href='/login' className='btn btn-success' role='button' onClick={ this.pushNavigation }>Login now</a></center>
 
       <img src='/static/images/shopping-list.jpg' alt="decorative shopping list" className="col-sm-6 hidden-xs" />
 

@@ -22,6 +22,7 @@ constructor(){
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.pushNavigation = this.pushNavigation.bind(this);
 
 }
 
@@ -42,6 +43,10 @@ componentDidMount(){
       
     }
     
+}
+
+pushNavigation(event){
+    this.props.history.push(event.target.getAttribute("href"))
 }
 
 handleSubmit(e) {
@@ -84,7 +89,8 @@ handleSubmit(e) {
           thiz.state.logged_in = true;
 
           setTimeout(function(){
-            window.location = "/shopping-lists";
+            window.dispatchEvent( new Event('beforeunload') );
+            thiz.props.history.push('/shopping-lists')
           }, 500);
 
         }
@@ -143,9 +149,9 @@ handleChange(event) {
 
       </div>
 
-      <p className="col-xs-8 col-xs-offset-2">or <a href="/sign-up">Sign Up</a> if you dont have an account already</p>
+      <p className="col-xs-8 col-xs-offset-2">or <a href="/sign-up" onClick={this.pushNavigation }>Sign Up</a> if you dont have an account already</p>
 
-      <p className="col-xs-8 col-xs-offset-2"><a href="/email-confirmation">Forgot your password?</a></p>
+      <p className="col-xs-8 col-xs-offset-2"><a href="/email-confirmation" onClick={this.pushNavigation }>Forgot your password?</a></p>
 
       </form>
 

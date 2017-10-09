@@ -17,6 +17,7 @@ constructor(){
    this.state={ username: '' }
     this.handleLogout = this.handleLogout.bind(this);
     this.logout = this.logout.bind(this);
+    this.pushNavigation = this.pushNavigation.bind(this);
 }
 
 componentWillMount(){
@@ -24,6 +25,10 @@ componentWillMount(){
   //set global info and window refresh/ page change
   GLOBAL.setGlobals(this);
 
+}
+
+pushNavigation(event){
+    this.props.history.push(event.target.getAttribute("href"))
 }
 
 logout(component){
@@ -96,7 +101,7 @@ handleLogout(event) {
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                 </button>
-                <a href="/login" className="navbar-brand">
+                <a href="/login" className="navbar-brand" onClick={ this.pushNavigation }>
                   Andela Shopping List
                 </a>
             </div>

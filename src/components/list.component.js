@@ -19,6 +19,7 @@ constructor(){
 
    this.handleDeleteList = this.handleDeleteList.bind(this);
    this.deleteList = this.deleteList.bind(this);
+   this.pushNavigation = this.pushNavigation.bind(this);
 }
   
 componentWillMount(){
@@ -26,6 +27,10 @@ componentWillMount(){
   //set global info and window refresh/ page change
   GLOBAL.setGlobals(this);
 
+}
+
+pushNavigation(event){
+    this.props.history.push(event.target.getAttribute("href"))
 }
 
 deleteList(component) {
@@ -103,7 +108,7 @@ render() {
 
       <div className="col-md-1 col-xs-8" style={{ padding:'0' }}>
 
-      <a href={ "/shopping-list/"+ this.props.list.list_id +"/edit" } className="col-xs-12 btn btn-primary" style={{ padding:'5px 0'  }}>
+      <a href={ "/shopping-list/"+ this.props.list.list_id +"/edit" } onClick={ this.pushNavigation } className="col-xs-12 btn btn-primary" style={{ padding:'5px 0'  }}>
         <i className="fa fa-edit"></i>
       </a>
 

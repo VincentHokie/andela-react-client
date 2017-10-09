@@ -37,6 +37,7 @@ constructor(){
   this.handleListSelect = this.handleListSelect.bind(this);
   this.toggleShowItemForm = this.toggleShowItemForm.bind(this);
   this.handleBackButtonOnItems = this.handleBackButtonOnItems.bind(this);
+  this.pushNavigation = this.pushNavigation.bind(this);
 
   
 
@@ -106,6 +107,10 @@ componentDidMount(){
     thiz.setState({ general_msg: "Check your internet connection and try again" })
   });
 
+}
+
+pushNavigation(event){
+    this.props.history.push(event.target.getAttribute("href"))
 }
 
 handleSubmit(e) {
@@ -229,7 +234,7 @@ return (
   <div className="panel-heading col-xs-12">
   <h4 className="col-xs-10">Shopping lists</h4>
 
-  <a href="/shopping-list/new" className="btn btn-success col-xs-2" style={{ padding:'10px 0'  }}>
+  <a href="/shopping-list/new" className="btn btn-success col-xs-2" style={{ padding:'10px 0'  }} onClick={ this.pushNavigation }>
     <i className="fa fa fa-plus-circle"></i>
   </a>
 

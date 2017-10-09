@@ -24,6 +24,7 @@ constructor(){
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.pushNavigation = this.pushNavigation.bind(this);
 
 }
 
@@ -109,6 +110,10 @@ handleSubmit(e) {
 
 handleChange(event) {
     this.setState({[event.target.name]: event.target.value});
+}
+
+pushNavigation(event){
+    this.props.history.push(event.target.getAttribute("href"))
 }
 
   render() {

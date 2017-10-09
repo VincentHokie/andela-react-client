@@ -1,3 +1,4 @@
+
 module.exports = {
 	setGlobals : (component) => {
 
@@ -29,4 +30,5 @@ module.exports = {
 		});
 
 	}
-}
+
+ }

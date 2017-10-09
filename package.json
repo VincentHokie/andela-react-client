@@ -3,11 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "btoa": "^1.1.2",
+    "chai": "^4.1.2",
+    "enzyme": "^2.9.1",
+    "fetch-mock": "^5.12.2",
     "react": "^15.6.1",
+    "react-addons-test-utils": "^15.6.2",
     "react-dom": "^15.6.1",
     "react-fetch": "0.0.9",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.11"
+    "react-scripts": "1.0.11",
+    "react-test-renderer": "^16.0.0",
+    "vex-js": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

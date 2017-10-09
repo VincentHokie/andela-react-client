@@ -1,16 +1,16 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import Login from '../login.component.jsx';
+import Login from '../login.component.js';
 
 import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-
 var GLOBAL = require("../../globals.js")
-
 var fetchMock = require("fetch-mock");
+var expect = require("chai").expect;
+import "../localStorage.js";
 
 var expect = require("chai").expect;
 
@@ -29,7 +29,7 @@ describe('Login page', () => {
   	
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
-      wrapper = shallow(<Login />)
+      wrapper = mount(<Login />)
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -88,6 +88,7 @@ describe('Login page', () => {
   describe('API interaction Behaviour', () => {
     
     let origTO = 0;
+    let history_param = {"push": function(){}};
 
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
@@ -100,7 +101,7 @@ describe('Login page', () => {
         body: JSON.stringify({ success:"Were here", token:"a-super-sercret-access-token" })
       })
 
-      wrapper = shallow(<Login />)
+      wrapper = mount(<Login history={ history_param }/>)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name: "username"}});
       wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name: "password"}});
@@ -114,14 +115,14 @@ describe('Login page', () => {
       expect( wrapper.state().username_error ).equal(false);
       expect( wrapper.state().password_error ).equal(false);
 
-      setTimeout( () => { 
+      setTimeout( () => {
         
         //the component is finished loading, we dont have form errors and a success message is shown
         expect( wrapper.state().loading ).equal(false);
         expect( wrapper.state().username_error ).equal(false);
         expect( wrapper.state().password_error ).equal(false);
 
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
         expect( wrapper.state().general_msg ).equal("Were here");
 
         expect(fetchMock.called()).equal(true);
@@ -142,7 +143,7 @@ describe('Login page', () => {
         body: JSON.stringify({ error:"Were here" })
       })
       
-      wrapper = shallow(<Login />)
+      wrapper = mount(<Login />)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name: "username"}});
       wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name: "password"}});
@@ -152,9 +153,9 @@ describe('Login page', () => {
       //the component is loading, errors are reset and form states are populated
       expect( wrapper.state().loading ).equal(true);
 
-      setTimeout( () => { 
+      setTimeout( () => {
         
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect( wrapper.state().loading ).equal(false);
         expect( wrapper.state().general_msg ).equal("Were here");
@@ -176,7 +177,7 @@ describe('Login page', () => {
         body: JSON.stringify({ error: { username : ["Username error"], password : ["Password error"] } })
       })
 
-      wrapper = shallow(<Login />)
+      wrapper = mount(<Login />)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name: "username"}});
       wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name: "password"}});
@@ -185,13 +186,13 @@ describe('Login page', () => {
 
       expect( wrapper.state().loading ).equal(true);
 
-      setTimeout( () => { 
+      setTimeout( () => {
 
         expect( wrapper.state().loading ).equal(false);
         expect( wrapper.state().username_error ).equal("Username error");
         expect( wrapper.state().password_error ).equal("Password error");
 
-        expect( wrapper.find("FormError").length ).equal(2);
+        expect( wrapper.find("span.label").length ).equal(2);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/login");
@@ -212,7 +213,7 @@ describe('Login page', () => {
         body: "Unauthorized access"
       })
 
-      wrapper = shallow(<Login />)
+      wrapper = mount(<Login />)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name: "username"}});
       wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name: "password"}});
@@ -221,12 +222,12 @@ describe('Login page', () => {
       
       expect( wrapper.state().loading ).equal(true);
 
-      setTimeout( () => { 
+      setTimeout( () => {
 
         expect( wrapper.state().loading ).equal(false);
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
 
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/login");

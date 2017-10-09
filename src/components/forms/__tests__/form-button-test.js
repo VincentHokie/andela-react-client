@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import FormButton from '../form_button.component.jsx';
+import FormButton from '../form_button.component.js';
+var expect = require("chai").expect;
 
 describe('Form Button', () => {
   let wrapper;
@@ -13,7 +14,7 @@ describe('Form Button', () => {
 
   it('has a title of passed in title prop', () => {
     wrapper = mount(<FormButton title="Button Text" />)
-    expect(wrapper.find('.btn.btn-md.btn-login').text()).to(" Button Text ")
+    expect(wrapper.find('.btn.btn-md.btn-login').text()).contain(" Button Text ")
   })
 
   describe('submit button', () => {

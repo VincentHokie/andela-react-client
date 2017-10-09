@@ -1,16 +1,16 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import SignUp from '../sign_up.component.jsx';
+import SignUp from '../sign_up.component.js';
 
 import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-
 var GLOBAL = require("../../globals.js")
-
 var fetchMock = require("fetch-mock");
+var expect = require("chai").expect;
+import "../localStorage.js";
 
 var expect = require("chai").expect;
 
@@ -20,7 +20,7 @@ describe('Sign Up Component', () => {
   it('wraps content in a div with .container.col-xs-12 class if user is logged in', () => {
 
     localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
-    wrapper = shallow(<SignUp />)
+    wrapper = mount(<SignUp />)
     expect(wrapper.find('.container.col-xs-12').length).equal(1);
 
   });
@@ -29,7 +29,7 @@ describe('Sign Up Component', () => {
   	
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
-      wrapper = shallow(<SignUp />);
+      wrapper = mount(<SignUp />);
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -51,29 +51,29 @@ describe('Sign Up Component', () => {
 
     it('if the theres a form error, the error should show', () => {
 
-      expect(wrapper.find('FormError').length).equal(0);
+      expect(wrapper.find('span.label').length).equal(0);
 
       wrapper.setState({ username_error: "Error" });
-      expect(wrapper.find('FormError').length).equal(1);
+      expect(wrapper.find('span.label').length).equal(1);
 
       wrapper.setState({ email_error: "Error" });
-      expect(wrapper.find('FormError').length).equal(2);
+      expect(wrapper.find('span.label').length).equal(2);
 
       wrapper.setState({ password_error: "Error" });
-      expect(wrapper.find('FormError').length).equal(3);
+      expect(wrapper.find('span.label').length).equal(3);
 
       wrapper.setState({ password2_error: "Error" });
-      expect(wrapper.find('FormError').length).equal(4);
+      expect(wrapper.find('span.label').length).equal(4);
 
     })
 
     it('if the theres a flash message, expect the .message class, otherwise dont', () => {
 
       wrapper.setState({ general_msg: false });
-      expect(wrapper.find('FlashMsg').length).equal(0);
+      expect(wrapper.find('.message').length).equal(0);
 
       wrapper.setState({ general_msg: "A flash message" });
-      expect(wrapper.find('FlashMsg').length).equal(1);
+      expect(wrapper.find('.message').length).equal(1);
       
     })
 
@@ -108,7 +108,7 @@ describe('Sign Up Component', () => {
         body: { success:"Were here" }
       })
 
-      wrapper = shallow(<SignUp />)
+      wrapper = mount(<SignUp />)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name:"username"}});
       wrapper.find('input[name="email"]').simulate("change", {target: {value: "vince@gmail.com", name:"email"}});
@@ -122,7 +122,7 @@ describe('Sign Up Component', () => {
 
         expect( wrapper.state().general_msg ).equal("Were here");
         expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");
@@ -141,7 +141,7 @@ describe('Sign Up Component', () => {
         body: { error:"Were here" }
       })
       
-      wrapper = shallow(<SignUp />)
+      wrapper = mount(<SignUp />)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name:"username"}});
       wrapper.find('input[name="email"]').simulate("change", {target: {value: "vince@gmail.com", name:"email"}});
@@ -153,10 +153,9 @@ describe('Sign Up Component', () => {
       setTimeout(function(){
 
         expect( wrapper.state().general_msg ).equal("Were here");
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect( wrapper.state().loading ).equal(false);
-
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");
 
@@ -174,7 +173,7 @@ describe('Sign Up Component', () => {
         body: { error: { username : ["Username error"], email : ["Email error"], password : ["Password error"], password2 : ["Password2 error"] } }
       })
 
-      wrapper = shallow(<SignUp />)
+      wrapper = mount(<SignUp />)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name:"username"}});
       wrapper.find('input[name="email"]').simulate("change", {target: {value: "vince@gmail.com", name:"email"}});
@@ -193,7 +192,7 @@ describe('Sign Up Component', () => {
         expect( wrapper.state().password_error ).equal("Password error");
         expect( wrapper.state().password2_error ).equal("Password2 error");
 
-        expect( wrapper.find("FormError").length ).equal(4);
+        expect( wrapper.find("span.label").length ).equal(4);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");
@@ -211,7 +210,7 @@ describe('Sign Up Component', () => {
         body: "Unauthorized access"
       })
 
-      wrapper = shallow(<SignUp />)
+      wrapper = mount(<SignUp />)
 
       wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name:"username"}});
       wrapper.find('input[name="email"]').simulate("change", {target: {value: "vince@gmail.com", name:"email"}});
@@ -226,7 +225,7 @@ describe('Sign Up Component', () => {
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
 
         expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/register");

@@ -1,7 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import NotFound from '../404.component.jsx';
+import NotFound from '../404.component.js';
+
+var expect = require("chai").expect;
 
 var expect = require("chai").expect;
 

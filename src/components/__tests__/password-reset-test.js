@@ -1,16 +1,16 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import PasswordReset from '../password_reset.component.jsx';
+import PasswordReset from '../password_reset.component.js';
 
 import App from '../../App.js';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-
 var GLOBAL = require("../../globals.js")
-
 var fetchMock = require("fetch-mock");
+var expect = require("chai").expect;
+import "../localStorage.js";
 
 var expect = require("chai").expect;
 
@@ -29,7 +29,8 @@ describe('Password reset', () => {
   	
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
-      wrapper = shallow(<PasswordReset />)
+      wrapper = mount(<PasswordReset />)
+
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -45,24 +46,24 @@ describe('Password reset', () => {
     })
 
     it('if the theres a form error, the error should show', () => {
-      
-      expect(wrapper.find('FormError').length).equal(0);
+
+      expect(wrapper.find('span.label').length).equal(0);
 
       wrapper.setState({ password_error: "Error" });
-      expect(wrapper.find('FormError').length).equal(1);
+      expect(wrapper.find('span.label').length).equal(1);
 
       wrapper.setState({ password_confirm_error: "Error" });
-      expect(wrapper.find('FormError').length).equal(2);
-      
+      expect(wrapper.find('span.label').length).equal(2);
+
     })
 
     it('if the theres a flash message, expect the .message class, otherwise dont', () => {
 
       wrapper.setState({ general_msg: false });
-      expect(wrapper.find('FlashMsg').length).equal(0);
+      expect(wrapper.find('.message').length).equal(0);
 
       wrapper.setState({ general_msg: "A flash message" });
-      expect(wrapper.find('FlashMsg').length).equal(1);
+      expect(wrapper.find('.message').length).equal(1);
       
     })
 
@@ -95,7 +96,7 @@ describe('Password reset', () => {
         body: JSON.stringify({ success:"Your password has been successfully reset" })
       })
 
-      wrapper = shallow(<PasswordReset />)
+      wrapper = mount(<PasswordReset />)
       wrapper.setProps({ match: { params : {token: "a-real-secret" } } });
 
       wrapper.find('input[name="password_confirm"]').simulate("change", {target: {value: "vince", name:"password"}});
@@ -109,7 +110,7 @@ describe('Password reset', () => {
 
         expect( wrapper.state().general_msg ).equal("Your password has been successfully reset");
         expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
@@ -128,7 +129,7 @@ describe('Password reset', () => {
         body: JSON.stringify({ error:"Were here" })
       })
       
-      wrapper = shallow(<PasswordReset />)
+      wrapper = mount(<PasswordReset />)
       wrapper.setProps({ match: { params : {token: "a-real-secret" } } });
 
       wrapper.find('input[name="password_confirm"]').simulate("change", {target: {value: "vince", name:"password"}});
@@ -142,7 +143,7 @@ describe('Password reset', () => {
 
         expect( wrapper.state().loading ).equal(false);
         expect( wrapper.state().general_msg ).equal("Were here");
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
@@ -161,7 +162,7 @@ describe('Password reset', () => {
         body: JSON.stringify({ error: { password_confirm : ["Password confirm error"], password : ["Password error"] } })
       })
 
-      wrapper = shallow(<PasswordReset />)
+      wrapper = mount(<PasswordReset />)
       wrapper.setProps({ match: { params : {token: "a-real-secret" } } });
 
       wrapper.find('input[name="password_confirm"]').simulate("change", {target: {value: "vince", name:"password_confirm"}});
@@ -176,7 +177,8 @@ describe('Password reset', () => {
         expect( wrapper.state().password_confirm_error ).equal("Password confirm error");
         expect( wrapper.state().password_error ).equal("Password error");
         expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.find("FormError").length ).equal(2);
+
+        expect( wrapper.find("span.label").length ).equal(2);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
@@ -194,7 +196,7 @@ describe('Password reset', () => {
         body: "Unauthorized access"
       })
 
-      wrapper = shallow(<PasswordReset />)
+      wrapper = mount(<PasswordReset />)
       wrapper.setProps({ match: { params : {token: "a-real-secret" } } });
 
       wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince", name:"password"}});
@@ -208,7 +210,7 @@ describe('Password reset', () => {
 
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");

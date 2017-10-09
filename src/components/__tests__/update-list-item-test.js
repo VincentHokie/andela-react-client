@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import UpdateShoppingList from '../update_shopping_list.component.jsx';
+import UpdateShoppingList from '../update_shopping_list.component.js';
 
 import App from '../../App.js';
 
@@ -9,18 +9,23 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 
 var GLOBAL = require("../../globals.js")
-
 var fetchMock = require("fetch-mock");
-
 var expect = require("chai").expect;
+import "../localStorage.js";
+let url_param = JSON.parse('{"params": {"id" : 1 }}');
 
 describe('Update Shopping list', () => {
   let wrapper;
 
   it('wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
+    fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+        status: 200,
+        body: []
+      })
+
     localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-    wrapper = shallow(<UpdateShoppingList />)
+    wrapper = mount(<UpdateShoppingList match={ url_param } />)
     expect(wrapper.find('.container.col-xs-12').length).equal(1);
 
   });
@@ -29,7 +34,14 @@ describe('Update Shopping list', () => {
     
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-      wrapper = shallow(<UpdateShoppingList />)
+
+      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+        status: 200,
+        body: []
+      })
+
+      wrapper = mount(<UpdateShoppingList match={ url_param } />)
+
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -98,6 +110,12 @@ describe('Update Shopping list', () => {
     beforeEach(() => {
 
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
+
+      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+        status: 200,
+        body: []
+      })
+
       list_data = '{"list_id": "1","name":"Honda Accord Crosstour"}';
 
     })
@@ -158,8 +176,8 @@ describe('Update Shopping list', () => {
         status: 200,
         body: { success:"Were here" }
       })
-      
-      wrapper = shallow(<UpdateShoppingList />)
+
+      wrapper = mount(<UpdateShoppingList match={ url_param } />)
       wrapper.setProps({ match: { params : {id: 1 } } });
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
@@ -187,8 +205,8 @@ describe('Update Shopping list', () => {
         status: 200,
         body: { error:"Were here" }
       })
-      
-      wrapper = shallow(<UpdateShoppingList />)
+
+      wrapper = mount(<UpdateShoppingList match={ url_param } />)
       wrapper.setProps({ match: { params : {id: 1 } } });
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
@@ -215,8 +233,8 @@ describe('Update Shopping list', () => {
         status: 200,
         body: "Unauthorized access"
       })
-      
-      wrapper = shallow(<UpdateShoppingList />)
+
+      wrapper = mount(<UpdateShoppingList match={ url_param } />)
       wrapper.setProps({ match: { params : {id: 1 } } });
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
@@ -246,7 +264,7 @@ describe('Update Shopping list', () => {
         body: { error: { name : ["Name error"] } }
       })
 
-      wrapper = shallow(<UpdateShoppingList />)
+      wrapper = mount(<UpdateShoppingList match={ url_param } />)
       wrapper.setProps({ match: { params : {id: 1 } } });
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
@@ -274,7 +292,7 @@ describe('Update Shopping list', () => {
         body: "Unauthorized access"
       })
 
-      wrapper = shallow(<UpdateShoppingList />)
+      wrapper = mount(<UpdateShoppingList match={ url_param } />)
       wrapper.setProps({ match: { params : {id: 1 } } });
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});

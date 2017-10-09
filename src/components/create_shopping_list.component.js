@@ -24,6 +24,7 @@ constructor(){
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.pushNavigation = this.pushNavigation.bind(this);
 
 }
 
@@ -111,13 +112,17 @@ handleChange(event) {
     this.setState({[event.target.name]: event.target.value});
 }
 
+pushNavigation(event){
+    this.props.history.push(event.target.getAttribute("href"))
+}
+
   render() {
 
     return (
 
     <div className="container col-xs-12">
 
-    <Navigation username={ this.state.user_username } parent={ this } />
+    <Navigation username={ this.state.user_username } parent={ this } pushNavigation={ this.pushNavigation } />
     
     { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 
@@ -145,7 +150,7 @@ handleChange(event) {
 
     </form>
 
-    <BackButton />
+    <BackButton pushNavigation={ this.pushNavigation } />
 
 </div>
 

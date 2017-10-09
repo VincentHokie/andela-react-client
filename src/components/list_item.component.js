@@ -86,10 +86,6 @@ handleDeleteItem(event) {
 
 }
 
-pushNavigation(event){
-    this.props.history.push(event.target.getAttribute("href"))
-}
-
 handleItemCheckboxChange(event) {
 
   var thiz = this;
@@ -142,7 +138,7 @@ handleItemCheckboxChange(event) {
 
         <div className="col-md-1 col-xs-8" style={{ padding:'0' }}>
 
-        <a href={ "/shopping-list/"+ this.props.item.list_id +"/item/"+ this.props.item.item_id +"/edit" } onClick={ this.pushNavigation } className="col-xs-12 btn btn-primary" style={{ padding:'5px 0'  }}>
+        <a href={ "/shopping-list/"+ this.props.item.list_id +"/item/"+ this.props.item.item_id +"/edit" } onClick={ this.props.pushNavigation } className="col-xs-12 btn btn-primary" style={{ padding:'5px 0'  }}>
           <i className="fa fa-edit"></i>
         </a>
         

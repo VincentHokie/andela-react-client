@@ -53,6 +53,8 @@ componentWillMount(){
 componentDidMount(){
 
   this.setState({ loading: true  })
+
+  this.setState({ general_msg: "Loading your updated shopping lists.."  })
   
   //show a flash message if it exists in the globals module
   if( this.state.flash ){
@@ -75,6 +77,7 @@ componentDidMount(){
        }
     })      // returns a promise object
   .then((resp) => {
+    this.setState({ general_msg: false  })
     return resp.text() 
   })
   .then(function(data){

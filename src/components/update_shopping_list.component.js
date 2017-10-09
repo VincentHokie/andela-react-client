@@ -152,7 +152,7 @@ handleChange(event) {
 
     <div className="container col-xs-12">
 
-    <Navigation username={ this.state.user_username } parent={ this } />
+    <Navigation username={ this.state.user_username } parent={ this } pushNavigation={ this.pushNavigation } />
     
     { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 
@@ -180,7 +180,7 @@ handleChange(event) {
 
     </form>
 
-    <BackButton />
+    <BackButton pushNavigation={ this.pushNavigation } />
 
 </div>
 

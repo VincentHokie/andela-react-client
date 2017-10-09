@@ -213,20 +213,20 @@ render() {
 
     // Map through lists and return linked lists
     const listNode = this.state.list_data.map((list) => {
-      return ( <List chosen={ this.state.chosen_list_id } thisone={ list.list_id } list={ list } handleListSelect={ this.handleListSelect } key={ list.list_id } /> )
+      return ( <List chosen={ this.state.chosen_list_id } thisone={ list.list_id } list={ list } handleListSelect={ this.handleListSelect } key={ list.list_id } pushNavigation={ this.pushNavigation } /> )
     });
 
 
     // Map through items and return linked items
     const itemNode = this.state.item_data.map((item) => {
-      return ( <ListItem chosen={ this.state.chosen_list_id } item={ item } key={ item.item_id } list={ item.list_id } /> )
+      return ( <ListItem chosen={ this.state.chosen_list_id } item={ item } key={ item.item_id } list={ item.list_id } pushNavigation={ this.pushNavigation } /> )
     });
 
 return (
 
   <div className="sh-list-container">
 
-  <Navigation username={ this.state.user_username } parent={ this } />
+  <Navigation username={ this.state.user_username } parent={ this } pushNavigation={ this.pushNavigation } />
 
   { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
 

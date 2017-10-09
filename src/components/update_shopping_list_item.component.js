@@ -67,8 +67,8 @@ componentDidMount(){
     }
 
     //we got a list item object back, populate state & therefore input field
-    thiz.setState({ name: data[0]["name"]  })
-    thiz.setState({ amount: data[0]["amount"]  })
+    thiz.setState({ name: data["name"]  })
+    thiz.setState({ amount: data["amount"]  })
     thiz.setState({ retrieved: true  });
 
   

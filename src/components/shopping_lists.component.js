@@ -81,7 +81,15 @@ componentDidMount(){
     return resp.text() 
   })
   .then(function(data){
-    thiz.setState({ list_data: JSON.parse(data) });
+
+    data = JSON.parse(data)
+
+    if(data["error"]){
+        thiz.setState({ general_msg: data["error"]  })
+        return true;
+    }
+
+    thiz.setState({ list_data: data });
     thiz.setState({ loading: false  })
   
   }) // still returns a promise object, U need to chain it again
@@ -100,8 +108,16 @@ componentDidMount(){
     })      // returns a promise object
   .then((resp) => resp.text())
   .then(function(data){
+
+    data = JSON.parse(data)
+
+    if(data["error"]){
+        thiz.setState({ general_msg: data["error"]  })
+        return true;
+    }
+
     //we got item objects back, populate component state
-    thiz.setState({ item_data: JSON.parse(data) });
+    thiz.setState({ item_data: data });
     thiz.setState({ loading: false  });
   
   }) // still returns a promise object, U need to chain it again

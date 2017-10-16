@@ -17,7 +17,7 @@ let wrapper;
 
 describe('Create Shopping list', () => {
 
-  it('wraps content in a div with .col-xs-12 class if user is logged in', () => {
+  it('CreateShoppingList wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
     localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
     wrapper = mount(<CreateShoppingList />)

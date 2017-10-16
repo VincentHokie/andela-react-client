@@ -78,10 +78,10 @@ componentDidMount(){
     })      // returns a promise object
   .then((resp) => {
     this.setState({ general_msg: false  })
-    return resp.text() 
+    return resp.text()
   })
   .then(function(data){
-
+//    console.log( data )
     data = JSON.parse(data)
 
     if(data["error"]){

@@ -13,9 +13,9 @@ var expect = require("chai").expect;
 import "../localStorage.js";
 
 var expect = require("chai").expect;
+let wrapper, list_data, item_data;
 
 describe('Shopping list', () => {
-  let wrapper;
 
   it('wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
@@ -25,19 +25,24 @@ describe('Shopping list', () => {
 
   });
 
+})
+
   describe('Behaviour', () => {
   	
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
 
+      list_data = []
+      item_data = []
+
       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
         status: 200,
-        body: []
+        body: list_data
       })
 
       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
         status: 200,
-        body: []
+        body: item_data
       })
 
       wrapper = mount(<ShoppingLists />)
@@ -129,32 +134,33 @@ describe('Shopping list', () => {
 
   })
 
-  describe('Flash Message Behaviour', () => {
-    
-    beforeEach(() => {
-      localStorage.setItem("globals", JSON.stringify({"flash":"Message", "logged_in":true}));
-
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-        status: 200,
-        body: []
-      })
-
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-        status: 200,
-        body: []
-      })
-
-      wrapper = mount(<ShoppingLists />)
-    })
-
-    it('if the theres processing going on, the input is not editable', () => {
-
-      expect(wrapper.find('.message').length).equal(1);
-      expect(wrapper.state().general_msg).equal("Message");
-
-    })
-
-  })
+//  describe('Flash Message Behaviour', () => {
+//
+//    beforeEach(() => {
+//      localStorage.setItem("globals", JSON.stringify({"flash":"Message", "logged_in":true}));
+//
+//      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+//        status: 200,
+//        body: "[]"
+//      })
+//
+//      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+//        status: 200,
+//        body: "[]"
+//      })
+//
+//      wrapper = mount(<ShoppingLists />)
+//    })
+//
+//    it('if the theres processing going on, the input is not editable', () => {
+//
+//        console.log( wrapper.html() )
+//      expect(wrapper.find('.message').length).equal(1);
+//      expect(wrapper.state().general_msg).equal("Message");
+//
+//    })
+//
+//  })
   
   describe('API interaction Behaviour', () => {
     let list_data, item_data;
@@ -169,298 +175,312 @@ describe('Shopping list', () => {
 
     })
 
-//     it('form submission done properly and success responses are handled properly', (done) => {
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//         status: 200,
-//         body: { list_data }
-//       })
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-//         status: 200,
-//         body: item_data
-//       })
-//
-//       wrapper = mount(<ShoppingLists />)
-//
-//       expect( wrapper.state().loading ).equal(true);
-//
-//       setTimeout(function(){
-//
-//         //wrapper.update()
-//         expect( wrapper.state().loading ).equal(false);
-//
-//         console.log( wrapper.state() )
-//
-//         expect( wrapper.state().list_data ).equal(JSON.parse(list_data));
-//         expect( wrapper.state().item_data ).equal(JSON.parse(item_data));
-//
-//         expect( wrapper.find(".shopping-list-items").length ).equal(15);
-//         expect( wrapper.find(".shopping-list").length ).equal(5);
-//
-//         expect(fetchMock.called()).equal(true);
-//         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
-//
-//         done();
-//
-//       }, 100);
-//
-//     })
-//
-//     it('form submission done properly and success responses are handled properly', (done) => {
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//         status: 401,
-//         body: "Unauthorized access"
-//       })
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-//         status: 401,
-//         body: "Unauthorized access"
-//       })
-//
-//       wrapper = mount(<ShoppingLists />)
-//       expect( wrapper.state().loading ).equal(true);
-//
-//
-//       setTimeout(function(){
-//
-//         expect( wrapper.state().loading ).equal(false);
-//
-//         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
-//
-//         expect(fetchMock.called()).equal(true);
-//         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
-//
-//         done();
-//
-//       }, 100);
-//
-//     })
-//
-//
-//
-//    it('form submission done properly and error responses are handled properly', (done) => {
-//
-//      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//         status: 200,
-//         body: list_data
-//       })
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-//         status: 200,
-//         body: item_data
-//       })
-//
-//      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//        status: 200,
-//        body: JSON.stringify({ success:"Were here" })
-//      })
-//
-//      wrapper = mount(<ShoppingLists />)
-//      wrapper.setState({ chosen_list_id: 1 });
-//
-//      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
-//      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
-//
-//      //expect(wrapper.state().loading).equal(false);
-//      wrapper.find('form').simulate("submit", { preventDefault() {} });
-//
-//      expect( wrapper.state().loading ).equal(true);
-//
-//      setTimeout(function(){
-//
-//        expect( wrapper.state().loading ).equal(false);
-//
-//        expect( wrapper.state().general_msg ).equal("You have successfully created the item : vince into list : false");
-//        expect( wrapper.find("FlashMsg").length ).equal(1);
-//
-//        expect(fetchMock.called()).equal(true);
-//        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
-//
-//        done();
-//
-//      }, 100);
-//
-//    })
-//
-//
-//    it('form submission done properly and error responses are handled properly', (done) => {
-//
-//      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//         status: 200,
-//         body: list_data
-//       })
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-//         status: 200,
-//         body: item_data
-//       })
-//
-//      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//        status: 200,
-//        body: JSON.stringify({ error:"Were here" })
-//      })
-//
-//      wrapper = mount(<ShoppingLists />)
-//      wrapper.setState({ chosen_list_id: 1 });
-//
-//      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
-//      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
-//
-//      //expect(wrapper.state().loading).equal(false);
-//      wrapper.find('form').simulate("submit", { preventDefault() {} });
-//
-//      expect( wrapper.state().loading ).equal(true);
-//
-//      setTimeout(function(){
-//
-//        expect( wrapper.state().loading ).equal(false);
-//
-//        expect( wrapper.state().general_msg ).equal("Were here");
-//        expect( wrapper.find("FlashMsg").length ).equal(1);
-//
-//        expect(fetchMock.called()).equal(true);
-//        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
-//
-//        done();
-//
-//      }, 100);
-//
-//    })
-//
-//    it('form submission done properly and error responses are handled properly', (done) => {
-//
-//      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//         status: 200,
-//         body: list_data
-//       })
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-//         status: 200,
-//         body: item_data
-//       })
-//
-//      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//        status: 200,
-//        body: "Unauthorized access"
-//      })
-//
-//      wrapper = mount(<ShoppingLists />)
-//      wrapper.setState({ chosen_list_id: 1 });
-//
-//      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
-//      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
-//
-//      //expect(wrapper.state().loading).equal(false);
-//      wrapper.find('form').simulate("submit", { preventDefault() {} });
-//
-//      expect( wrapper.state().loading ).equal(true);
-//
-//      setTimeout(function(){
-//
-//        expect( wrapper.state().loading ).equal(false);
-//
-//        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
-//        expect( wrapper.find("FlashMsg").length ).equal(1);
-//
-//        expect(fetchMock.called()).equal(true);
-//        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
-//
-//        done();
-//
-//      }, 100);
-//
-//    })
-//
-//
-//    it('form submission done properly and form error message responses are handled properly', (done) => {
-//
-//      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//         status: 200,
-//         body: list_data
-//       })
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-//         status: 200,
-//         body: item_data
-//       })
-//
-//      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//        status: 200,
-//        body: { error: { name : ["Name error"], amount : ["Amount error"] } }
-//      })
-//
-//      wrapper = mount(<ShoppingLists />)
-//      wrapper.setState({ chosen_list_id: 1 });
-//
-//      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
-//      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
-//
-//      //expect(wrapper.state().loading).equal(false);
-//      wrapper.find('form').simulate("submit", { preventDefault() {} });
-//
-//      expect( wrapper.state().loading ).equal(true);
-//
-//      setTimeout(function(){
-//
-//        expect( wrapper.state().loading ).equal(false);
-//
-//        expect( wrapper.state().name_error ).equal("Name error");
-//        expect( wrapper.state().amount_error ).equal("Amount error");
-//        expect( wrapper.find("FormError").length ).equal(2);
-//
-//        expect(fetchMock.called()).equal(true);
-//        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
-//
-//        done();
-//
-//      }, 100);
-//
-//    })
-//
-//    it('form submission done properly and form error message responses are handled properly', (done) => {
-//
-//      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//         status: 200,
-//         body: list_data
-//       })
-//
-//       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
-//         status: 200,
-//         body: item_data
-//       })
-//
-//      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
-//        status: 200,
-//        body: "Unauthorized access"
-//      })
-//
-//      wrapper = mount(<ShoppingLists />)
-//      wrapper.setState({ chosen_list_id: 1 });
-//
-//      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
-//      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
-//
-//      //expect(wrapper.state().loading).equal(false);
-//      wrapper.find('form').simulate("submit", { preventDefault() {} });
-//      expect( wrapper.state().loading ).equal(true);
-//
-//      setTimeout(function(){
-//
-//        expect( wrapper.state().loading ).equal(false);
-//
-//        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
-//        expect( wrapper.find("FlashMsg").length ).equal(1);
-//
-//        expect(fetchMock.called()).equal(true);
-//        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
-//
-//        done();
-//
-//      }, 100);
-//
-//    })
+     it('form submission done properly and success responses are handled properly', (done) => {
+
+       fetchMock.mock("https://andela-flask-api.herokuapp.com/shoppinglists", {
+         status: 200,
+         body: list_data
+       })
+
+       fetchMock.mock("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+         status: 200,
+         body: item_data
+       })
+
+       wrapper = mount(<ShoppingLists />)
+
+       expect( wrapper.state().loading ).equal(true);
+
+       setTimeout(function(){
+
+         expect( wrapper.state().loading ).equal(false);
+
+         expect( wrapper.find(".shopping-list-items").length ).equal(wrapper.state().item_data.length);
+         expect( wrapper.find(".shopping-list").length ).equal(wrapper.state().list_data.length);
+
+         expect(fetchMock.called()).equal(true);
+         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
+
+         done();
+
+       }, 100);
+
+     })
+
+     it('form submission done properly and success responses are handled properlyy', (done) => {
+
+       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+         status: 401,
+         body: "Unauthorized access"
+       })
+
+       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+         status: 401,
+         body: "Unauthorized access"
+       })
+
+       wrapper = mount(<ShoppingLists />)
+       expect( wrapper.state().loading ).equal(true);
+
+
+       setTimeout(function(){
+
+         expect( wrapper.state().loading ).equal(false);
+
+         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
+
+         expect(fetchMock.called()).equal(true);
+         expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
+
+         done();
+
+       }, 100);
+
+     })
+
+    it('form submission done properly and error responses are handled properly', (done) => {
+
+      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+         status: 200,
+         body: list_data
+       })
+
+       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+         status: 200,
+         body: item_data
+       })
+
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
+        status: 200,
+        body: JSON.stringify({ success:"Were here" })
+      })
+
+      wrapper = mount(<ShoppingLists />)
+      wrapper.setState({ chosen_list_id: 1 });
+
+      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
+      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
+
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+
+      expect( wrapper.state().loading ).equal(true);
+
+      setTimeout(function(){
+
+        expect( wrapper.state().loading ).equal(false);
+
+        expect( wrapper.state().general_msg ).equal("You have successfully created the item : vince into list : false");
+        expect( wrapper.find(".message").length ).equal(1);
+
+        expect(fetchMock.called()).equal(true);
+        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
+
+        done();
+
+      }, 100);
+
+    })
+
+
+    it('form submission done properly and error responses are handled properly', (done) => {
+
+      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+         status: 200,
+         body: list_data
+       })
+
+       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+         status: 200,
+         body: item_data
+       })
+
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
+        status: 200,
+        body: JSON.stringify({ error:"Were here" })
+      })
+
+      wrapper = mount(<ShoppingLists />)
+      wrapper.setState({ chosen_list_id: 1 });
+
+      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
+      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
+
+      //expect(wrapper.state().loading).equal(false);
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+
+      expect( wrapper.state().loading ).equal(true);
+
+      setTimeout(function(){
+
+        expect( wrapper.state().loading ).equal(false);
+
+        expect( wrapper.state().general_msg ).equal("Were here");
+        expect( wrapper.find(".message").length ).equal(1);
+
+        expect(fetchMock.called()).equal(true);
+        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
+
+        done();
+
+      }, 100);
+
+    })
+
+    it('form submission done properly and error responses are handled properly', (done) => {
+
+      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+         status: 200,
+         body: list_data
+       })
+
+       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+         status: 200,
+         body: item_data
+       })
+
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
+        status: 200,
+        body: "Unauthorized access"
+      })
+
+      wrapper = mount(<ShoppingLists />)
+      wrapper.setState({ chosen_list_id: 1 });
+
+      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
+      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
+
+      //expect(wrapper.state().loading).equal(false);
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+
+      expect( wrapper.state().loading ).equal(true);
+
+      setTimeout(function(){
+
+        expect( wrapper.state().loading ).equal(false);
+
+        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
+        expect( wrapper.find(".message").length ).equal(1);
+
+        expect(fetchMock.called()).equal(true);
+        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
+
+        done();
+
+      }, 100);
+
+    })
+
+
+    it('form submission done properly and form error message responses are handled properly', (done) => {
+
+      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+         status: 200,
+         body: list_data
+       })
+
+       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+         status: 200,
+         body: item_data
+       })
+
+      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists/1/items", {
+        status: 200,
+        body: { error: { name : ["Name error"], amount : ["Amount error"] } }
+      })
+
+      wrapper = mount(<ShoppingLists />)
+      wrapper.setState({ chosen_list_id: 1 });
+
+      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince", name:"name"}});
+      wrapper.find('input[name="amount"]').simulate("change", {target: {value: "123", name:"amount"}});
+
+      //expect(wrapper.state().loading).equal(false);
+      wrapper.find('form').simulate("submit", { preventDefault() {} });
+
+      expect( wrapper.state().loading ).equal(true);
+
+      setTimeout(function(){
+
+        expect( wrapper.state().loading ).equal(false);
+
+        expect( wrapper.state().name_error ).equal("Name error");
+        expect( wrapper.state().amount_error ).equal("Amount error");
+        expect( wrapper.find("span.label").length ).equal(2);
+
+        expect(fetchMock.called()).equal(true);
+        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1/items");
+
+        done();
+
+      }, 100);
+
+    })
+
+    it('form submission done properly and form error message responses are handled properly', (done) => {
+
+      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+         status: 200,
+         body: list_data
+       })
+
+       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+         status: 200,
+         body: { error : "Unauthorized access"}
+       })
+
+
+      wrapper = mount(<ShoppingLists />)
+
+      expect( wrapper.state().loading ).equal(true);
+
+      setTimeout(function(){
+
+        expect( wrapper.state().loading ).equal(false);
+
+        expect( wrapper.state().general_msg ).equal("Unauthorized access");
+        expect( wrapper.find(".message").length ).equal(1);
+
+        expect(fetchMock.called()).equal(true);
+        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
+
+        done();
+
+      }, 100);
+
+    })
+
+    it('form submission done properly and form error message responses are handled properly', (done) => {
+
+      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists", {
+         status: 200,
+         body: { error : "Unauthorized access"}
+       })
+
+       fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists/items", {
+         status: 200,
+         body: item_data
+       })
+
+
+      wrapper = mount(<ShoppingLists />)
+
+      expect( wrapper.state().loading ).equal(true);
+
+      setTimeout(function(){
+
+        expect( wrapper.state().loading ).equal(false);
+
+        expect( wrapper.state().general_msg ).equal("Unauthorized access");
+        expect( wrapper.find(".message").length ).equal(1);
+
+        expect(fetchMock.called()).equal(true);
+        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/items");
+
+        done();
+
+      }, 100);
+
+    })
 
     afterEach(() => {
        expect(fetchMock.calls().unmatched).to.be.empty;
@@ -468,7 +488,3 @@ describe('Shopping list', () => {
     })
 
   })
-
-
-
-})

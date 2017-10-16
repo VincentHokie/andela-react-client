@@ -61,9 +61,9 @@ componentDidMount(){
 
     thiz.setState({ loading: false  })
 
-    //if the data is not a json object, create a general messge..otherwise, its a list object
-    if( typeof data !== "object" ){
-      thiz.setState({ general_msg: data })
+    //if there is an error, create a general messge..otherwise, its a list object
+    if(data["error"]){
+        thiz.setState({ general_msg: data["error"] })
       return true;
     }
 

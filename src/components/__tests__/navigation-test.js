@@ -52,7 +52,7 @@ describe('Navigation bar', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/logout", {
         status: 200,
         body: { success:"You have successfully logged out" }
 
@@ -69,7 +69,7 @@ describe('Navigation bar', () => {
         expect( wrapper.state().loading ).equal(false);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/logout");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/logout");
 
         done();
 
@@ -80,7 +80,7 @@ describe('Navigation bar', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/logout", {
         status: 200,
         body: { error:"Something went wrong" }
       })
@@ -95,7 +95,7 @@ describe('Navigation bar', () => {
         expect( wrapper.state().loading ).equal(false);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/logout");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/logout");
 
         done();
         
@@ -105,7 +105,7 @@ describe('Navigation bar', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/logout", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/logout", {
         status: 401,
         body: "Unauthorized access"
       })
@@ -121,7 +121,7 @@ describe('Navigation bar', () => {
         expect( wrapper.state().loading ).equal(false);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/logout");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/logout");
 
         done();
         

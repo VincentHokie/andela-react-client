@@ -1,5 +1,10 @@
 
 module.exports = {
+
+	// baseUrl : "https://andela-flask-api.herokuapp.com",
+
+	baseUrl : "http://127.0.0.1:5000",
+
 	setGlobals : (component) => {
 
 		//get global variables

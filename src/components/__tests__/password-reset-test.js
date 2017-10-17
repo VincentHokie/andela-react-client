@@ -91,7 +91,7 @@ describe('Password reset', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret", {
         status: 200,
         body: JSON.stringify({ success:"Your password has been successfully reset" })
       })
@@ -113,7 +113,7 @@ describe('Password reset', () => {
         expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret");
 
         done();
         
@@ -124,7 +124,7 @@ describe('Password reset', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret", {
         status: 200,
         body: JSON.stringify({ error:"Were here" })
       })
@@ -146,7 +146,7 @@ describe('Password reset', () => {
         expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret");
 
         done();
         
@@ -157,7 +157,7 @@ describe('Password reset', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret", {
         status: 200,
         body: JSON.stringify({ error: { password_confirm : ["Password confirm error"], password : ["Password error"] } })
       })
@@ -181,7 +181,7 @@ describe('Password reset', () => {
         expect( wrapper.find("span.label").length ).equal(2);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret");
 
         done();
         
@@ -191,7 +191,7 @@ describe('Password reset', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret", {
         status: 200,
         body: "Unauthorized access"
       })
@@ -213,7 +213,7 @@ describe('Password reset', () => {
         expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/reset-password/a-real-secret");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret");
 
         done();
         

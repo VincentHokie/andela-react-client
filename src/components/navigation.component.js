@@ -30,7 +30,7 @@ logout(component){
 
   component.setState({ loading: true  })
 
-  fetch('https://andela-flask-api.herokuapp.com/auth/logout',{
+  fetch(GLOBAL.baseUrl + '/v1/auth/logout',{
         method: 'POST',
         headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')

@@ -34,7 +34,7 @@ deleteItem(component){
   component.setState({ loading: true  })
   var parent = component._reactInternalInstance._currentElement._owner._instance;
 
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ component.props.list +'/items/'+component.props.item.item_id,{
+  fetch(GLOBAL.baseUrl + '/v1/shoppinglists/'+ component.props.list +'/items/'+component.props.item.item_id,{
         method: 'DELETE',
         headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')
@@ -90,7 +90,7 @@ handleItemCheckboxChange(event) {
 
   var thiz = this;
 
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+ this.props.item.list_id +'/items/'+this.props.item.item_id+'/checkbox',{
+  fetch(GLOBAL.baseUrl + '/v1/shoppinglists/'+ this.props.item.list_id +'/items/'+this.props.item.item_id+'/checkbox',{
         method: 'PUT',
         headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')

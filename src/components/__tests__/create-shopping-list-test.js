@@ -90,7 +90,7 @@ describe('Create Shopping list', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
         status: 200,
         body: { success:"Were here" }
       })
@@ -108,7 +108,7 @@ describe('Create Shopping list', () => {
         expect( wrapper.find("FlashMsg").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
 
         done();
 
@@ -119,7 +119,7 @@ describe('Create Shopping list', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
         status: 200,
         body: { error:"Were here" }
       })
@@ -138,7 +138,7 @@ describe('Create Shopping list', () => {
         expect( wrapper.find("FlashMsg").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
 
         done();
 
@@ -149,7 +149,7 @@ describe('Create Shopping list', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
         status: 200,
         body: { error: { name : ["Name error"] } }
       })
@@ -168,7 +168,7 @@ describe('Create Shopping list', () => {
         expect( wrapper.find("FormError").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
 
         done();
 
@@ -178,7 +178,7 @@ describe('Create Shopping list', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/shoppinglists", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
         status: 200,
         body: "Unauthorized access"
       })
@@ -196,7 +196,7 @@ describe('Create Shopping list', () => {
         expect( wrapper.find("FlashMsg").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
 
         done();
 

@@ -303,14 +303,14 @@ class ShoppingLists extends Component {
   render() {
 
     // Map through lists and return linked lists
-    const listNode = this.state.list_data.map((list) => {
+    const listNode = this.state.list_data ? this.state.list_data.map((list) => {
       return (<List chosen={this.state.chosen_list_id} thisone={list.list_id} list={list} handleListSelect={this.handleListSelect} key={list.list_id} pushNavigation={this.pushNavigation} />)
-    });
+    }) : "";
 
     // Map through items and return linked items
-    const itemNode = this.state.item_data.map((item) => {
+    const itemNode = this.state.item_data ? this.state.item_data.map((item) => {
       return (<ListItem chosen={this.state.chosen_list_id} item={item} key={item.item_id} list={item.list_id} pushNavigation={this.pushNavigation} />)
-    });
+    }) : "";
 
     // Create list pagination
     const pagination_rows_lists = [];

@@ -7,6 +7,7 @@ import './css/view-shopping-list.css';
 import Navigation from "./navigation.component.js"
 import ListItem from "./list_item.component.js"
 import List from "./list.component.js"
+import Paginate from "./paginator.component.js"
 
 import FlashMsg from "./flash_msg.component.js"
 
@@ -32,7 +33,8 @@ class ShoppingLists extends Component {
       small_screen: false, hide_items: false, flash: false, user_username: false, token: false,
       lists_per_page: 5, items_per_page: 5, showing_all_items: false, showing_all_lists: false,
       num_of_records_lists: 1, num_of_records_items: 1,
-      getting_lists : false, getting_items : false
+      getting_lists : false, getting_items : false,
+      list_page_selected : 1, item_page_selected : 1
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -162,10 +164,12 @@ class ShoppingLists extends Component {
   }
 
   list_page_selected(event) {
+    this.setState({ list_page_selected : event.target.getAttribute("data-page-number") })
     this.getLists(this.state.lists_per_page, event.target.getAttribute("data-page-number"), this.state.search_word_list);
   }
 
   item_page_selected(event) {
+    this.setState({ item_page_selected : event.target.getAttribute("data-page-number") })
     this.getItems(this.state.chosen_list_id, this.state.items_per_page, event.target.getAttribute("data-page-number"), this.state.search_word_item);
   }
 
@@ -314,7 +318,7 @@ class ShoppingLists extends Component {
     var pages = Math.ceil(this.state.num_of_records_lists / this.state.lists_per_page)
 
     for (var i = 0; i < pages; i++) {
-      pagination_rows_lists.push(<li className={i == 0 ? "active" : ""}><a href="#" data-page-number={i + 1} onClick={this.list_page_selected}>{i + 1}</a></li>);
+      pagination_rows_lists.push(<Paginate page={ i + 1 } key={ i + 1 } page_selected={ this.list_page_selected } chosen_page={ this.state.list_page_selected } />);
     }
 
     // Create item pagination
@@ -322,7 +326,7 @@ class ShoppingLists extends Component {
     var pages = Math.ceil(this.state.num_of_records_items / this.state.items_per_page)
 
     for (var i = 0; i < pages; i++) {
-      pagination_rows_items.push(<li className={i == 0 ? "active" : ""}><a href="#" data-page-number={i + 1} onClick={this.item_page_selected}>{i + 1}</a></li>);
+      pagination_rows_items.push(<Paginate page={ i + 1 } key={ i + 1 } page_selected={ this.item_page_selected } chosen_page={ this.state.item_page_selected } />);
     }
 
     return (

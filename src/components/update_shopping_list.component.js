@@ -51,7 +51,7 @@ componentDidMount(){
   thiz.setState({ loading: true  })
 
   //get list object from database
-  fetch(GLOBAL.baseUrl + '/v1/shoppinglists?list_id='+this.props.match.params.id,{
+  fetch(GLOBAL.baseUrl + '/v2/shoppinglists/'+this.props.match.params.id,{
       method: 'GET',
       headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')

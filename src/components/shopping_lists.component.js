@@ -258,7 +258,6 @@ class ShoppingLists extends Component {
 
       }) // still returns a promise object, U need to chain it again
       .catch(function (error) {
-        console.log(error)
         thiz.setState({ loading: false })
         thiz.setState({ general_msg: "Check your internet connection and try again" })
       });
@@ -365,7 +364,7 @@ class ShoppingLists extends Component {
               </div>
 
 
-              <form onSubmit={this.handleSearchSubmit} id="addItemForm" className="form">
+              <form onSubmit={this.handleSearchSubmit} className="form">
                 <div className="col-xs-5 col-xs-offset-1">
                   <div className="form-group">
                     <input placeholder="Search word" className="form-control" name="search_word_list" onChange={this.handleChange} />
@@ -420,7 +419,7 @@ class ShoppingLists extends Component {
                   </div>
                 </div>
 
-                <form onSubmit={this.handleItemSearchSubmit} id="addItemForm" className="form">
+                <form onSubmit={this.handleItemSearchSubmit} className="form">
                   <div className="col-xs-5 col-xs-offset-1">
                     <div className="form-group">
                       <input placeholder="Search word" className="form-control" name="search_word_item" onChange={this.handleChange} />

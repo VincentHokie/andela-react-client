@@ -21,7 +21,7 @@ describe('Update Shopping list', () => {
 
   it('wraps content in a div with .container.col-xs-12 class if user is logged in', () => {
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+    fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: []
       })
@@ -38,7 +38,7 @@ describe('Update Shopping list', () => {
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: []
       })
@@ -87,7 +87,7 @@ describe('Update Shopping list', () => {
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"flash":"Message", "logged_in":true}));
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: []
       })
@@ -125,7 +125,7 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: list_data
       })
@@ -135,7 +135,7 @@ describe('Update Shopping list', () => {
       setTimeout(function(){
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1");
 
         done();
 
@@ -145,7 +145,7 @@ describe('Update Shopping list', () => {
     
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 401,
         body: "Unauthorized access"
       })
@@ -157,7 +157,7 @@ describe('Update Shopping list', () => {
       setTimeout(function(){
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1");
 
         done();
 
@@ -169,7 +169,7 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: []
       })
@@ -203,7 +203,7 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: []
       })
@@ -236,7 +236,7 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: []
       })
@@ -270,7 +270,7 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: []
       })
@@ -303,7 +303,7 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1", {
         status: 200,
         body: []
       })

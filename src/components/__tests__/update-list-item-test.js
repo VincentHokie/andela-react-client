@@ -19,7 +19,7 @@ describe('Update Shopping list item', () => {
 
   it('wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1", {
+    fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
@@ -35,7 +35,7 @@ describe('Update Shopping list item', () => {
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
@@ -84,7 +84,7 @@ describe('Update Shopping list item', () => {
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"flash":"Message", "logged_in":true}));
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
@@ -111,7 +111,7 @@ describe('Update Shopping list item', () => {
 
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
@@ -129,7 +129,7 @@ describe('Update Shopping list item', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: list_data
       })
@@ -139,7 +139,7 @@ describe('Update Shopping list item', () => {
       setTimeout(function(){
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1");
 
         done();
 
@@ -149,7 +149,7 @@ describe('Update Shopping list item', () => {
     
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 401,
         body: "Unauthorized access"
       })
@@ -160,7 +160,7 @@ describe('Update Shopping list item', () => {
 
         //expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1");
 
         done();
 
@@ -170,7 +170,7 @@ describe('Update Shopping list item', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: { error: "Were here" }
       })
@@ -181,7 +181,7 @@ describe('Update Shopping list item', () => {
 
         //expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1?item_id=1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1");
 
         done();
 

@@ -96,7 +96,7 @@ describe('Login page', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/login", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/login", {
         status: 200,
         body: JSON.stringify({ success:"Were here", token:"a-super-sercret-access-token" })
       })
@@ -126,7 +126,7 @@ describe('Login page', () => {
         expect( wrapper.state().general_msg ).equal("Were here");
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/login");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/login");
 
         done();
 
@@ -138,7 +138,7 @@ describe('Login page', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/login", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/login", {
         status: 200,
         body: JSON.stringify({ error:"Were here" })
       })
@@ -161,7 +161,7 @@ describe('Login page', () => {
         expect( wrapper.state().general_msg ).equal("Were here");
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/login");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/login");
 
         done();
 
@@ -172,7 +172,7 @@ describe('Login page', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/login", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/login", {
         status: 200,
         body: JSON.stringify({ error: { username : ["Username error"], password : ["Password error"] } })
       })
@@ -195,7 +195,7 @@ describe('Login page', () => {
         expect( wrapper.find("span.label").length ).equal(2);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/login");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/login");
 
         done();
 
@@ -208,7 +208,7 @@ describe('Login page', () => {
 
     it('form submission done properly and unauthorized error responses are handled properly', (done) => {
       
-      fetchMock.post("https://andela-flask-api.herokuapp.com/auth/login", {
+      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/login", {
         status: 200,
         body: "Unauthorized access"
       })
@@ -230,7 +230,7 @@ describe('Login page', () => {
         expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/auth/login");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/login");
 
         done();
 

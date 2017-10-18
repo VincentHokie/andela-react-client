@@ -51,7 +51,7 @@ componentDidMount(){
   thiz.setState({ loading: true  })
 
   //get list object from database
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists?list_id='+this.props.match.params.id,{
+  fetch(GLOBAL.baseUrl + '/v2/shoppinglists/'+this.props.match.params.id,{
       method: 'GET',
       headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')
@@ -100,7 +100,7 @@ handleSubmit(e) {
       formData.append(data[name], this.state[data[name]]);
       
 
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+this.props.match.params.id,{
+  fetch(GLOBAL.baseUrl + '/v1/shoppinglists/'+this.props.match.params.id,{
       method: 'PUT',
       headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')

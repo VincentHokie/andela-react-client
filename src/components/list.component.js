@@ -33,7 +33,7 @@ deleteList(component) {
   component.setState({ loading: true  })
     var parent = component._reactInternalInstance._currentElement._owner._instance;
 
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+component.props.thisone,{
+  fetch(GLOBAL.baseUrl + '/v1/shoppinglists/'+component.props.thisone,{
         method: 'DELETE',
         headers: {
            'Authorization': 'Basic '+btoa(this.state.token+':x')

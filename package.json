@@ -6,6 +6,7 @@
     "btoa": "^1.1.2",
     "chai": "^4.1.2",
     "enzyme": "^2.9.1",
+    "eslint": "^4.9.0",
     "fetch-mock": "^5.12.2",
     "react": "^15.6.1",
     "react-addons-test-utils": "^15.6.2",
@@ -19,7 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "BABEL_ENV=test nyc --reporter=html --reporter=text mocha  --require mock-local-storage --require jsdom-global/register --compilers js:babel-core/register,css:css-dnt-compiler.js src/components/*/*-test.js  --recursive && nyc report --reporter=text-lcov | coveralls ",
+    "test": "react-scripts test --coverage --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {

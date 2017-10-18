@@ -50,7 +50,7 @@ componentDidMount(){
   thiz.setState({ loading: true  })
 
   //get list item object from database
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+this.props.match.params.id+'?item_id='+this.props.match.params.item_id,{
+  fetch(GLOBAL.baseUrl + '/v2/shoppinglists/'+this.props.match.params.id+'/items/'+this.props.match.params.item_id,{
       method: 'GET',
       headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')
@@ -61,9 +61,9 @@ componentDidMount(){
 
     thiz.setState({ loading: false  })
 
-    //if the data is not a json object, create a general messge..otherwise, its a list object
-    if( typeof data !== "object" ){
-      thiz.setState({ general_msg: data })
+    //if there is an error, create a general messge..otherwise, its a list object
+    if(data["error"]){
+        thiz.setState({ general_msg: data["error"] })
       return true;
     }
 
@@ -101,7 +101,7 @@ handleSubmit(e) {
       formData.append(data[name], this.state[data[name]]);
       
 
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists/'+this.props.match.params.id+'/items/'+this.props.match.params.item_id,{
+  fetch(GLOBAL.baseUrl + '/v1/shoppinglists/'+this.props.match.params.id+'/items/'+this.props.match.params.item_id,{
       method: 'PUT',
       headers: {
          'Authorization': 'Basic '+btoa(this.state.token+':x')

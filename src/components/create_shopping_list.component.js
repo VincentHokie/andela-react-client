@@ -65,7 +65,7 @@ handleSubmit(e) {
       formData.append(data[name], this.state[data[name]]);
     
 
-  fetch('https://andela-flask-api.herokuapp.com/shoppinglists',{
+  fetch(GLOBAL.baseUrl + '/v1/shoppinglists',{
       method: 'POST',
       body: formData,
       headers: {

@@ -69,7 +69,7 @@ handleSubmit(e) {
     for(var name in data) 
       formData.append(data[name], this.state[data[name]]);
 
-  fetch('https://andela-flask-api.herokuapp.com/auth/register',{
+  fetch(GLOBAL.baseUrl + '/v1/auth/register',{
       method: 'POST',
       body: formData
     })      // returns a promise object

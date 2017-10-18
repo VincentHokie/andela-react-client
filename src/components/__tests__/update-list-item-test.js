@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import UpdateShoppingList from '../update_shopping_list.component.js';
+import UpdateShoppingListItem from '../update_shopping_list_item.component.js';
 
 import App from '../../App.js';
 
@@ -12,20 +12,20 @@ var GLOBAL = require("../../globals.js")
 var fetchMock = require("fetch-mock");
 var expect = require("chai").expect;
 import "../localStorage.js";
-let url_param = JSON.parse('{"params": {"id" : 1 }}');
+let url_param = JSON.parse('{"params": {"id" : 1, "item_id" : 1 }}');
 
-describe('Update Shopping list', () => {
+describe('Update Shopping list item', () => {
   let wrapper;
 
   it('wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
-    fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+    fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
 
     localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-    wrapper = mount(<UpdateShoppingList match={ url_param } />)
+    wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
     expect(wrapper.find('.container.col-xs-12').length).equal(1);
 
   });
@@ -35,12 +35,12 @@ describe('Update Shopping list', () => {
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
 
-      wrapper = mount(<UpdateShoppingList match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
 
     })
 
@@ -84,12 +84,12 @@ describe('Update Shopping list', () => {
     beforeEach(() => {
       localStorage.setItem("globals", JSON.stringify({"flash":"Message", "logged_in":true}));
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
       
-      wrapper = mount(<MemoryRouter initialEntries={[ '/shopping-list/1/edit' ]}><App /></MemoryRouter>)
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -111,7 +111,7 @@ describe('Update Shopping list', () => {
 
       localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
@@ -129,17 +129,17 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: list_data
       })
 
-      wrapper = mount(<MemoryRouter initialEntries={[ '/shopping-list/1/edit' ]}><App /></MemoryRouter>)
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
 
       setTimeout(function(){
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1");
 
         done();
 
@@ -149,18 +149,39 @@ describe('Update Shopping list', () => {
     
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.get("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1", {
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 401,
         body: "Unauthorized access"
       })
 
-      wrapper = mount(<MemoryRouter initialEntries={[ '/shopping-list/1/edit' ]}><App /></MemoryRouter>)
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
 
       setTimeout(function(){
 
         //expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists?list_id=1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1");
+
+        done();
+
+      }, 100);
+
+    })
+
+    it('form submission done properly and success responses are handled properly', (done) => {
+
+      fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
+        status: 200,
+        body: { error: "Were here" }
+      })
+
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+
+      setTimeout(function(){
+
+        //expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
+        expect(fetchMock.called()).equal(true);
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1");
 
         done();
 
@@ -172,13 +193,12 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
       
-      fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
+      fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
         body: { success:"Were here" }
       })
 
-      wrapper = mount(<UpdateShoppingList match={ url_param } />)
-      wrapper.setProps({ match: { params : {id: 1 } } });
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
 
@@ -187,10 +207,10 @@ describe('Update Shopping list', () => {
 
       setTimeout(function(){
 
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
 
         done();
 
@@ -201,13 +221,12 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
       
-      fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
+      fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
         body: { error:"Were here" }
       })
 
-      wrapper = mount(<UpdateShoppingList match={ url_param } />)
-      wrapper.setProps({ match: { params : {id: 1 } } });
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
 
@@ -216,10 +235,10 @@ describe('Update Shopping list', () => {
 
       setTimeout(function(){
 
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
 
         done();
 
@@ -229,13 +248,12 @@ describe('Update Shopping list', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
       
-      fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
+      fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
         body: "Unauthorized access"
       })
 
-      wrapper = mount(<UpdateShoppingList match={ url_param } />)
-      wrapper.setProps({ match: { params : {id: 1 } } });
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
 
@@ -245,10 +263,10 @@ describe('Update Shopping list', () => {
 
       setTimeout(function(){
 
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
 
         done();
 
@@ -258,14 +276,13 @@ describe('Update Shopping list', () => {
 
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
-      
-      fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
+
+      fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
         body: { error: { name : ["Name error"] } }
       })
 
-      wrapper = mount(<UpdateShoppingList match={ url_param } />)
-      wrapper.setProps({ match: { params : {id: 1 } } });
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
 
@@ -274,10 +291,10 @@ describe('Update Shopping list', () => {
 
       setTimeout(function(){
 
-        expect( wrapper.find("FormError").length ).equal(1);
+        expect( wrapper.find("span.label").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
 
         done();
 
@@ -286,14 +303,13 @@ describe('Update Shopping list', () => {
     })
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
-      
-      fetchMock.put("https://andela-flask-api.herokuapp.com/shoppinglists/1", {
+
+      fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
         body: "Unauthorized access"
       })
 
-      wrapper = mount(<UpdateShoppingList match={ url_param } />)
-      wrapper.setProps({ match: { params : {id: 1 } } });
+      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
 
       wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
 
@@ -301,12 +317,12 @@ describe('Update Shopping list', () => {
       wrapper.find('form').simulate("submit", { preventDefault() {} });
 
       setTimeout(function(){
-        
+
         expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+        expect( wrapper.find(".message").length ).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal("https://andela-flask-api.herokuapp.com/shoppinglists/1");
+        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
 
         done();
 

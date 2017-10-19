@@ -29,6 +29,10 @@ componentWillMount(){
 
 }
 
+componentDidMount(){
+  this.setState({ checked : this.props.item.bought })
+}
+
 deleteItem(component){
 
   component.setState({ loading: true  })
@@ -70,7 +74,7 @@ deleteItem(component){
 handleDeleteItem(event) {
 
   var component = this;
-
+  
   vex.dialog.defaultOptions.showCloseButton = true;
   vex.dialog.defaultOptions.escapeButtonCloses = true;
   vex.dialog.defaultOptions.overlayClosesOnClick = true;
@@ -89,6 +93,7 @@ handleDeleteItem(event) {
 handleItemCheckboxChange(event) {
 
   var thiz = this;
+  var parent = this._reactInternalInstance._currentElement._owner._instance;
 
   fetch(GLOBAL.baseUrl + '/v1/shoppinglists/'+ this.props.item.list_id +'/items/'+this.props.item.item_id+'/checkbox',{
         method: 'PUT',
@@ -104,7 +109,8 @@ handleItemCheckboxChange(event) {
         if( data["success"] ){
 
           data = data["success"];
-          thiz.setState({ general_msg: data })
+          parent.setState({ general_msg: data })
+          thiz.setState({ checked: thiz.state.checked == 1 ? 0 : 1 })
 
         }else if( data["error"] ){
 
@@ -134,7 +140,7 @@ handleItemCheckboxChange(event) {
 
         <li className={ this.props.chosen == this.props.list ? "list-group-item col-xs-12 shopping-list-items showAddItemForm" : "list-group-item col-xs-12 shopping-list-items" } id={ this.props.item.item_id } style={{ padding:'0' }}>
 
-        <label className="col-md-10 col-xs-12" style={{ padding: '5px 0 5px 5px' }}><input type="checkbox" onChange={ this.handleItemCheckboxChange } checked={ this.props.item.checked ? "checked" : false } /> { this.props.item.name } - UgX { this.props.item.amount } </label>
+        <label className="col-md-10 col-xs-12" style={{ padding: '5px 0 5px 5px' }}><input type="checkbox" onChange={ this.handleItemCheckboxChange } checked={ this.state.checked == "1" ? "checked" : false } /> { this.props.item.name } - UgX { this.props.item.amount } </label>
 
         <div className="col-md-1 col-xs-8" style={{ padding:'0' }}>
 

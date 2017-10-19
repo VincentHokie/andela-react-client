@@ -98,7 +98,7 @@ class Item extends Component {
       <div className={this.state.show ? "col-xs-12 shopping-list" : "hidden-lg hidden-md hidden-sm hidden-xs"}>
 
         <div className={this.props.chosen == this.props.thisone ? "alert alert-default col-md-10 col-xs-12 chosen-alert" : "alert alert-default col-md-10 col-xs-12"} onClick={this.props.handleListSelect} data-listname={this.props.list.name} id={this.props.list.list_id}>
-          <strong>{this.props.list.name}</strong> -  {this.props.list.date_time[0]}
+          <strong>{this.props.list.name}</strong> -  {this.props.list.date_time ? this.props.list.date_time[0] : this.props.list.date_time}
         </div>
 
         <div className="col-md-1 col-xs-8" style={{ padding: '0' }}>

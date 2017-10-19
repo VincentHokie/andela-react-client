@@ -41,7 +41,11 @@
     "v": "^0.3.0",
     "vex-js": "^4.0.1",
     "webidl-conversions": "^4.0.2",
-    "whatwg-url": "^6.3.0"
+    "whatwg-url": "^6.3.0",
+    "coveralls": "^3.0.0",
+    "jest": "^20.0.4",
+    "jsdom": "^11.2.0",
+    "jsdom-global": "3.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -49,10 +53,5 @@
     "test": "react-scripts test --coverage --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {
-    "coveralls": "^3.0.0",
-    "jest": "^20.0.4",
-    "jsdom": "^11.2.0",
-    "jsdom-global": "3.0.2"
-  }
+  "devDependencies": {}
 }

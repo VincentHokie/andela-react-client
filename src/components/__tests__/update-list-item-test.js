@@ -20,27 +20,27 @@ describe('Update Shopping list item', () => {
   it('wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
     fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
-        status: 200,
-        body: []
-      })
+      status: 200,
+      body: []
+    })
 
-    localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-    wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+    localStorage.setItem("globals", JSON.stringify({ "logged_in": true }));
+    wrapper = mount(<UpdateShoppingListItem match={url_param} />)
     expect(wrapper.find('.container.col-xs-12').length).equal(1);
 
   });
-  
+
   describe('Behaviour', () => {
-    
+
     beforeEach(() => {
-      localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
+      localStorage.setItem("globals", JSON.stringify({ "logged_in": true }));
 
       fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
     })
 
@@ -56,7 +56,7 @@ describe('Update Shopping list item', () => {
       wrapper.setState({ loading: false });
       wrapper.setState({ retrieved: false });
       expect(wrapper.find('input[name="name"]').prop("disabled")).equal("disabled");
-      
+
     })
 
     it('if the theres a form error, the error should show', () => {
@@ -65,7 +65,7 @@ describe('Update Shopping list item', () => {
 
       wrapper.setState({ name_error: "Error" });
       expect(wrapper.find('FormError').length).equal(1);
-      
+
     })
 
     it('if the theres a flash message, expect the .message class, otherwise dont', () => {
@@ -75,21 +75,21 @@ describe('Update Shopping list item', () => {
 
       wrapper.setState({ general_msg: "A flash message" });
       expect(wrapper.find('FlashMsg').length).equal(1);
-      
+
     })
   })
 
   describe('Flash Message Behaviour', () => {
-    
+
     beforeEach(() => {
-      localStorage.setItem("globals", JSON.stringify({"flash":"Message", "logged_in":true}));
+      localStorage.setItem("globals", JSON.stringify({ "flash": "Message", "logged_in": true }));
 
       fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
         body: []
       })
-      
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
     })
 
     it('if the theres processing going on, the input is not editable', () => {
@@ -99,7 +99,7 @@ describe('Update Shopping list item', () => {
 
       fetchMock.restore();
 
-      
+
     })
 
   })
@@ -109,7 +109,7 @@ describe('Update Shopping list item', () => {
 
     beforeEach(() => {
 
-      localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
+      localStorage.setItem("globals", JSON.stringify({ "logged_in": true }));
 
       fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
         status: 200,
@@ -122,8 +122,8 @@ describe('Update Shopping list item', () => {
 
     afterEach(() => {
 
-       expect(fetchMock.calls().unmatched).to.be.empty;
-        fetchMock.restore();
+      expect(fetchMock.calls().unmatched).to.be.empty;
+      fetchMock.restore();
 
     })
 
@@ -134,9 +134,9 @@ describe('Update Shopping list item', () => {
         body: list_data
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
-      setTimeout(function(){
+      setTimeout(function () {
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1");
@@ -146,7 +146,7 @@ describe('Update Shopping list item', () => {
       }, 100);
 
     })
-    
+
     it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items/1", {
@@ -154,9 +154,9 @@ describe('Update Shopping list item', () => {
         body: "Unauthorized access"
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
-      setTimeout(function(){
+      setTimeout(function () {
 
         //expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect(fetchMock.called()).equal(true);
@@ -175,9 +175,9 @@ describe('Update Shopping list item', () => {
         body: { error: "Were here" }
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
-      setTimeout(function(){
+      setTimeout(function () {
 
         //expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
         expect(fetchMock.called()).equal(true);
@@ -192,22 +192,22 @@ describe('Update Shopping list item', () => {
 
 
     it('form submission done properly and error responses are handled properly', (done) => {
-      
+
       fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
-        body: { success:"Were here" }
+        body: { success: "Were here" }
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
-      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="name"]').simulate("change", { target: { value: "vince" } });
 
       //expect(wrapper.state().loading).equal(false);
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.find(".message").length ).equal(1);
+        expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
@@ -220,22 +220,22 @@ describe('Update Shopping list item', () => {
 
 
     it('form submission done properly and error responses are handled properly', (done) => {
-      
+
       fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
-        body: { error:"Were here" }
+        body: { error: "Were here" }
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
-      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="name"]').simulate("change", { target: { value: "vince" } });
 
       //expect(wrapper.state().loading).equal(false);
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.find(".message").length ).equal(1);
+        expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
@@ -247,23 +247,23 @@ describe('Update Shopping list item', () => {
     })
 
     it('form submission done properly and error responses are handled properly', (done) => {
-      
+
       fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
         body: "Unauthorized access"
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
-      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="name"]').simulate("change", { target: { value: "vince" } });
 
       //expect(wrapper.state().loading).equal(false);
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
-      wrapper.setState({ general_msg: "Were here"});
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
+      wrapper.setState({ general_msg: "Were here" });
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.find(".message").length ).equal(1);
+        expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
@@ -279,19 +279,19 @@ describe('Update Shopping list item', () => {
 
       fetchMock.put(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1", {
         status: 200,
-        body: { error: { name : ["Name error"] } }
+        body: { error: { name: ["Name error"] } }
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
-      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="name"]').simulate("change", { target: { value: "vince" } });
 
       //expect(wrapper.state().loading).equal(false);
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.find("span.label").length ).equal(1);
+        expect(wrapper.find("span.label").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");
@@ -309,17 +309,17 @@ describe('Update Shopping list item', () => {
         body: "Unauthorized access"
       })
 
-      wrapper = mount(<UpdateShoppingListItem match={ url_param } />)
+      wrapper = mount(<UpdateShoppingListItem match={url_param} />)
 
-      wrapper.find('input[name="name"]').simulate("change", {target: {value: "vince"}});
+      wrapper.find('input[name="name"]').simulate("change", { target: { value: "vince" } });
 
       //expect(wrapper.state().loading).equal(false);
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
-        expect( wrapper.find(".message").length ).equal(1);
+        expect(wrapper.state().general_msg).equal("Check your internet connection and try again");
+        expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items/1");

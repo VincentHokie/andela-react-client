@@ -19,16 +19,16 @@ describe('Sign Up Component', () => {
 
   it('wraps content in a div with .container.col-xs-12 class if user is logged in', () => {
 
-    localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
+    localStorage.setItem("globals", JSON.stringify({ "logged_in": false }));
     wrapper = mount(<SignUp />)
     expect(wrapper.find('.container.col-xs-12').length).equal(1);
 
   });
 
   describe('Behaviour', () => {
-  	
+
     beforeEach(() => {
-      localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
+      localStorage.setItem("globals", JSON.stringify({ "logged_in": false }));
       wrapper = mount(<SignUp />);
     })
 
@@ -46,7 +46,7 @@ describe('Sign Up Component', () => {
       expect(wrapper.find('input[name="email"]').prop("disabled")).equal("disabled");
       expect(wrapper.find('input[name="password"]').prop("disabled")).equal("disabled");
       expect(wrapper.find('input[name="password2"]').prop("disabled")).equal("disabled");
-      
+
     })
 
     it('if the theres a form error, the error should show', () => {
@@ -74,15 +74,15 @@ describe('Sign Up Component', () => {
 
       wrapper.setState({ general_msg: "A flash message" });
       expect(wrapper.find('.message').length).equal(1);
-      
+
     })
 
   })
 
   describe('Flash Message Behaviour', () => {
-    
+
     beforeEach(() => {
-      localStorage.setItem("globals", JSON.stringify({"flash":"Message", "logged_in":false}));
+      localStorage.setItem("globals", JSON.stringify({ "flash": "Message", "logged_in": false }));
       wrapper = mount(<SignUp />)
     })
 
@@ -90,121 +90,121 @@ describe('Sign Up Component', () => {
 
       expect(wrapper.find('.alert.message').length).equal(1);
       expect(wrapper.find('.alert.message').html()).contain("Message");
-      
+
     })
 
   })
 
   describe('API interaction Behaviour', () => {
-    
+
     beforeEach(() => {
-      localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
+      localStorage.setItem("globals", JSON.stringify({ "logged_in": false }));
     })
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
       fetchMock.post(GLOBAL.baseUrl + "/v1/auth/register", {
         status: 200,
-        body: { success:"Were here" }
+        body: { success: "Were here" }
       })
 
       wrapper = mount(<SignUp />)
 
-      wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name:"username"}});
-      wrapper.find('input[name="email"]').simulate("change", {target: {value: "vince@gmail.com", name:"email"}});
-      wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name:"password"}});
-      wrapper.find('input[name="password2"]').simulate("change", {target: {value: "vince_password", name:"password2"}});
+      wrapper.find('input[name="username"]').simulate("change", { target: { value: "vince", name: "username" } });
+      wrapper.find('input[name="email"]').simulate("change", { target: { value: "vince@gmail.com", name: "email" } });
+      wrapper.find('input[name="password"]').simulate("change", { target: { value: "vince_password", name: "password" } });
+      wrapper.find('input[name="password2"]').simulate("change", { target: { value: "vince_password", name: "password2" } });
 
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
-      expect( wrapper.state().loading ).equal(true);
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
+      expect(wrapper.state().loading).equal(true);
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.state().general_msg ).equal("Were here");
-        expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.find(".message").length ).equal(1);
+        expect(wrapper.state().general_msg).equal("Were here");
+        expect(wrapper.state().loading).equal(false);
+        expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/register");
 
         done();
-        
+
       }, 100);
 
     })
 
 
     it('form submission done properly and error responses are handled properly', (done) => {
-      
+
       fetchMock.post(GLOBAL.baseUrl + "/v1/auth/register", {
         status: 200,
-        body: { error:"Were here" }
+        body: { error: "Were here" }
       })
-      
+
       wrapper = mount(<SignUp />)
 
-      wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name:"username"}});
-      wrapper.find('input[name="email"]').simulate("change", {target: {value: "vince@gmail.com", name:"email"}});
-      wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name:"password"}});
-      wrapper.find('input[name="password2"]').simulate("change", {target: {value: "vince_password", name:"password2"}});
+      wrapper.find('input[name="username"]').simulate("change", { target: { value: "vince", name: "username" } });
+      wrapper.find('input[name="email"]').simulate("change", { target: { value: "vince@gmail.com", name: "email" } });
+      wrapper.find('input[name="password"]').simulate("change", { target: { value: "vince_password", name: "password" } });
+      wrapper.find('input[name="password2"]').simulate("change", { target: { value: "vince_password", name: "password2" } });
 
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.state().general_msg ).equal("Were here");
-        expect( wrapper.find(".message").length ).equal(1);
+        expect(wrapper.state().general_msg).equal("Were here");
+        expect(wrapper.find(".message").length).equal(1);
 
-        expect( wrapper.state().loading ).equal(false);
+        expect(wrapper.state().loading).equal(false);
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/register");
 
         done();
-        
+
       }, 100);
 
     })
 
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
-      
+
       fetchMock.post(GLOBAL.baseUrl + "/v1/auth/register", {
         status: 200,
-        body: { error: { username : ["Username error"], email : ["Email error"], password : ["Password error"], password2 : ["Password2 error"] } }
+        body: { error: { username: ["Username error"], email: ["Email error"], password: ["Password error"], password2: ["Password2 error"] } }
       })
 
       wrapper = mount(<SignUp />)
 
-      wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name:"username"}});
-      wrapper.find('input[name="email"]').simulate("change", {target: {value: "vince@gmail.com", name:"email"}});
-      wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name:"password"}});
-      wrapper.find('input[name="password2"]').simulate("change", {target: {value: "vince_password", name:"password2"}});
+      wrapper.find('input[name="username"]').simulate("change", { target: { value: "vince", name: "username" } });
+      wrapper.find('input[name="email"]').simulate("change", { target: { value: "vince@gmail.com", name: "email" } });
+      wrapper.find('input[name="password"]').simulate("change", { target: { value: "vince_password", name: "password" } });
+      wrapper.find('input[name="password2"]').simulate("change", { target: { value: "vince_password", name: "password2" } });
 
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
-      expect( wrapper.state().loading ).equal(true);
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
+      expect(wrapper.state().loading).equal(true);
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.state().loading ).equal(false);
+        expect(wrapper.state().loading).equal(false);
 
-        expect( wrapper.state().username_error ).equal("Username error");
-        expect( wrapper.state().email_error ).equal("Email error");
-        expect( wrapper.state().password_error ).equal("Password error");
-        expect( wrapper.state().password2_error ).equal("Password2 error");
+        expect(wrapper.state().username_error).equal("Username error");
+        expect(wrapper.state().email_error).equal("Email error");
+        expect(wrapper.state().password_error).equal("Password error");
+        expect(wrapper.state().password2_error).equal("Password2 error");
 
-        expect( wrapper.find("span.label").length ).equal(4);
+        expect(wrapper.find("span.label").length).equal(4);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/register");
 
         done();
-        
+
       }, 100);
 
     })
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
-      
+
       fetchMock.post(GLOBAL.baseUrl + "/v1/auth/register", {
         status: 200,
         body: "Unauthorized access"
@@ -212,26 +212,26 @@ describe('Sign Up Component', () => {
 
       wrapper = mount(<SignUp />)
 
-      wrapper.find('input[name="username"]').simulate("change", {target: {value: "vince", name:"username"}});
-      wrapper.find('input[name="email"]').simulate("change", {target: {value: "vince@gmail.com", name:"email"}});
-      wrapper.find('input[name="password"]').simulate("change", {target: {value: "vince_password", name:"password"}});
-      wrapper.find('input[name="password2"]').simulate("change", {target: {value: "vince_password", name:"password2"}});
+      wrapper.find('input[name="username"]').simulate("change", { target: { value: "vince", name: "username" } });
+      wrapper.find('input[name="email"]').simulate("change", { target: { value: "vince@gmail.com", name: "email" } });
+      wrapper.find('input[name="password"]').simulate("change", { target: { value: "vince_password", name: "password" } });
+      wrapper.find('input[name="password2"]').simulate("change", { target: { value: "vince_password", name: "password2" } });
 
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
-      expect( wrapper.state().loading ).equal(true);
+      wrapper.find('form').simulate("submit", { preventDefault() { } });
+      expect(wrapper.state().loading).equal(true);
 
-      setTimeout(function(){
+      setTimeout(function () {
 
-        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
+        expect(wrapper.state().general_msg).equal("Check your internet connection and try again");
 
-        expect( wrapper.state().loading ).equal(false);
-        expect( wrapper.find(".message").length ).equal(1);
+        expect(wrapper.state().loading).equal(false);
+        expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
         expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/register");
 
         done();
-        
+
       }, 100);
 
     })

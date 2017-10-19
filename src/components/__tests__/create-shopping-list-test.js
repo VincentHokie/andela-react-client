@@ -19,7 +19,7 @@ describe('Create Shopping list', () => {
 
   it('CreateShoppingList wraps content in a div with .col-xs-12 class if user is logged in', () => {
 
-    localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
+    localStorage.setItem("globals", JSON.stringify({ "logged_in": true }));
     wrapper = mount(<CreateShoppingList />)
     expect(wrapper.find('.container.col-xs-12').length).equal(1);
 
@@ -27,186 +27,186 @@ describe('Create Shopping list', () => {
 
 });
 
-  describe('Behaviour', () => {
-  	
-    beforeEach(() => {
-      localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
-      wrapper = mount(<CreateShoppingList />)
-    })
+describe('Behaviour', () => {
 
-    it('if the theres processing going on, the input is not editable', () => {
+  beforeEach(() => {
+    localStorage.setItem("globals", JSON.stringify({ "logged_in": true }));
+    wrapper = mount(<CreateShoppingList />)
+  })
 
-      wrapper.setState({ loading: false });
-      expect(wrapper.find('input').prop("disabled")).equal(false);
+  it('if the theres processing going on, the input is not editable', () => {
 
-      wrapper.setState({ loading: true });
-      expect(wrapper.find('input').prop("disabled")).equal("disabled");
-      
-    })
+    wrapper.setState({ loading: false });
+    expect(wrapper.find('input').prop("disabled")).equal(false);
 
-    it('if the theres a form error, the error should show', () => {
+    wrapper.setState({ loading: true });
+    expect(wrapper.find('input').prop("disabled")).equal("disabled");
 
-      wrapper.setState({ name_error: false });
-      expect(wrapper.find('span.label').length).equal(0);
+  })
 
-      wrapper.setState({ name_error: "Error" });
-      expect(wrapper.find('span.label').length).equal(1);
-      
-    })
+  it('if the theres a form error, the error should show', () => {
 
-    it('if the theres a flash message, expect the .message class, otherwise dont', () => {
+    wrapper.setState({ name_error: false });
+    expect(wrapper.find('span.label').length).equal(0);
 
-      wrapper.setState({ general_msg: false });
-      expect(wrapper.find('.message').length).equal(0);
+    wrapper.setState({ name_error: "Error" });
+    expect(wrapper.find('span.label').length).equal(1);
 
-      wrapper.setState({ general_msg: "A flash message" });
-      expect(wrapper.find('.message').length).equal(1);
-      
-    })
+  })
+
+  it('if the theres a flash message, expect the .message class, otherwise dont', () => {
+
+    wrapper.setState({ general_msg: false });
+    expect(wrapper.find('.message').length).equal(0);
+
+    wrapper.setState({ general_msg: "A flash message" });
+    expect(wrapper.find('.message').length).equal(1);
+
+  })
 });
 
-    describe('Flash Message Behaviour', () => {
+describe('Flash Message Behaviour', () => {
 
-      beforeEach(() => {
-        localStorage.setItem("globals", JSON.stringify({"flash":"Message", "logged_in":true}));
-        wrapper = mount(<CreateShoppingList />)
-      })
+  beforeEach(() => {
+    localStorage.setItem("globals", JSON.stringify({ "flash": "Message", "logged_in": true }));
+    wrapper = mount(<CreateShoppingList />)
+  })
 
-    it('if a flash message comes from the previous route, it should be displayed', () => {
+  it('if a flash message comes from the previous route, it should be displayed', () => {
 
-      expect(wrapper.state().general_msg).equal("Message");
-      expect(wrapper.find('FlashMsg').length).equal(1);
-      
-      
-    })
+    expect(wrapper.state().general_msg).equal("Message");
+    expect(wrapper.find('FlashMsg').length).equal(1);
+
 
   })
 
-  describe('API interaction Behaviour', () => {
-    
-    beforeEach(() => {
-      localStorage.setItem("globals", JSON.stringify({"logged_in":true}));
+})
+
+describe('API interaction Behaviour', () => {
+
+  beforeEach(() => {
+    localStorage.setItem("globals", JSON.stringify({ "logged_in": true }));
+  })
+
+  it('form submission done properly and success responses are handled properly', (done) => {
+
+    fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
+      status: 200,
+      body: { success: "Were here" }
     })
 
-    it('form submission done properly and success responses are handled properly', (done) => {
+    wrapper = mount(<CreateShoppingList />)
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
-        status: 200,
-        body: { success:"Were here" }
-      })
+    var input = wrapper.find('input');
+    input.simulate("change", { target: { value: "vince@gmail.com", name: "name" } });
 
-      wrapper = mount(<CreateShoppingList />)
+    wrapper.find('form').simulate("submit", { preventDefault() { } });
 
-      var input = wrapper.find('input');
-      input.simulate("change", {target: {value: "vince@gmail.com", name: "name"}});
+    setTimeout(function () {
 
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
+      expect(wrapper.state().general_msg).equal("You have successfully created the List : vince@gmail.com");
+      expect(wrapper.find("FlashMsg").length).equal(1);
 
-      setTimeout(function(){
+      expect(fetchMock.called()).equal(true);
+      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
 
-        expect( wrapper.state().general_msg ).equal("You have successfully created the List : vince@gmail.com");
-        expect( wrapper.find("FlashMsg").length ).equal(1);
+      done();
 
-        expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
-
-        done();
-
-      }, 100);
-
-    })
-
-
-    it('form submission done properly and error responses are handled properly', (done) => {
-      
-      fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
-        status: 200,
-        body: { error:"Were here" }
-      })
-      
-      wrapper = mount(<CreateShoppingList />)
-
-      var input = wrapper.find('input');
-      input.simulate("change", {target: {value: "vince@gmail.com", name: "name"}});
-
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
-
-      setTimeout(function(){
-
-        expect( wrapper.state().general_msg ).equal("Were here");
-      
-        expect( wrapper.find("FlashMsg").length ).equal(1);
-
-        expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
-
-        done();
-
-      }, 100);
-
-    })
-
-
-    it('form submission done properly and form error message responses are handled properly', (done) => {
-      
-      fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
-        status: 200,
-        body: { error: { name : ["Name error"] } }
-      })
-
-      wrapper = mount(<CreateShoppingList />)
-
-      var input = wrapper.find('input');
-      input.simulate("change", {target: {value: "vince@gmail.com", name: "name"}});
-
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
-
-      setTimeout(function(){
-
-        expect( wrapper.state().name_error ).equal("Name error");
-
-        expect( wrapper.find("FormError").length ).equal(1);
-
-        expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
-
-        done();
-
-      }, 100);
-
-    })
-
-    it('form submission done properly and form error message responses are handled properly', (done) => {
-      
-      fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
-        status: 200,
-        body: "Unauthorized access"
-      })
-
-      wrapper = mount(<CreateShoppingList />)
-
-      var input = wrapper.find('input');
-      input.simulate("change", {target: {value: "vince@gmail.com", name: "name"}});
-
-      wrapper.find('form').simulate("submit", { preventDefault() {} });
-
-      setTimeout(function(){
-
-        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
-        expect( wrapper.find("FlashMsg").length ).equal(1);
-
-        expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
-
-        done();
-
-      }, 100);
-
-    })
-
-    afterEach(() => {
-      expect(fetchMock.calls().unmatched).to.be.empty;
-      fetchMock.restore();
-    })
+    }, 100);
 
   })
+
+
+  it('form submission done properly and error responses are handled properly', (done) => {
+
+    fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
+      status: 200,
+      body: { error: "Were here" }
+    })
+
+    wrapper = mount(<CreateShoppingList />)
+
+    var input = wrapper.find('input');
+    input.simulate("change", { target: { value: "vince@gmail.com", name: "name" } });
+
+    wrapper.find('form').simulate("submit", { preventDefault() { } });
+
+    setTimeout(function () {
+
+      expect(wrapper.state().general_msg).equal("Were here");
+
+      expect(wrapper.find("FlashMsg").length).equal(1);
+
+      expect(fetchMock.called()).equal(true);
+      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
+
+      done();
+
+    }, 100);
+
+  })
+
+
+  it('form submission done properly and form error message responses are handled properly', (done) => {
+
+    fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
+      status: 200,
+      body: { error: { name: ["Name error"] } }
+    })
+
+    wrapper = mount(<CreateShoppingList />)
+
+    var input = wrapper.find('input');
+    input.simulate("change", { target: { value: "vince@gmail.com", name: "name" } });
+
+    wrapper.find('form').simulate("submit", { preventDefault() { } });
+
+    setTimeout(function () {
+
+      expect(wrapper.state().name_error).equal("Name error");
+
+      expect(wrapper.find("FormError").length).equal(1);
+
+      expect(fetchMock.called()).equal(true);
+      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
+
+      done();
+
+    }, 100);
+
+  })
+
+  it('form submission done properly and form error message responses are handled properly', (done) => {
+
+    fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists", {
+      status: 200,
+      body: "Unauthorized access"
+    })
+
+    wrapper = mount(<CreateShoppingList />)
+
+    var input = wrapper.find('input');
+    input.simulate("change", { target: { value: "vince@gmail.com", name: "name" } });
+
+    wrapper.find('form').simulate("submit", { preventDefault() { } });
+
+    setTimeout(function () {
+
+      expect(wrapper.state().general_msg).equal("Check your internet connection and try again");
+      expect(wrapper.find("FlashMsg").length).equal(1);
+
+      expect(fetchMock.called()).equal(true);
+      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists");
+
+      done();
+
+    }, 100);
+
+  })
+
+  afterEach(() => {
+    expect(fetchMock.calls().unmatched).to.be.empty;
+    fetchMock.restore();
+  })
+
+})

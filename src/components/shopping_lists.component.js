@@ -33,8 +33,8 @@ class ShoppingLists extends Component {
       small_screen: false, hide_items: false, flash: false, user_username: false, token: false,
       lists_per_page: 5, items_per_page: 5, showing_all_items: false, showing_all_lists: false,
       num_of_records_lists: 1, num_of_records_items: 1,
-      getting_lists : false, getting_items : false,
-      list_page_selected : 1, item_page_selected : 1
+      getting_lists: false, getting_items: false,
+      list_page_selected: 1, item_page_selected: 1
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -69,7 +69,7 @@ class ShoppingLists extends Component {
     else
       q = ""
 
-    this.setState({ getting_lists : true });
+    this.setState({ getting_lists: true });
 
     //get user shopping list objects from database
     fetch(GLOBAL.baseUrl + '/v1/shoppinglists?limit=' + limit + '&page=' + page + q, {
@@ -80,7 +80,7 @@ class ShoppingLists extends Component {
     })      // returns a promise object
       .then((resp) => {
         this.setState({ general_msg: false })
-        this.setState({ getting_lists : false })
+        this.setState({ getting_lists: false })
         return resp.json()
       })
       .then((data) => {
@@ -109,7 +109,7 @@ class ShoppingLists extends Component {
     else
       q = ""
 
-      this.setState({ getting_items : true })
+    this.setState({ getting_items: true })
 
     //get user shopping list item objects from database
     fetch(GLOBAL.baseUrl + '/v2/shoppinglists/' + list_id + '/items?limit=' + limit + '&page=' + page + q, {
@@ -119,7 +119,7 @@ class ShoppingLists extends Component {
       }
     })      // returns a promise object
       .then((resp) => {
-        this.setState({ getting_items : false })
+        this.setState({ getting_items: false })
         return resp.json();
       })
       .then((data) => {
@@ -164,12 +164,12 @@ class ShoppingLists extends Component {
   }
 
   list_page_selected(event) {
-    this.setState({ list_page_selected : event.target.getAttribute("data-page-number") })
+    this.setState({ list_page_selected: event.target.getAttribute("data-page-number") })
     this.getLists(this.state.lists_per_page, event.target.getAttribute("data-page-number"), this.state.search_word_list);
   }
 
   item_page_selected(event) {
-    this.setState({ item_page_selected : event.target.getAttribute("data-page-number") })
+    this.setState({ item_page_selected: event.target.getAttribute("data-page-number") })
     this.getItems(this.state.chosen_list_id, this.state.items_per_page, event.target.getAttribute("data-page-number"), this.state.search_word_item);
   }
 
@@ -317,7 +317,7 @@ class ShoppingLists extends Component {
     var pages = Math.ceil(this.state.num_of_records_lists / this.state.lists_per_page)
 
     for (var i = 0; i < pages; i++) {
-      pagination_rows_lists.push(<Paginate page={ i + 1 } key={ i + 1 } page_selected={ this.list_page_selected } chosen_page={ this.state.list_page_selected } />);
+      pagination_rows_lists.push(<Paginate page={i + 1} key={i + 1} page_selected={this.list_page_selected} chosen_page={this.state.list_page_selected} />);
     }
 
     // Create item pagination
@@ -325,7 +325,7 @@ class ShoppingLists extends Component {
     var pages = Math.ceil(this.state.num_of_records_items / this.state.items_per_page)
 
     for (var i = 0; i < pages; i++) {
-      pagination_rows_items.push(<Paginate page={ i + 1 } key={ i + 1 } page_selected={ this.item_page_selected } chosen_page={ this.state.item_page_selected } />);
+      pagination_rows_items.push(<Paginate page={i + 1} key={i + 1} page_selected={this.item_page_selected} chosen_page={this.state.item_page_selected} />);
     }
 
     return (
@@ -341,7 +341,7 @@ class ShoppingLists extends Component {
           <div className={this.state.hide_items ? "panel panel-default col-sm-6 col-xs-12 hideSomething" : "panel panel-default col-sm-6 col-xs-12"} id="list-panel">
 
             <div className="panel-heading col-xs-12" style={{ marginBottom: "15px" }}>
-              <h4 className="col-xs-10">Shopping lists <img src='/static/images/loading.gif' alt="loading gif" className={ !this.state.getting_lists ? "hideSomething" : "col-xs-1" } style={{ padding: '0' }} /></h4>
+              <h4 className="col-xs-10">Shopping lists <img src='/static/images/loading.gif' alt="loading gif" className={!this.state.getting_lists ? "hideSomething" : "col-xs-1"} style={{ padding: '0' }} /></h4>
 
               <a href="/shopping-list/new" className="btn btn-success col-xs-2" style={{ padding: '10px 0' }} onClick={this.pushNavigation}>
                 <i className="fa fa fa-plus-circle"></i>
@@ -352,6 +352,7 @@ class ShoppingLists extends Component {
             <div className="col-xs-12">
 
               <div className="col-xs-5 col-xs-offset-1">
+                <label style={{ float: "left" }}>Lists per page</label>
                 <div className="form-group">
                   <select className="form-control" name="select_lists_per_page" onChange={this.numberOfListsPerPageChange}>
                     <option value="5">5</option>
@@ -366,6 +367,7 @@ class ShoppingLists extends Component {
 
               <form onSubmit={this.handleSearchSubmit} className="form">
                 <div className="col-xs-5 col-xs-offset-1">
+                  <label style={{ float: "left" }}>List search</label>
                   <div className="form-group">
                     <input placeholder="Search word" className="form-control" name="search_word_list" onChange={this.handleChange} />
                   </div>
@@ -376,7 +378,7 @@ class ShoppingLists extends Component {
 
             <div className="panel-body col-xs-12">
 
-              <h5>Click a shopping list to see its items</h5>
+              <h5 className="alert alert-info col-xs-12"><strong>Click a shopping list to see its items</strong></h5>
 
               {listNode}
 
@@ -397,7 +399,7 @@ class ShoppingLists extends Component {
 
               <button className="btn hidden-md hidden-lg hidden-sm col-xs-1" onClick={this.handleBackButtonOnItems} id="back-to-lists" style={{ padding: '10px 0' }}><i className="fa fa-arrow-circle-left"></i></button>
 
-              <h4 className="col-xs-10">Shopping list items <img src='/static/images/loading.gif' alt="loading gif" className={ !this.state.getting_items ? "hideSomething" : "col-xs-1"} style={{ padding: '0' }} /> </h4>
+              <h4 className="col-xs-10">Shopping list items <img src='/static/images/loading.gif' alt="loading gif" className={!this.state.getting_items ? "hideSomething" : "col-xs-1"} style={{ padding: '0' }} /> </h4>
 
               <button id="create-shopping-list-item" onClick={this.toggleShowItemForm} className="btn btn-success col-sm-2 col-xs-1" style={{ padding: '10px 0' }}><i className="fa fa fa-plus-circle"></i></button>
 
@@ -405,9 +407,10 @@ class ShoppingLists extends Component {
 
             <div className="panel-body">
 
-              <div className={ !this.state.chosen_list_id ? "hideSomething" : "col-xs-12"}>
+              <div className={!this.state.chosen_list_id ? "hideSomething" : "col-xs-12"}>
 
                 <div className="col-xs-5 col-xs-offset-1">
+                  <label style={{ float: "left" }}>Items per page</label>
                   <div className="form-group">
                     <select className="form-control" name="select_items_per_page" onChange={this.numberOfItemsPerPageChange}>
                       <option value="5">5</option>
@@ -421,6 +424,7 @@ class ShoppingLists extends Component {
 
                 <form onSubmit={this.handleItemSearchSubmit} className="form">
                   <div className="col-xs-5 col-xs-offset-1">
+                    <label style={{ float: "left" }}>Item Search</label>
                     <div className="form-group">
                       <input placeholder="Search word" className="form-control" name="search_word_item" onChange={this.handleChange} />
                     </div>
@@ -429,8 +433,8 @@ class ShoppingLists extends Component {
 
               </div>
 
-              <h4 className="col-xs-12">Shopping list - <span id="list-name">{this.state.chosen_list ? this.state.chosen_list : null}</span></h4>
-              <h4 className="col-xs-12">Items</h4>
+              <h4 className="col-xs-12" style={{ textAlign: "left" }}>Shopping list - <span id="list-name">{this.state.chosen_list ? this.state.chosen_list : null}</span></h4>
+              <h4 className="col-xs-12" style={{ textAlign: "left" }}>Items</h4>
 
               <div className={this.state.show_add_item ? 'well well-sm col-xs-12 showAddItemForm' : 'well well-sm col-xs-12'} id="new-item-form">
 
@@ -473,7 +477,7 @@ class ShoppingLists extends Component {
               </div>
 
 
-              <ul className="list-group col-xs-12">
+              <ul className="list-group col-xs-12" style={{ marginTop: "20px" }}>
 
                 {itemNode}
 

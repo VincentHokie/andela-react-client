@@ -22,7 +22,7 @@
 }
 
 .shopping-list i { font-size: 12px; cursor:pointer }
-.shopping-list-items { display:none; list-style-type: none }
+.shopping-list-items { display:none; list-style-type: none; text-align: left; }
 
 .panel.panel-default, .panel .panel-heading { padding:0 }
 
@@ -64,6 +64,6 @@
 
 @media (min-width: 992px){
     #list-panel .alert {
-        margin: 0; margin-bottom:20px
+        margin: 0; margin-bottom:20px; text-align: left;
     }
 }

@@ -10,137 +10,137 @@ var GLOBAL = require("../globals.js")
 
 class PasswordReset extends Component {
 
-constructor(){
-   super();
-   this.state={
-    password: '', password_confirm: '',
-    password_error: false, password_confirm_error: false,
-    general_msg : false, loading : false,
-    logged_in : false, flash: false, username: false, token: false
+  constructor() {
+    super();
+    this.state = {
+      password: '', password_confirm: '',
+      password_error: false, password_confirm_error: false,
+      general_msg: false, loading: false,
+      logged_in: false, flash: false, username: false, token: false
     }
-    
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.pushNavigation = this.pushNavigation.bind(this);
 
-}
+  }
 
-componentWillMount(){
-  
-  //set global info and window refresh/ page change
-  GLOBAL.setGlobals(this);
-  
-}
+  componentWillMount() {
 
-componentDidMount(){
+    //set global info and window refresh/ page change
+    GLOBAL.setGlobals(this);
 
-  //show a flash message if it exists in the globals module
-    if( this.state.flash ){
-      
-      this.setState({ general_msg: this.state.flash  });
-      this.setState({ flash: false  });
+  }
+
+  componentDidMount() {
+
+    //show a flash message if it exists in the globals module
+    if (this.state.flash) {
+
+      this.setState({ general_msg: this.state.flash });
+      this.setState({ flash: false });
 
     }
-    
-}
 
-pushNavigation(event){
+  }
+
+  pushNavigation(event) {
     this.props.history.push(event.target.getAttribute("href"))
-}
+  }
 
-handleSubmit(e) {
+  handleSubmit(e) {
 
     //prevent browser refresh on submit
     e.preventDefault();
 
-    var formData  = new FormData();
+    var formData = new FormData();
     var data = ["password", "password_confirm"];
     var thiz = this;
     var token = this.props.match.params.token;
-    
+
     //reset error variables
-    this.setState({ password_error: false  })
-    this.setState({ password_confirm_error: false  })
-    this.setState({ general_msg: false  })
-    this.setState({ loading: true  })
+    this.setState({ password_error: false })
+    this.setState({ password_confirm_error: false })
+    this.setState({ general_msg: false })
+    this.setState({ loading: true })
 
 
-    for(var name in data) 
+    for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
-  fetch(GLOBAL.baseUrl + '/v1/auth/reset-password/'+token,{
+    fetch(GLOBAL.baseUrl + '/v1/auth/reset-password/' + token, {
       method: 'POST',
       body: formData
     })      // returns a promise object
-  .then((resp) => resp.json())
-  .then(function(data){
+      .then((resp) => resp.json())
+      .then(function (data) {
 
-    thiz.setState({ loading: false  })
+        thiz.setState({ loading: false })
 
-    if( data["success"] ){
+        if (data["success"]) {
 
-        data = data["success"];
-        thiz.setState({ general_msg: data })
-
-    }else if( data["error"] ){
-
-        data = data["error"];
-
-        //if the error is not a json object, create a general message..otherwise, its a form error
-        if( typeof data !== "object" ){
+          data = data["success"];
           thiz.setState({ general_msg: data })
-          return true;
+
+        } else if (data["error"]) {
+
+          data = data["error"];
+
+          //if the error is not a json object, create a general message..otherwise, its a form error
+          if (typeof data !== "object") {
+            thiz.setState({ general_msg: data })
+            return true;
+          }
+
+          //theres a form validation error(s), show it/them
+          var fields = ["password", "password_confirm"];
+          for (var field in fields) {
+            field = fields[field];
+            if (data[field])
+              thiz.setState({ [field + "_error"]: data[field][0] })
+          }
+
         }
 
-        //theres a form validation error(s), show it/them
-        var fields = ["password", "password_confirm"];
-        for( var field in fields ){
-          field = fields[field];
-          if( data[field] )
-            thiz.setState({ [field+"_error"]: data[field][0] })
-        }
+      }) // still returns a promise object, U need to chain it again
+      .catch(function (error) {
+        thiz.setState({ loading: false })
+        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      });
 
-    }
-  
-  }) // still returns a promise object, U need to chain it again
-  .catch(function(error){
-    thiz.setState({ loading: false  })
-    thiz.setState({ general_msg: "Check your internet connection and try again" })
-  });
+  }
 
-}
-
-handleChange(event) {
-    this.setState({[event.target.name]: event.target.value});
-}
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
 
   render() {
 
     return (
-      
+
       <div className="container col-xs-12">
 
-      { this.state.general_msg ? <FlashMsg msg={ this.state.general_msg } /> : null }
+        {this.state.general_msg ? <FlashMsg msg={this.state.general_msg} /> : null}
 
-      <form onSubmit={this.handleSubmit} className="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 form-login form">
+        <form onSubmit={this.handleSubmit} className="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 form-login form">
 
-      <h2 className="form-heading">Andela Shopping List</h2>
+          <h2 className="form-heading">Andela Shopping List</h2>
 
-      <div className="input-wrap">
+          <div className="input-wrap">
 
-      { this.state.password_error ? <FormError error={ this.state.password_error } /> : null }
-      <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
+            {this.state.password_error ? <FormError error={this.state.password_error} /> : null}
+            <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" onChange={this.handleChange} disabled={this.state.loading ? "disabled" : false} />
 
-      { this.state.password_confirm_error ? <FormError error={ this.state.password_confirm_error } /> : null }
-      <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} disabled={ this.state.loading ? "disabled" : false } />
+            {this.state.password_confirm_error ? <FormError error={this.state.password_confirm_error} /> : null}
+            <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} disabled={this.state.loading ? "disabled" : false} />
 
-      <FormButton loading={ this.state.loading } title="Reset Password" />
+            <FormButton loading={this.state.loading} title="Reset Password" />
 
-      </div>
+          </div>
 
-      <p className="col-xs-8 col-xs-offset-2"><a href="/login" onClick={ this.pushNavigation }>Try login again</a> if youve had a thought or <a href="/sign-up">Sign Up</a> </p>
+          <p className="col-xs-8 col-xs-offset-2"><a href="/login" onClick={this.pushNavigation}>Try login again</a> if youve had a thought or <a href="/sign-up">Sign Up</a> </p>
 
-      </form>
+        </form>
 
       </div>
 

@@ -352,6 +352,7 @@ class ShoppingLists extends Component {
             <div className="col-xs-12">
 
               <div className="col-xs-5 col-xs-offset-1">
+              <label style={{ float:"left" }}>Lists per page</label>
                 <div className="form-group">
                   <select className="form-control" name="select_lists_per_page" onChange={this.numberOfListsPerPageChange}>
                     <option value="5">5</option>
@@ -366,6 +367,7 @@ class ShoppingLists extends Component {
 
               <form onSubmit={this.handleSearchSubmit} className="form">
                 <div className="col-xs-5 col-xs-offset-1">
+                <label style={{ float:"left" }}>List search</label>
                   <div className="form-group">
                     <input placeholder="Search word" className="form-control" name="search_word_list" onChange={this.handleChange} />
                   </div>
@@ -376,7 +378,7 @@ class ShoppingLists extends Component {
 
             <div className="panel-body col-xs-12">
 
-              <h5>Click a shopping list to see its items</h5>
+              <h5 className="alert alert-info col-xs-12"><strong>Click a shopping list to see its items</strong></h5>
 
               {listNode}
 
@@ -408,6 +410,7 @@ class ShoppingLists extends Component {
               <div className={ !this.state.chosen_list_id ? "hideSomething" : "col-xs-12"}>
 
                 <div className="col-xs-5 col-xs-offset-1">
+                <label style={{ float:"left" }}>Items per page</label>
                   <div className="form-group">
                     <select className="form-control" name="select_items_per_page" onChange={this.numberOfItemsPerPageChange}>
                       <option value="5">5</option>
@@ -421,6 +424,7 @@ class ShoppingLists extends Component {
 
                 <form onSubmit={this.handleItemSearchSubmit} className="form">
                   <div className="col-xs-5 col-xs-offset-1">
+                  <label style={{ float:"left" }}>Item Search</label>
                     <div className="form-group">
                       <input placeholder="Search word" className="form-control" name="search_word_item" onChange={this.handleChange} />
                     </div>
@@ -429,8 +433,8 @@ class ShoppingLists extends Component {
 
               </div>
 
-              <h4 className="col-xs-12">Shopping list - <span id="list-name">{this.state.chosen_list ? this.state.chosen_list : null}</span></h4>
-              <h4 className="col-xs-12">Items</h4>
+              <h4 className="col-xs-12" style={{ textAlign: "left" }}>Shopping list - <span id="list-name">{this.state.chosen_list ? this.state.chosen_list : null}</span></h4>
+              <h4 className="col-xs-12" style={{ textAlign: "left" }}>Items</h4>
 
               <div className={this.state.show_add_item ? 'well well-sm col-xs-12 showAddItemForm' : 'well well-sm col-xs-12'} id="new-item-form">
 
@@ -473,7 +477,7 @@ class ShoppingLists extends Component {
               </div>
 
 
-              <ul className="list-group col-xs-12">
+              <ul className="list-group col-xs-12" style={{ marginTop: "20px" }}>
 
                 {itemNode}
 

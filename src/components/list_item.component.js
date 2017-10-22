@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom';
-
 var GLOBAL = require("../globals.js")
 
 var vex = require('vex-js')
@@ -44,10 +42,11 @@ class ListItem extends Component {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
       }
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
+      .then((resp) => {
         component.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
@@ -63,8 +62,7 @@ class ListItem extends Component {
         }
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        component.setState({ loading: false })
+      .catch((error) => {
         parent.setState({ general_msg: "Check your internet connection and try again" })
       });
 
@@ -92,7 +90,6 @@ class ListItem extends Component {
 
   handleItemCheckboxChange(event) {
 
-    var thiz = this;
     var parent = this._reactInternalInstance._currentElement._owner._instance;
 
     fetch(GLOBAL.baseUrl + '/v1/shoppinglists/' + this.props.item.list_id + '/items/' + this.props.item.item_id + '/checkbox', {
@@ -101,16 +98,17 @@ class ListItem extends Component {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
       }
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
-        thiz.setState({ loading: false })
+      .then((resp) => {
+        this.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
           data = data["success"];
           parent.setState({ general_msg: data })
-          thiz.setState({ checked: thiz.state.checked == 1 ? 0 : 1 })
+          this.setState({ checked: this.state.checked == 1 ? 0 : 1 })
 
         } else if (data["error"]) {
 
@@ -118,16 +116,15 @@ class ListItem extends Component {
 
           //if the error is not a json object, create a general messge..otherwise, its a form error
           if (typeof data !== "object") {
-            thiz.setState({ general_msg: data })
+            this.setState({ general_msg: data })
             return true;
           }
 
         }
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        thiz.setState({ loading: false })
-        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      .catch((error) => {
+        this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
   }

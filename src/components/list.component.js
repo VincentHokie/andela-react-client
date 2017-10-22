@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom';
-
 var GLOBAL = require("../globals.js")
 
 var vex = require('vex-js')
@@ -39,10 +37,11 @@ class Item extends Component {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
       }
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
+      .then((resp) => {
         component.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
@@ -63,8 +62,7 @@ class Item extends Component {
         }
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        component.setState({ loading: false })
+      .catch((error) => {        
         component.setState({ general_msg: "Check your internet connection and try again" })
       });
 

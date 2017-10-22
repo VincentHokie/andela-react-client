@@ -37,8 +37,10 @@ class SignUp extends Component {
     //show a flash message if it exists in the globals module
     if (this.state.flash) {
 
-      this.setState({ general_msg: this.state.flash });
-      this.setState({ flash: false });
+      this.setState({ 
+        general_msg: this.state.flash,
+        flash: false
+      });
 
     }
 
@@ -55,17 +57,17 @@ class SignUp extends Component {
 
     var formData = new FormData();
     var data = ["email", "username", "password", "password2"];
-    var thiz = this;
 
     //reset error variables
-    this.setState({ username_error: false })
-    this.setState({ email_error: false })
-    this.setState({ password_error: false })
-    this.setState({ password2_error: false })
-    this.setState({ general_msg: false })
-    this.setState({ loading: true })
-
-
+    this.setState({ 
+      username_error: false,
+      email_error: false,
+      password_error: false,
+      password2_error: false,
+      general_msg: false,
+      loading: true
+    })
+    
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
@@ -73,21 +75,23 @@ class SignUp extends Component {
       method: 'POST',
       body: formData
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
-        thiz.setState({ loading: false })
+      .then((resp) => {
+        this.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
           data = data["success"];
-          thiz.setState({ general_msg: data })
-          thiz.setState({ success: true })
-
-          thiz.setState({ username: "" })
-          thiz.setState({ email: "" })
-          thiz.setState({ password: "" })
-          thiz.setState({ password2: "" })
+          this.setState({ 
+            general_msg: data,
+            success: true,
+            username: "",
+            email: "",
+            password: "",
+            password2: ""
+          })
 
         } else if (data["error"]) {
 
@@ -95,7 +99,7 @@ class SignUp extends Component {
 
           //if the error is not a json object, create a general messge..otherwise, its a form error
           if (typeof data !== "object") {
-            thiz.setState({ general_msg: data })
+            this.setState({ general_msg: data })
             return true;
           }
 
@@ -103,15 +107,14 @@ class SignUp extends Component {
           for (var field in fields) {
             field = fields[field];
             if (data[field])
-              thiz.setState({ [field + "_error"]: data[field][0] })
+              this.setState({ [field + "_error"]: data[field][0] })
           }
 
         }
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        thiz.setState({ loading: false })
-        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      .catch((error) => {
+        this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
   }

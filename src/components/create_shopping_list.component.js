@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
-import { Redirect } from 'react-router-dom';
-
 import Navigation from "./navigation.component.js"
 import FlashMsg from "./flash_msg.component.js"
-
 import FormError from "./forms/form_error.component.js"
 import FormButton from "./forms/form_button.component.js"
 import BackButton from "./back_button.component.js"
@@ -40,8 +37,10 @@ class CreateShoppingList extends Component {
     //show a flash message if it exists in the globals module
     if (this.state.flash) {
 
-      this.setState({ general_msg: this.state.flash });
-      this.setState({ flash: true });
+      this.setState({ 
+        general_msg: this.state.flash,
+        flash: true
+      });
 
     }
 
@@ -54,12 +53,13 @@ class CreateShoppingList extends Component {
 
     var formData = new FormData();
     var data = ["name"];
-    var thiz = this;
 
     //reset error variables
-    this.setState({ name_error: false })
-    this.setState({ general_msg: false })
-    this.setState({ loading: true })
+    this.setState({ 
+      name_error: false,
+      general_msg: false,
+      loading: true
+    })
 
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
@@ -72,11 +72,13 @@ class CreateShoppingList extends Component {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
       }
     })      // returns a promise object
-      .then((resp) => resp.text())
-      .then(function (data) {
+      .then((resp) => {
+        this.setState({ loading: false })
+        return resp.text()
+      })
+      .then((data) => {
 
         data = JSON.parse(data)
-        thiz.setState({ loading: false })
 
         if (data["error"]) {
 
@@ -84,26 +86,28 @@ class CreateShoppingList extends Component {
 
           //if the error is not a json object, create a general messge..otherwise, its a form error
           if (typeof data !== "object") {
-            thiz.setState({ general_msg: data })
+            this.setState({ general_msg: data })
             return true;
           }
 
-          var fields = ["name"];
-          for (var field in fields) {
-            field = fields[field];
-            if (data["name"])
-              thiz.setState({ [field + "_error"]: data[field][0] })
-          }
+          // display the name form error if the name key exists
+          if (data["name"])
+            this.setState({ ["name_error"]: data["name"][0] })
+          
+
         } else {
-          thiz.setState({ general_msg: "You have successfully created the List : " + thiz.state.name })
-          thiz.setState({ name: '' })
+          
+          this.setState({ 
+            general_msg: "You have successfully created the List : " + this.state.name,
+            name: ''
+          })
+          
         }
 
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        thiz.setState({ loading: false })
-        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      .catch((error) => {
+        this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
   }

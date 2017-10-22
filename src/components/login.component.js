@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Link, Redirect } from 'react-router-dom';
-
 import FlashMsg from "./flash_msg.component.js"
 import FormError from "./forms/form_error.component.js"
 import FormButton from "./forms/form_button.component.js"
@@ -38,8 +36,10 @@ class Login extends Component {
     //show a flash message if it exists in the globals module
     if (this.state.flash) {
 
-      this.setState({ general_msg: this.state.flash });
-      this.setState({ flash: false });
+      this.setState({ 
+        general_msg: this.state.flash,
+        flash: false
+      });
 
     }
 
@@ -56,14 +56,14 @@ class Login extends Component {
 
     var formData = new FormData();
     var data = ["username", "password"];
-    var thiz = this;
 
     //reset error variables
-    this.setState({ username_error: false })
-    this.setState({ password_error: false })
-    this.setState({ general_msg: false })
-    this.setState({ loading: true })
-
+    this.setState({ 
+      username_error: false, 
+      password_error: false,
+      general_msg: false,
+      loading: true
+    })
 
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
@@ -72,25 +72,28 @@ class Login extends Component {
       method: 'POST',
       body: formData
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
-        thiz.setState({ loading: false })
+      .then((resp) => {
+        this.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
-          thiz.setState({ general_msg: data["success"] })
+          this.setState({ general_msg: data["success"] })
 
           //if a token is sent back, the login was successful, so we set global variables to store these states
           if (data["token"]) {
 
-            thiz.setState({ token: data["token"] })
-            thiz.setState({ user_username: thiz.state.username })
-            thiz.state.logged_in = true;
+            this.setState({ 
+              token: data["token"],
+              user_username: this.state.username
+            })
+            this.state.logged_in = true;
 
             setTimeout(function () {
               window.dispatchEvent(new Event('beforeunload'));
-              thiz.props.history.push('/shopping-lists')
+              this.props.history.push('/shopping-lists')
             }, 500);
 
           }
@@ -101,22 +104,22 @@ class Login extends Component {
 
           //if the error is not a json object, create a general messge..otherwise, its a form error
           if (typeof data !== "object") {
-            thiz.setState({ general_msg: data })
+            this.setState({ general_msg: data })
             return true;
           }
 
-          var fields = ["username", "password"];
-          for (var field in fields) {
-            field = fields[field];
-            if (data[field])
-              thiz.setState({ [field + "_error"]: data[field][0] })
-          }
+         // show form errors if their respective keys are returned by the API
+          if (data["username"])
+            this.setState({ ["username_error"]: data["username"][0] })
+
+          if (data["password"])
+            this.setState({ ["password_error"]: data["password"][0] })
+
         }
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        thiz.setState({ loading: false })
-        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      .catch((error) => {
+        this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
   }

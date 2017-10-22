@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Link, Redirect } from 'react-router-dom';
-
 import FlashMsg from "./flash_msg.component.js"
 import FormError from "./forms/form_error.component.js"
 import FormButton from "./forms/form_button.component.js"
@@ -37,8 +35,10 @@ class PasswordReset extends Component {
     //show a flash message if it exists in the globals module
     if (this.state.flash) {
 
-      this.setState({ general_msg: this.state.flash });
-      this.setState({ flash: false });
+      this.setState({ 
+        general_msg: this.state.flash,
+        flash: false
+      });
 
     }
 
@@ -55,16 +55,16 @@ class PasswordReset extends Component {
 
     var formData = new FormData();
     var data = ["password", "password_confirm"];
-    var thiz = this;
     var token = this.props.match.params.token;
 
     //reset error variables
-    this.setState({ password_error: false })
-    this.setState({ password_confirm_error: false })
-    this.setState({ general_msg: false })
-    this.setState({ loading: true })
-
-
+    this.setState({ 
+      password_error: false,
+      password_confirm_error: false,
+      general_msg: false,
+      loading: true
+    })
+    
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
@@ -72,15 +72,16 @@ class PasswordReset extends Component {
       method: 'POST',
       body: formData
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
-        thiz.setState({ loading: false })
+      .then((resp) => {
+        this.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
           data = data["success"];
-          thiz.setState({ general_msg: data })
+          this.setState({ general_msg: data })
 
         } else if (data["error"]) {
 
@@ -88,24 +89,22 @@ class PasswordReset extends Component {
 
           //if the error is not a json object, create a general message..otherwise, its a form error
           if (typeof data !== "object") {
-            thiz.setState({ general_msg: data })
+            this.setState({ general_msg: data })
             return true;
           }
 
           //theres a form validation error(s), show it/them
-          var fields = ["password", "password_confirm"];
-          for (var field in fields) {
-            field = fields[field];
-            if (data[field])
-              thiz.setState({ [field + "_error"]: data[field][0] })
-          }
+          if (data["password"])
+            this.setState({ ["password_error"]: data["password"][0] })
+
+          if (data["password_confirm"])
+            this.setState({ ["password_confirm_error"]: data["password_confirm"][0] })
 
         }
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        thiz.setState({ loading: false })
-        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      .catch((error) => {
+        this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
   }

@@ -79,7 +79,8 @@ class ShoppingLists extends Component {
       .then((resp) => {
         this.setState({ 
           general_msg: false,
-          getting_lists: false
+          getting_lists: false,
+          loading: false
         })
         return resp.json()
       })

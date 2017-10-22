@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom';
-
 import './css/template_logged_in.css';
 
 var vex = require('vex-js')
@@ -36,18 +34,21 @@ class Navigation extends Component {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
       },
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
+      .then((resp) => {
         component.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
-          component.setState({ flash: data["success"] })
-          component.setState({ user_username: false })
-          component.setState({ logged_in: false })
-          component.setState({ token: false })
-
+          component.setState({ 
+            flash: data["success"],
+            user_username: false,
+            logged_in: false,
+            token: false
+          })
+          
           window.location = "/login";
 
         }
@@ -55,9 +56,7 @@ class Navigation extends Component {
           component.setState({ flash: data["error"] })
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-
-        component.setState({ loading: false })
+      .catch((error) => {
         component.setState({ general_msg: "Check your internet connection and try again" })
       });
 

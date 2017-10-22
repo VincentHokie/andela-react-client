@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Redirect, Link } from 'react-router-dom';
-
 import './css/view-shopping-list.css';
 
 import Navigation from "./navigation.component.js"
@@ -79,8 +77,11 @@ class ShoppingLists extends Component {
       }
     })      // returns a promise object
       .then((resp) => {
-        this.setState({ general_msg: false })
-        this.setState({ getting_lists: false })
+        this.setState({ 
+          general_msg: false,
+          getting_lists: false,
+          loading: false
+        })
         return resp.json()
       })
       .then((data) => {
@@ -90,13 +91,14 @@ class ShoppingLists extends Component {
           return true;
         }
 
-        this.setState({ list_data: data["lists"] });
-        this.setState({ num_of_records_lists: data["count"] });
-        this.setState({ loading: false })
+        this.setState({ 
+          list_data: data["lists"],
+          num_of_records_lists: data["count"],
+          loading: false
+        });
 
       }) // still returns a promise object, U need to chain it again
       .catch((error) => {
-        this.setState({ loading: false })
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
@@ -130,14 +132,13 @@ class ShoppingLists extends Component {
         }
 
         //we got item objects back, populate component state
-        this.setState({ item_data: data["items"] });
-        this.setState({ num_of_records_items: data["count"] });
-
-        this.setState({ loading: false });
+        this.setState({ 
+          item_data: data["items"],
+          num_of_records_items: data["count"]
+        });
 
       }) // still returns a promise object, U need to chain it again
       .catch((error) => {
-        this.setState({ loading: false })
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
@@ -145,15 +146,18 @@ class ShoppingLists extends Component {
 
   componentDidMount() {
 
-    this.setState({ loading: true })
-
-    this.setState({ general_msg: "Loading your updated shopping lists.." })
+    this.setState({ 
+      loading: true, 
+      general_msg: "Loading your updated shopping lists.."
+    })
 
     //show a flash message if it exists in the globals module
     if (this.state.flash) {
 
-      this.setState({ general_msg: this.state.flash });
-      this.setState({ flash: false });
+      this.setState({ 
+        general_msg: this.state.flash,
+        flash: false
+      });
 
     }
 
@@ -174,16 +178,20 @@ class ShoppingLists extends Component {
   }
 
   numberOfListsPerPageChange(event) {
-    this.setState({ lists_per_page: parseInt(event.target.value) });
-    this.setState({ showing_all_lists: event.target.value == "all" ? true : false })
+    this.setState({ 
+      lists_per_page: parseInt(event.target.value),
+      showing_all_lists: event.target.value == "all" ? true : false
+    });
 
     this.getLists(parseInt(event.target.value), 1, this.state.search_word_list);
 
   }
 
   numberOfItemsPerPageChange(event) {
-    this.setState({ items_per_page: event.target.value });
-    this.setState({ showing_all_items: event.target.value == "all" ? true : false })
+    this.setState({ 
+      items_per_page: event.target.value,
+      showing_all_items: event.target.value == "all" ? true : false
+    });
 
     this.getItems(this.state.chosen_list_id, parseInt(event.target.value), 1, this.state.search_word_item);
 
@@ -201,13 +209,13 @@ class ShoppingLists extends Component {
 
     var formData = new FormData();
     var data = ["name", "amount"];
-    var thiz = this;
 
     //reset error variables
-    this.setState({ name_error: false })
-    this.setState({ general_msg: false })
-    this.setState({ loading: true })
-
+    this.setState({ 
+      name_error: false,
+      general_msg: false,
+      loading: true
+    })
 
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
@@ -219,10 +227,11 @@ class ShoppingLists extends Component {
       },
       body: formData
     })      // returns a promise object
-      .then((resp) => resp.text())
-      .then(function (data) {
-
-        thiz.setState({ loading: false })
+      .then((resp) => {
+        this.setState({ loading: false })
+        return resp.text()
+      })
+      .then((data) => {
 
         data = JSON.parse(data)
 
@@ -232,34 +241,37 @@ class ShoppingLists extends Component {
 
           //if the error is not a json object, create a general messge..otherwise, its a form error
           if (typeof data !== "object") {
-            thiz.setState({ general_msg: data })
+            this.setState({ general_msg: data })
             return true;
           }
 
-          var fields = ["name", "amount"];
-          for (var field in fields) {
-            field = fields[field];
-            if (data[field])
-              thiz.setState({ [field + "_error"]: data[field][0] })
+          // display form errors if their respective keys exists
+          if (data["name"]){
+            this.setState({ ["name_error"]: data["name"][0] })
           }
+
+          if (data["amount"]){
+            this.setState({ ["amount_error"]: data["amount"][0] })
+          }
+          
+
         } else {
 
-          thiz.setState({ general_msg: "You have successfully created the item : " + thiz.state.name + " into list : " + thiz.state.chosen_list })
-          var current_items = thiz.state.item_data;
+          this.setState({ general_msg: "You have successfully created the item : " + this.state.name + " into list : " + this.state.chosen_list })
+          var current_items = this.state.item_data;
           current_items.push(data)
 
-          thiz.setState({ item_data: current_items })
-          thiz.setState({ name: '' })
-          thiz.setState({ amount: '' })
-
+          this.setState({ 
+            item_data: current_items,
+            name: '',
+            amount: ''
+          })
 
         }
 
-
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        thiz.setState({ loading: false })
-        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      .catch((error) => {
+        this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
   }
@@ -287,8 +299,10 @@ class ShoppingLists extends Component {
   }
 
   handleListSelect(event) {
-    this.setState({ chosen_list: event.target.getAttribute("data-listname") })
-    this.setState({ chosen_list_id: event.target.id })
+    this.setState({ 
+      chosen_list: event.target.getAttribute("data-listname"),
+      chosen_list_id: event.target.id
+    })
 
     //on a mobile phone, completely hide the list panel and show the list items
     if (this.state.small_screen) {

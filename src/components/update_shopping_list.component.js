@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
-import { Redirect } from 'react-router-dom';
-
 import Navigation from "./navigation.component.js"
 import FlashMsg from "./flash_msg.component.js"
-
 import FormError from "./forms/form_error.component.js"
 import FormButton from "./forms/form_button.component.js"
 import BackButton from "./back_button.component.js"
@@ -41,14 +38,14 @@ class UpdateShoppingList extends Component {
     //show a flash message if it exists in the globals module
     if (this.state.flash) {
 
-      this.setState({ general_msg: this.state.flash });
-      this.setState({ flash: false });
+      this.setState({ 
+        general_msg: this.state.flash,
+        flash: false
+      });
 
     }
 
-    var thiz = this;
-
-    thiz.setState({ loading: true })
+    this.setState({ loading: true })
 
     //get list object from database
     fetch(GLOBAL.baseUrl + '/v2/shoppinglists/' + this.props.match.params.id, {
@@ -57,26 +54,28 @@ class UpdateShoppingList extends Component {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
       }
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
-        thiz.setState({ loading: false })
+      .then((resp) => {
+        this.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         //if the data is not a json object, create a general messge..otherwise, its a list object
         if (typeof data !== "object") {
-          thiz.setState({ general_msg: data })
+          this.setState({ general_msg: data })
           return true;
         }
 
         //we got a list object back, populate state & therefore input field
-        thiz.setState({ name: data["name"] })
-        thiz.setState({ retrieved: true });
+        this.setState({ 
+          name: data["name"],
+          retrieved: true
+        })
 
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        thiz.setState({ loading: false })
-        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      .catch((error) => {
+        this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
 
@@ -89,13 +88,14 @@ class UpdateShoppingList extends Component {
 
     var formData = new FormData();
     var data = ["name"];
-    var thiz = this;
 
     //reset error variables
-    this.setState({ name_error: false })
-    this.setState({ general_msg: false })
-    this.setState({ loading: true })
-
+    this.setState({ 
+      name_error: false,
+      general_msg: false,
+      loading: true
+    })
+    
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
@@ -107,15 +107,16 @@ class UpdateShoppingList extends Component {
       },
       body: formData
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then(function (data) {
-
-        thiz.setState({ loading: false })
+      .then((resp) => {
+        this.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
           data = data["success"];
-          thiz.setState({ general_msg: data })
+          this.setState({ general_msg: data })
 
         } else if (data["error"]) {
 
@@ -123,22 +124,19 @@ class UpdateShoppingList extends Component {
 
           //if the error is not a json object, create a general messge..otherwise, its a form error
           if (typeof data !== "object") {
-            thiz.setState({ general_msg: data })
+            this.setState({ general_msg: data })
             return true;
           }
 
-          var fields = ["name"];
-          for (var field in fields) {
-            field = fields[field];
-            if (data[field])
-              thiz.setState({ [field + "_error"]: data[field][0] })
+          if (data["name"]){
+            this.setState({ ["name_error"]: data["name"][0] })
           }
+
         }
 
       }) // still returns a promise object, U need to chain it again
-      .catch(function (error) {
-        thiz.setState({ loading: false })
-        thiz.setState({ general_msg: "Check your internet connection and try again" })
+      .catch((error) => {
+        this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
   }

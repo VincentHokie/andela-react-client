@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 
 import FlashMsg from "./flash_msg.component.js"
 import FormError from "./forms/form_error.component.js"
@@ -56,10 +55,11 @@ class EmailConfirm extends Component {
     var data = ["email"];
 
     //reset error variables
-    this.setState({ email_error: false })
-    this.setState({ general_msg: false })
-    this.setState({ loading: true })
-
+    this.setState({ 
+      email_error: false,
+      general_msg: false,
+      loading: true
+    })
 
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
@@ -68,10 +68,11 @@ class EmailConfirm extends Component {
       method: 'POST',
       body: formData
     })      // returns a promise object
-      .then((resp) => resp.json())
-      .then((data) => {
-
+      .then((resp) => {
         this.setState({ loading: false })
+        return resp.json()
+      })
+      .then((data) => {
 
         if (data["success"]) {
 
@@ -92,12 +93,10 @@ class EmailConfirm extends Component {
           if (data["email"])
             this.setState({ email_error: data["email"][0] })
 
-
         }
 
       }) // still returns a promise object, U need to chain it again
       .catch((error) => {
-        this.setState({ loading: false })
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 

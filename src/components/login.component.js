@@ -91,7 +91,7 @@ class Login extends Component {
             })
             this.state.logged_in = true;
 
-            setTimeout(function () {
+            setTimeout(() => {
               window.dispatchEvent(new Event('beforeunload'));
               this.props.history.push('/shopping-lists')
             }, 500);

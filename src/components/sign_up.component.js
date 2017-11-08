@@ -93,6 +93,10 @@ class SignUp extends Component {
             password2: ""
           })
 
+          setTimeout(() => {
+            this.props.history.push('/login')
+          }, 1000);
+
         } else if (data["error"]) {
 
           data = data["error"];
@@ -132,8 +136,6 @@ class SignUp extends Component {
       <div className="container col-xs-12">
 
         {this.state.general_msg ? <FlashMsg msg={this.state.general_msg} /> : null}
-
-        <center className={this.state.success ? "" : "hidden-lg hidden-md hidden-sm hidden-xs"} style={{ clear: "left", "margin-bottom": "20px" }}><a href='/login' className='btn btn-success' role='button' onClick={this.pushNavigation}>Login now</a></center>
 
         <img src='/static/images/shopping-list.jpg' alt="decorative shopping list" className="col-sm-6 hidden-xs" />
 

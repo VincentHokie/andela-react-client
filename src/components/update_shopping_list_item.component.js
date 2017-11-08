@@ -118,6 +118,11 @@ class UpdateShoppingListItem extends Component {
           data = data["success"];
           this.setState({ general_msg: data })
 
+          setTimeout(() => {
+            this.props.history.push('/shopping-lists')
+          }, 1000);
+
+
         } else if (data["error"]) {
 
           data = data["error"];

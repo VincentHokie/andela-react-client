@@ -5,10 +5,10 @@ import './App.css';
 import { Route, Switch} from 'react-router-dom'
 
 //import custom components
-import Login from "./components/login.js"
-import EmailConfirm from "./components/emailConfirm.js"
-import PasswordReset from "./components/passwordReset.js"
-import SignUp from "./components/signUp.js"
+import Login from "./components/auth/login.js"
+import EmailConfirm from "./components/auth/emailConfirm.js"
+import PasswordReset from "./components/auth/passwordReset.js"
+import SignUp from "./components/auth/signUp.js"
 
 import ShoppingLists from "./components/shoppingLists.js"
 import CreateShoppingList from "./components/createShoppingList.js"

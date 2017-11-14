@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
-import FlashMsg from "./flashMsg.js"
-import FormError from "./forms/formError.js"
-import FormButton from "./forms/formButton.js"
-import BaseComponent from "./base"
+import BaseComponent from "../base"
+import FlashMsg from "../flashMsg.js"
+import FormError from "../forms/formError.js"
+import FormButton from "../forms/formButton.js"
 
-var GLOBAL = require("../globals.js")
+var GLOBAL = require("../../globals.js")
 
-class EmailConfirm extends BaseComponent {
+class PasswordReset extends BaseComponent {
 
   constructor() {
     super();
     this.state = {
-      email: '',
-      email_error: false,
+      password: '', password_confirm: '',
+      password_error: false, password_confirm_error: false,
       general_msg: false, loading: false,
       logged_in: false, flash: false, username: false, token: false
     }
@@ -26,19 +26,21 @@ class EmailConfirm extends BaseComponent {
     e.preventDefault();
 
     var formData = new FormData();
-    var data = ["email"];
+    var data = ["password", "password_confirm"];
+    var token = this.props.match.params.token;
 
     //reset error variables
     this.setState({ 
-      email_error: false,
+      password_error: false,
+      password_confirm_error: false,
       general_msg: false,
       loading: true
     })
-
+    
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
-    fetch(GLOBAL.baseUrl + '/v1/auth/reset-password', {
+    fetch(GLOBAL.baseUrl + '/v1/auth/reset-password/' + token, {
       method: 'POST',
       body: formData
     })      // returns a promise object
@@ -63,9 +65,12 @@ class EmailConfirm extends BaseComponent {
             return true;
           }
 
-          //if theres a form validation error(s) show it/them
-          if (data["email"])
-            this.setState({ email_error: data["email"][0] })
+          //theres a form validation error(s), show it/them
+          if (data["password"])
+            this.setState({ ["password_error"]: data["password"][0] })
+
+          if (data["password_confirm"])
+            this.setState({ ["password_confirm_error"]: data["password_confirm"][0] })
 
         }
 
@@ -90,16 +95,17 @@ class EmailConfirm extends BaseComponent {
 
           <div className="input-wrap">
 
-            {this.state.email_error ? <FormError error={this.state.email_error} /> : null}
-            <input type="email" placeholder="Your email address" name="email" className="form-control" required="required" autoFocus onChange={this.handleChange} disabled={this.state.loading ? "disabled" : false} />
+            {this.state.password_error ? <FormError error={this.state.password_error} /> : null}
+            <input type="password" placeholder="Enter New Password" name="password" className="form-control" required="required" onChange={this.handleChange} disabled={this.state.loading ? "disabled" : false} />
 
-            <FormButton loading={this.state.loading} title="Verify Email" />
+            {this.state.password_confirm_error ? <FormError error={this.state.password_confirm_error} /> : null}
+            <input type="password" placeholder="Re-Enter New Password" name="password_confirm" className="form-control" required="required" onChange={this.handleChange} disabled={this.state.loading ? "disabled" : false} />
+
+            <FormButton loading={this.state.loading} title="Reset Password" />
 
           </div>
 
-          <p className="col-xs-8 col-xs-offset-2">We will send an email to the email address you enter above, ensure you use the link within 10 minutes or it will expire.</p>
-
-          <p className="col-xs-8 col-xs-offset-2">or try and <a href="/login" onClick={this.pushNavigation}>login</a> again</p>
+          <p className="col-xs-8 col-xs-offset-2"><a href="/login" onClick={this.pushNavigation}>Try login again</a> if youve had a thought or <a href="/sign-up">Sign Up</a> </p>
 
         </form>
 
@@ -110,4 +116,4 @@ class EmailConfirm extends BaseComponent {
   }
 }
 
-export default EmailConfirm
+export default PasswordReset

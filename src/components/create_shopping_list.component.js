@@ -74,11 +74,9 @@ class CreateShoppingList extends Component {
     })      // returns a promise object
       .then((resp) => {
         this.setState({ loading: false })
-        return resp.text()
+        return resp.json()
       })
       .then((data) => {
-
-        data = JSON.parse(data)
 
         if (data["error"]) {
 

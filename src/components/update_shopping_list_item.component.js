@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import Navigation from "./navigation.component.js"
-import FlashMsg from "./flash_msg.component.js"
-import FormError from "./forms/form_error.component.js"
-import FormButton from "./forms/form_button.component.js"
-import BackButton from "./back_button.component.js"
+import Navigation from "./navigation.js"
+import FlashMsg from "./flashMsg.js"
+import FormError from "./forms/formError.js"
+import FormButton from "./forms/formButton.js"
+import BackButton from "./backButton.js"
 
 var GLOBAL = require("../globals.js")
 

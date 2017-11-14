@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import FlashMsg from "./flash_msg.component.js"
-import FormError from "./forms/form_error.component.js"
-import FormButton from "./forms/form_button.component.js"
+import FlashMsg from "./flashMsg.js"
+import FormError from "./forms/formError.js"
+import FormButton from "./forms/formButton.js"
 
 var GLOBAL = require("../globals.js")
 

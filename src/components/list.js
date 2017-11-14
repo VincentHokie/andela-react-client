@@ -17,11 +17,9 @@ class Item extends BaseComponent {
       small_screen: false, loading: false, show: true
     }
 
-    this.handleDeleteList = this.handleDeleteList.bind(this);
-    this.deleteList = this.deleteList.bind(this);
   }
 
-  deleteList(component) {
+  deleteList = (component) => {
 
     component.setState({ loading: true })
     var parent = component._reactInternalInstance._currentElement._owner._instance;
@@ -63,7 +61,7 @@ class Item extends BaseComponent {
 
   }
 
-  handleDeleteList(event) {
+  handleDeleteList = (event) => {
 
     var listId = event.target.getAttribute('data-listid');
     var component = this;

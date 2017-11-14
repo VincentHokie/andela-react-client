@@ -20,15 +20,9 @@ class SignUp extends BaseComponent {
       logged_in: false, flash: false, user_username: false, token: false
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.pushNavigation = this.pushNavigation.bind(this);
-
-  }
-  }
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
 
     //prevent browser refresh on submit
     e.preventDefault();
@@ -37,7 +31,7 @@ class SignUp extends BaseComponent {
     var data = ["email", "username", "password", "password2"];
 
     //reset error variables
-    this.setState({ 
+    this.setState({
       username_error: false,
       email_error: false,
       password_error: false,
@@ -45,7 +39,7 @@ class SignUp extends BaseComponent {
       general_msg: false,
       loading: true
     })
-    
+
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
@@ -62,7 +56,7 @@ class SignUp extends BaseComponent {
         if (data["success"]) {
 
           data = data["success"];
-          this.setState({ 
+          this.setState({
             general_msg: data,
             success: true,
             username: "",

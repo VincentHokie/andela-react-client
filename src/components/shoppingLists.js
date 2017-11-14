@@ -36,26 +36,10 @@ class ShoppingLists extends BaseComponent {
       list_page_selected: 1, item_page_selected: 1
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleListSelect = this.handleListSelect.bind(this);
-    this.toggleShowItemForm = this.toggleShowItemForm.bind(this);
-    this.handleBackButtonOnItems = this.handleBackButtonOnItems.bind(this);
-    this.pushNavigation = this.pushNavigation.bind(this);
-    this.numberOfListsPerPageChange = this.numberOfListsPerPageChange.bind(this);
-    this.numberOfItemsPerPageChange = this.numberOfItemsPerPageChange.bind(this);
-    this.list_page_selected = this.list_page_selected.bind(this);
-    this.item_page_selected = this.item_page_selected.bind(this);
-    this.getLists = this.getLists.bind(this);
-    this.getItems = this.getItems.bind(this);
-    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
-    this.handleItemSearchSubmit = this.handleItemSearchSubmit.bind(this);
-
-
   }
 
 
-  getLists(limit, page, q = "") {
+  getLists = (limit, page, q = "") => {
 
     if (q && q != "")
       q = "&q=" + q
@@ -99,7 +83,7 @@ class ShoppingLists extends BaseComponent {
 
   }
 
-  getItems(list_id, limit, page, q = "") {
+  getItems = (list_id, limit, page, q = "") => {
 
     if (q && q != "")
       q = "&q=" + q
@@ -162,17 +146,17 @@ class ShoppingLists extends BaseComponent {
 
   }
 
-  list_page_selected(event) {
+  list_page_selected = (event) => {
     this.setState({ list_page_selected: event.target.getAttribute("data-page-number") })
     this.getLists(this.state.lists_per_page, event.target.getAttribute("data-page-number"), this.state.search_word_list);
   }
 
-  item_page_selected(event) {
+  item_page_selected = (event) => {
     this.setState({ item_page_selected: event.target.getAttribute("data-page-number") })
     this.getItems(this.state.chosen_list_id, this.state.items_per_page, event.target.getAttribute("data-page-number"), this.state.search_word_item);
   }
 
-  numberOfListsPerPageChange(event) {
+  numberOfListsPerPageChange = (event) => {
     this.setState({ 
       lists_per_page: parseInt(event.target.value),
       showing_all_lists: event.target.value == "all" ? true : false
@@ -182,7 +166,7 @@ class ShoppingLists extends BaseComponent {
 
   }
 
-  numberOfItemsPerPageChange(event) {
+  numberOfItemsPerPageChange = (event) => {
     this.setState({ 
       items_per_page: event.target.value,
       showing_all_items: event.target.value == "all" ? true : false
@@ -192,7 +176,7 @@ class ShoppingLists extends BaseComponent {
 
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
 
     //prevent browser refresh on submit
     if (e)
@@ -265,25 +249,25 @@ class ShoppingLists extends BaseComponent {
 
   }
 
-  handleSearchSubmit(event) {
+  handleSearchSubmit = (event) => {
     event.preventDefault()
     this.getLists(this.state.lists_per_page, 1, this.state.search_word_list)
   }
 
-  handleItemSearchSubmit(event) {
+  handleItemSearchSubmit = (event) => {
     event.preventDefault()
     this.getItems(this.state.chosen_list_id, this.state.items_per_page, 1, this.state.search_word_item);
   }
 
-  toggleShowItemForm(event) {
+  toggleShowItemForm = (event) => {
     this.setState({ show_add_item: !this.state.show_add_item })
   }
 
-  handleBackButtonOnItems(event) {
+  handleBackButtonOnItems = (event) => {
     this.setState({ hide_items: !this.state.hide_items })
   }
 
-  handleListSelect(event) {
+  handleListSelect = (event) => {
     this.setState({ 
       chosen_list: event.target.getAttribute("data-listname"),
       chosen_list_id: event.target.id

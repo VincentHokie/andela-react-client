@@ -19,14 +19,9 @@ class Login extends BaseComponent {
       logged_in: false, flash: false, user_username: false, token: false
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.pushNavigation = this.pushNavigation.bind(this);
-
-  }
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
 
     //prevent browser refresh on submit
     e.preventDefault();

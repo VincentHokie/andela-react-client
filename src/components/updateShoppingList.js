@@ -20,11 +20,6 @@ class UpdateShoppingList extends BaseComponent {
       logged_in: false, retrieved: false, flash: false, username: false, token: false
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.pushNavigation = this.pushNavigation.bind(this);
-
-  }
   }
 
   componentDidMount() {
@@ -75,7 +70,7 @@ class UpdateShoppingList extends BaseComponent {
 
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
 
     //prevent browser refresh on submit
     e.preventDefault();

@@ -14,11 +14,9 @@ class Navigation extends BaseComponent {
   constructor() {
     super();
     this.state = { username: '' }
-    this.handleLogout = this.handleLogout.bind(this);
-    this.logout = this.logout.bind(this);
   }
 
-  logout(component) {
+  logout = (component) => {
 
     component.setState({ loading: true })
 
@@ -57,7 +55,7 @@ class Navigation extends BaseComponent {
   }
 
 
-  handleLogout(event) {
+  handleLogout = (event) => {
 
     var component = this;
 

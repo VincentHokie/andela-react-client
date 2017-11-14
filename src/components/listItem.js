@@ -12,21 +12,14 @@ class ListItem extends BaseComponent {
 
   constructor() {
     super();
-
     this.state = { show: true }
-
-    this.handleDeleteItem = this.handleDeleteItem.bind(this);
-    this.handleItemCheckboxChange = this.handleItemCheckboxChange.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
-
-  }
   }
 
   componentDidMount() {
     this.setState({ checked: this.props.item.bought })
   }
 
-  deleteItem(component) {
+  deleteItem = (component) => {
 
     component.setState({ loading: true })
     var parent = component._reactInternalInstance._currentElement._owner._instance;
@@ -64,7 +57,7 @@ class ListItem extends BaseComponent {
 
   }
 
-  handleDeleteItem(event) {
+  handleDeleteItem = (event) => {
 
     var component = this;
 
@@ -83,7 +76,7 @@ class ListItem extends BaseComponent {
 
   }
 
-  handleItemCheckboxChange(event) {
+  handleItemCheckboxChange = (event) => {
 
     var parent = this._reactInternalInstance._currentElement._owner._instance;
 

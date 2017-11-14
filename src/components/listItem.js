@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BaseComponent from "./base"
 
 var GLOBAL = require("../globals.js")
 
@@ -7,7 +8,7 @@ vex.defaultOptions.className = 'vex-theme-os'
 
 var btoa = require('btoa')
 
-class ListItem extends Component {
+class ListItem extends BaseComponent {
 
   constructor() {
     super();
@@ -19,12 +20,6 @@ class ListItem extends Component {
     this.deleteItem = this.deleteItem.bind(this);
 
   }
-
-  componentWillMount() {
-
-    //set global info and window refresh/ page change
-    GLOBAL.setGlobals(this);
-
   }
 
   componentDidMount() {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import BaseComponent from "./base"
 import Navigation from "./navigation.js"
 import FlashMsg from "./flashMsg.js"
 import FormError from "./forms/formError.js"
@@ -8,8 +9,7 @@ import BackButton from "./backButton.js"
 
 var GLOBAL = require("../globals.js")
 
-class UpdateShoppingList extends Component {
-
+class UpdateShoppingList extends BaseComponent {
 
   constructor() {
     super();
@@ -25,12 +25,6 @@ class UpdateShoppingList extends Component {
     this.pushNavigation = this.pushNavigation.bind(this);
 
   }
-
-  componentWillMount() {
-
-    //set global info and window refresh/ page change
-    GLOBAL.setGlobals(this);
-
   }
 
   componentDidMount() {
@@ -143,14 +137,6 @@ class UpdateShoppingList extends Component {
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
-  }
-
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
-  pushNavigation(event) {
-    this.props.history.push(event.target.getAttribute("href"))
   }
 
   render() {

@@ -6,9 +6,11 @@ import FormError from "./forms/formError.js"
 import FormButton from "./forms/formButton.js"
 import BackButton from "./backButton.js"
 
+import BaseComponent from "./base"
+
 var GLOBAL = require("../globals.js")
 
-class CreateShoppingList extends Component {
+class CreateShoppingList extends BaseComponent {
 
   constructor() {
     super();
@@ -24,26 +26,6 @@ class CreateShoppingList extends Component {
     this.pushNavigation = this.pushNavigation.bind(this);
 
   }
-
-  componentWillMount() {
-
-    //set global info and window refresh/ page change
-    GLOBAL.setGlobals(this);
-
-  }
-
-  componentDidMount() {
-
-    //show a flash message if it exists in the globals module
-    if (this.state.flash) {
-
-      this.setState({ 
-        general_msg: this.state.flash,
-        flash: true
-      });
-
-    }
-
   }
 
   handleSubmit(e) {
@@ -108,14 +90,6 @@ class CreateShoppingList extends Component {
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
-  }
-
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
-  pushNavigation(event) {
-    this.props.history.push(event.target.getAttribute("href"))
   }
 
   render() {

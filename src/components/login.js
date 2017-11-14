@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 
+import BaseComponent from "./base"
 import FlashMsg from "./flashMsg.js"
 import FormError from "./forms/formError.js"
 import FormButton from "./forms/formButton.js"
 
 var GLOBAL = require("../globals.js")
 
-class Login extends Component {
+class Login extends BaseComponent {
 
 
   constructor() {
@@ -23,30 +24,6 @@ class Login extends Component {
     this.pushNavigation = this.pushNavigation.bind(this);
 
   }
-
-  componentWillMount() {
-
-    //set global info and window refresh/ page change
-    GLOBAL.setGlobals(this);
-
-  }
-
-  componentDidMount() {
-
-    //show a flash message if it exists in the globals module
-    if (this.state.flash) {
-
-      this.setState({ 
-        general_msg: this.state.flash,
-        flash: false
-      });
-
-    }
-
-  }
-
-  pushNavigation(event) {
-    this.props.history.push(event.target.getAttribute("href"))
   }
 
   handleSubmit(e) {
@@ -122,10 +99,6 @@ class Login extends Component {
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
-  }
-
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
   }
 
   render() {

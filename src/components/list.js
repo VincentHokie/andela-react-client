@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import BaseComponent from "./base"
+
 var GLOBAL = require("../globals.js")
 
 var vex = require('vex-js')
@@ -7,7 +9,7 @@ vex.defaultOptions.className = 'vex-theme-os'
 
 var btoa = require('btoa')
 
-class Item extends Component {
+class Item extends BaseComponent {
 
   constructor() {
     super();
@@ -17,13 +19,6 @@ class Item extends Component {
 
     this.handleDeleteList = this.handleDeleteList.bind(this);
     this.deleteList = this.deleteList.bind(this);
-  }
-
-  componentWillMount() {
-
-    //set global info and window refresh/ page change
-    GLOBAL.setGlobals(this);
-
   }
 
   deleteList(component) {

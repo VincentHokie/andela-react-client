@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import '../styles/css/view-shopping-list.css';
 
+import BaseComponent from "./base"
 import Navigation from "./navigation.js"
 import ListItem from "./listItem.js"
 import List from "./list.js"
@@ -18,7 +19,7 @@ vex.defaultOptions.className = 'vex-theme-os'
 
 var btoa = require('btoa')
 
-class ShoppingLists extends Component {
+class ShoppingLists extends BaseComponent {
 
   constructor() {
     super();
@@ -53,12 +54,6 @@ class ShoppingLists extends Component {
 
   }
 
-  componentWillMount() {
-
-    //set global info and window refresh/ page change
-    GLOBAL.setGlobals(this);
-
-  }
 
   getLists(limit, page, q = "") {
 
@@ -197,10 +192,6 @@ class ShoppingLists extends Component {
 
   }
 
-  pushNavigation(event) {
-    this.props.history.push(event.target.getAttribute("href"))
-  }
-
   handleSubmit(e) {
 
     //prevent browser refresh on submit
@@ -282,10 +273,6 @@ class ShoppingLists extends Component {
   handleItemSearchSubmit(event) {
     event.preventDefault()
     this.getItems(this.state.chosen_list_id, this.state.items_per_page, 1, this.state.search_word_item);
-  }
-
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
   }
 
   toggleShowItemForm(event) {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BaseComponent from "./base"
 
 import '../styles/css/template_logged_in.css';
 
@@ -8,20 +9,13 @@ vex.defaultOptions.className = 'vex-theme-os'
 var GLOBAL = require("../globals.js")
 var btoa = require('btoa')
 
-class Navigation extends Component {
+class Navigation extends BaseComponent {
 
   constructor() {
     super();
     this.state = { username: '' }
     this.handleLogout = this.handleLogout.bind(this);
     this.logout = this.logout.bind(this);
-  }
-
-  componentWillMount() {
-
-    //set global info and window refresh/ page change
-    GLOBAL.setGlobals(this);
-
   }
 
   logout(component) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import Item from '../list_item.component.js';
+import Item from '../listItem.js';
 import { BrowserRouter } from 'react-router-dom'
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import PasswordReset from '../password_reset.component.js';
+import PasswordReset from '../passwordReset.js';
 
 import App from '../../App.js';
 

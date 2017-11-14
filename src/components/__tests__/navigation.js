@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import Navigation from '../navigation.component.js';
+import Navigation from '../navigation.js';
 
 import App from '../../App.js';
 

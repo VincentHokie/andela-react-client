@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import UpdateShoppingList from '../update_shopping_list.component.js';
+import UpdateShoppingList from '../updateShoppingList.js';
 
 import App from '../../App.js';
 

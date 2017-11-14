@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import ListItem from '../list.component.js';
+import ListItem from '../list.js';
 import { BrowserRouter } from 'react-router-dom'
 
 var GLOBAL = require("../../globals.js")

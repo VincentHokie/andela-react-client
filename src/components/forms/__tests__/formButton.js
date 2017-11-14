@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import FormButton from '../form_button.component.js';
+import FormButton from '../formButton.js';
 var expect = require("chai").expect;
 
 describe('Form Button', () => {

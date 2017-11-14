@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import './css/view-shopping-list.css';
 
-import Navigation from "./navigation.component.js"
-import ListItem from "./list_item.component.js"
-import List from "./list.component.js"
-import Paginate from "./paginator.component.js"
+import Navigation from "./navigation.js"
+import ListItem from "./listItem.js"
+import List from "./list.js"
+import Paginate from "./paginator.js"
 
-import FlashMsg from "./flash_msg.component.js"
+import FlashMsg from "./flashMsg.js"
 
-import FormError from "./forms/form_error.component.js"
+import FormError from "./forms/formError.js"
 
 var GLOBAL = require("../globals.js")
 

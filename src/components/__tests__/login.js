@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import Login from '../login.component.js';
+import Login from '../login.js';
 
 import App from '../../App.js';
 

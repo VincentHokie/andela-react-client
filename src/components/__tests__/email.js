@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import EmailConfirm from '../email_confirm.component.js';
+import EmailConfirm from '../emailConfirm.js';
 
 import App from '../../App.js';
 

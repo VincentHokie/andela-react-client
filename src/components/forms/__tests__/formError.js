@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import FormError from '../form_error.component.js';
+import FormError from '../formError.js';
 var expect = require("chai").expect;
 
 describe('Form Error', () => {

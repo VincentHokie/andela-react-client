@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import SignUp from '../sign_up.component.js';
+import SignUp from '../signUp.js';
 
 import App from '../../App.js';
 

@@ -1,18 +1,16 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import Navigation from '../navigation.js';
-
-import App from '../../App.js';
+import Navigation from '../misc/navigation';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import fetchMock from "fetch-mock";
 
-import "../localStorage.js";
+import "../../localStorage";
 
 var GLOBAL = require("../../globals.js")
 
-var expect = require("chai").expect;
+import chai from "chai"; let expect = chai.expect
 
 describe('Navigation bar', () => {
   let wrapper;

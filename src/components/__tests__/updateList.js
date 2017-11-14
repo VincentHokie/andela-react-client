@@ -1,19 +1,16 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import UpdateShoppingList from '../updateShoppingList.js';
-
-import App from '../../App.js';
+import UpdateShoppingList from '../shoppingList/updateShoppingList';
+import App from "../main/App";
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 
 var GLOBAL = require("../../globals.js")
-var fetchMock = require("fetch-mock");
-var expect = require("chai").expect;
-import "../localStorage.js";
-
-var expect = require("chai").expect;
+import fetchMock from "fetch-mock";
+import chai from "chai"; let expect = chai.expect
+import "../../localStorage";
 
 describe('Update Shopping list', () => {
   let wrapper;

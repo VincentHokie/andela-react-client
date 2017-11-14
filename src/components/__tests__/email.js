@@ -1,16 +1,14 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import EmailConfirm from '../emailConfirm.js';
-
-import App from '../../App.js';
+import EmailConfirm from '../auth/emailConfirm';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var GLOBAL = require("../../globals.js")
-var fetchMock = require("fetch-mock");
-var expect = require("chai").expect;
-import "../localStorage.js";
+import fetchMock from "fetch-mock";
+import chai from "chai"; let expect = chai.expect
+import "../../localStorage";
 
 describe('Email confirmation', () => {
   let wrapper;

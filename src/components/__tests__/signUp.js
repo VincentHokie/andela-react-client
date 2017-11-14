@@ -1,18 +1,14 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import SignUp from '../signUp.js';
-
-import App from '../../App.js';
+import SignUp from '../auth/signUp';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var GLOBAL = require("../../globals.js")
-var fetchMock = require("fetch-mock");
-var expect = require("chai").expect;
-import "../localStorage.js";
-
-var expect = require("chai").expect;
+import fetchMock from "fetch-mock";
+import chai from "chai"; let expect = chai.expect
+import "../../localStorage";
 
 describe('Sign Up Component', () => {
   let wrapper;

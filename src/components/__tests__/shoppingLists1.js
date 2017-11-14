@@ -1,18 +1,15 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import ShoppingLists from '../shoppingLists.js';
-
-import App from '../../App.js';
+import ShoppingLists from '../dash/shoppingLists';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 var GLOBAL = require("../../globals.js")
-var fetchMock = require("fetch-mock");
-var expect = require("chai").expect;
-import "../localStorage.js";
+import fetchMock from "fetch-mock";
+import chai from "chai"; let expect = chai.expect
+import "../../localStorage";
 
-var expect = require("chai").expect;
 let wrapper, list_data, item_data;
 
 describe('Flash Message Behaviour', () => {

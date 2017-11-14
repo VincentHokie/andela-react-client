@@ -1,11 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import FlashMsg from '../flashMsg.js';
+import FlashMsg from '../misc/flashMsg';
 
-var expect = require("chai").expect;
-
-var expect = require("chai").expect;
+import chai from "chai"; let expect = chai.expect
 
 describe('Flash Message', () => {
   let wrapper;

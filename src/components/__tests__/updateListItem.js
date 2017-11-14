@@ -1,17 +1,15 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import UpdateShoppingListItem from '../updateShoppingListItem.js';
-
-import App from '../../App.js';
+import UpdateShoppingListItem from '../shoppingListItem/updateShoppingListItem';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
 
 var GLOBAL = require("../../globals.js")
-var fetchMock = require("fetch-mock");
-var expect = require("chai").expect;
-import "../localStorage.js";
+import fetchMock from "fetch-mock";
+import chai from "chai"; let expect = chai.expect
+import "../../localStorage";
 let url_param = JSON.parse('{"params": {"id" : 1, "item_id" : 1 }}');
 
 describe('Update Shopping list item', () => {

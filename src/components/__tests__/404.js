@@ -3,9 +3,8 @@ import { shallow, mount } from 'enzyme';
 
 import NotFound from '../404.js';
 
-var expect = require("chai").expect;
+import chai from "chai"; let expect = chai.expect
 
-var expect = require("chai").expect;
 
 describe('404 error page', () => {
   let wrapper;

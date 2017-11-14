@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './css/template_logged_in.css';
+import '../styles/css/template_logged_in.css';
 
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './css/view-shopping-list.css';
+import '../styles/css/view-shopping-list.css';
 
 import Navigation from "./navigation.js"
 import ListItem from "./listItem.js"

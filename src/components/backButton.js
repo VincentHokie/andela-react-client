@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './css/back_button.css';
+import '../styles/css/back_button.css';
 
 class BackButton extends Component {
 

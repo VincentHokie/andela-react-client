@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 
-class Paginate extends Component {
+let Paginate = props => {
 
-	render() {
+	return (
 
-		return (
+		<li className={props.page == props.chosen_page ? "active" : ""}>
+			<a href="#" data-page-number={props.page} onClick={props.page_selected}>{props.page}</a>
+		</li>
 
-			<li className={this.props.page == this.props.chosen_page ? "active" : ""}>
-				<a href="#" data-page-number={this.props.page} onClick={this.props.page_selected}>{this.props.page}</a>
-			</li>
-
-		);
-	}
+	);
 }
 
 export default Paginate

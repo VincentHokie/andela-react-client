@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 
-class FormError extends Component {
-
-  render() {
-    return (<span className="label label-danger">{this.props.error}<br /></span>);
-  }
-
+let FormError = props => {
+    return (<span className="label label-danger">{props.error}<br /></span>);
 }
 
 export default FormError

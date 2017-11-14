@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import '../styles/css/view-shopping-list.css';
+import '../../styles/css/view-shopping-list.css';
 
-import BaseComponent from "./base"
-import Navigation from "./navigation.js"
-import ListItem from "./listItem.js"
-import List from "./list.js"
-import Paginate from "./paginator.js"
+import BaseComponent from "../base"
+import Navigation from "../misc/navigation"
+import ListItem from "../dash/listItem"
+import List from "../dash/list"
+import Paginate from "../dash/paginator"
 
-import FlashMsg from "./flashMsg.js"
+import FlashMsg from "../misc/flashMsg"
 
-import FormError from "./forms/formError.js"
+import FormError from "../forms/formError.js"
 
-var GLOBAL = require("../globals.js")
+var GLOBAL = require("../../globals.js")
 
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'

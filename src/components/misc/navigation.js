@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import BaseComponent from "./base"
+import React from 'react';
+import BaseComponent from "../base"
 
-import '../styles/css/template_logged_in.css';
+import '../../styles/css/template_logged_in.css';
 
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 
-var GLOBAL = require("../globals.js")
+var GLOBAL = require("../../globals.js")
 var btoa = require('btoa')
 
 class Navigation extends BaseComponent {

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import BaseComponent from "./base"
+import React from 'react';
+import BaseComponent from "../base"
 
-var GLOBAL = require("../globals.js")
+var GLOBAL = require("../../globals.js")
 
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'

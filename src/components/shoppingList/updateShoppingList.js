@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 
-import BaseComponent from "./base"
-import Navigation from "./navigation.js"
-import FlashMsg from "./flashMsg.js"
-import FormError from "./forms/formError.js"
-import FormButton from "./forms/formButton.js"
-import BackButton from "./backButton.js"
+import BaseComponent from "../base"
+import Navigation from "../misc/navigation"
+import FlashMsg from "../misc/flashMsg"
+import FormError from "../forms/formError"
+import FormButton from "../forms/formButton"
+import BackButton from "../misc/backButton"
 
-var GLOBAL = require("../globals.js")
+var GLOBAL = require("../../globals.js")
 
-class UpdateShoppingListItem extends BaseComponent {
+class UpdateShoppingList extends BaseComponent {
 
   constructor() {
     super();
     this.state = {
-      name: '', amount: '',
-      name_error: false, amount_error: false,
+      name: '',
+      name_error: false,
       general_msg: false, loading: false,
       logged_in: false, retrieved: false, flash: false, username: false, token: false
     }
@@ -36,8 +36,8 @@ class UpdateShoppingListItem extends BaseComponent {
 
     this.setState({ loading: true })
 
-    //get list item object from database
-    fetch(GLOBAL.baseUrl + '/v2/shoppinglists/' + this.props.match.params.id + '/items/' + this.props.match.params.item_id, {
+    //get list object from database
+    fetch(GLOBAL.baseUrl + '/v2/shoppinglists/' + this.props.match.params.id, {
       method: 'GET',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
@@ -49,18 +49,18 @@ class UpdateShoppingListItem extends BaseComponent {
       })
       .then((data) => {
 
-        //if there is an error, create a general messge..otherwise, its a list object
-        if (data["error"]) {
-          this.setState({ general_msg: data["error"] })
+        //if the data is not a json object, create a general messge..otherwise, its a list object
+        if (typeof data !== "object") {
+          this.setState({ general_msg: data })
           return true;
         }
 
-        //we got a list item object back, populate state & therefore input field
+        //we got a list object back, populate state & therefore input field
         this.setState({ 
           name: data["name"],
-          amount: data["amount"],
           retrieved: true
         })
+
 
       }) // still returns a promise object, U need to chain it again
       .catch((error) => {
@@ -76,12 +76,11 @@ class UpdateShoppingListItem extends BaseComponent {
     e.preventDefault();
 
     var formData = new FormData();
-    var data = ["name", "amount"];
+    var data = ["name"];
 
     //reset error variables
     this.setState({ 
       name_error: false,
-      amount_error: false,
       general_msg: false,
       loading: true
     })
@@ -90,7 +89,7 @@ class UpdateShoppingListItem extends BaseComponent {
       formData.append(data[name], this.state[data[name]]);
 
 
-    fetch(GLOBAL.baseUrl + '/v1/shoppinglists/' + this.props.match.params.id + '/items/' + this.props.match.params.item_id, {
+    fetch(GLOBAL.baseUrl + '/v1/shoppinglists/' + this.props.match.params.id, {
       method: 'PUT',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
@@ -107,11 +106,10 @@ class UpdateShoppingListItem extends BaseComponent {
 
           data = data["success"];
           this.setState({ general_msg: data })
-
+          
           setTimeout(() => {
             this.props.history.push('/shopping-lists')
           }, 1000);
-
 
         } else if (data["error"]) {
 
@@ -123,15 +121,10 @@ class UpdateShoppingListItem extends BaseComponent {
             return true;
           }
 
-          // display form errors that come from the API
           if (data["name"]){
             this.setState({ ["name_error"]: data["name"][0] })
           }
 
-          if (data["amount"]){
-            this.setState({ ["amount_error"]: data["amount"][0] })
-          }
-          
         }
 
       }) // still returns a promise object, U need to chain it again
@@ -153,7 +146,7 @@ class UpdateShoppingListItem extends BaseComponent {
 
         <form onSubmit={this.handleSubmit} className="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 form" name="create-shoppinglist">
 
-          <h2 className="form-heading">Edit Andela Shopping List Item</h2>
+          <h2 className="form-heading">Edit Andela Shopping list</h2>
 
           <div className="input-wrap">
 
@@ -161,22 +154,13 @@ class UpdateShoppingListItem extends BaseComponent {
               <div className="form-group">
 
                 {this.state.name_error ? <FormError error={this.state.name_error} /> : null}
-                <input type="text" placeholder="Shopping List Item Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} value={this.state.name} disabled={this.state.loading || !this.state.retrieved ? "disabled" : false} />
+                <input type="text" placeholder="Shopping List Name" name="name" className="form-control" required="required" autoFocus onChange={this.handleChange} value={this.state.name} disabled={this.state.loading || !this.state.retrieved ? "disabled" : false} />
 
               </div>
             </div>
 
             <div className="col-xs-12">
-              <div className="form-group">
-
-                {this.state.amount_error ? <FormError error={this.state.amount_error} /> : null}
-                <input type="number" min="1" placeholder="Item amount" name="amount" className="form-control" required="required" onChange={this.handleChange} value={this.state.amount} disabled={this.state.loading || !this.state.retrieved ? "disabled" : false} />
-
-              </div>
-            </div>
-
-            <div className="col-xs-12">
-              <FormButton loading={this.state.loading || !this.state.retrieved} title="Update Shopping List Item" />
+              <FormButton loading={this.state.loading || !this.state.retrieved} title="Update Shopping List" />
             </div>
 
           </div>
@@ -193,4 +177,4 @@ class UpdateShoppingListItem extends BaseComponent {
   }
 }
 
-export default UpdateShoppingListItem
+export default UpdateShoppingList

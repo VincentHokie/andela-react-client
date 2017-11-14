@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import '../styles/css/back_button.css';
+import React from 'react';
+import '../../styles/css/back_button.css';
 
 let BackButton = props => {
 

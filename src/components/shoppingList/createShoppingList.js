@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-import Navigation from "./navigation.js"
-import FlashMsg from "./flashMsg.js"
-import FormError from "./forms/formError.js"
-import FormButton from "./forms/formButton.js"
-import BackButton from "./backButton.js"
+import Navigation from "../misc/navigation"
+import FlashMsg from "../misc/flashMsg"
+import FormError from "../forms/formError"
+import FormButton from "../forms/formButton"
+import BackButton from "../misc/backButton"
 
-import BaseComponent from "./base"
+import BaseComponent from "../base"
 
-var GLOBAL = require("../globals.js")
+var GLOBAL = require("../../globals.js")
 
 class CreateShoppingList extends BaseComponent {
 

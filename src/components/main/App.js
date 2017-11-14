@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import './App.css';
+import "../../styles/css/App.css"
 
 //import routing components
 import { Route, Switch} from 'react-router-dom'
 
 //import custom components
-import Login from "./components/auth/login.js"
-import EmailConfirm from "./components/auth/emailConfirm.js"
-import PasswordReset from "./components/auth/passwordReset.js"
-import SignUp from "./components/auth/signUp.js"
+import Login from "../auth/login.js"
+import EmailConfirm from "../auth/emailConfirm.js"
+import PasswordReset from "../auth/passwordReset.js"
+import SignUp from "../auth/signUp.js"
 
-import ShoppingLists from "./components/shoppingLists.js"
-import CreateShoppingList from "./components/createShoppingList.js"
-import UpdateShoppingList from "./components/updateShoppingList.js"
+import ShoppingLists from "../dash/shoppingLists.js"
+import CreateShoppingList from "../shoppingList/createShoppingList.js"
+import UpdateShoppingList from "../shoppingList/updateShoppingList.js"
 
-import UpdateShoppingListItem from "./components/updateShoppingListItem.js"
+import UpdateShoppingListItem from "../shoppingListItem/updateShoppingListItem.js"
 
-import NotFound from "./components/404.js"
+import NotFound from "../404.js"
 
 var vex = require('vex-js')
 vex.registerPlugin(require('vex-dialog'))

@@ -176,11 +176,7 @@ class ShoppingLists extends BaseComponent {
   handleSubmit = (e) => {
 
     //prevent browser refresh on submit
-    if (e)
-      e.preventDefault();
-
-    var formData = new FormData();
-    var data = ["name", "amount"];
+    e.preventDefault();
 
     //reset error variables
     this.setState({ 
@@ -189,15 +185,12 @@ class ShoppingLists extends BaseComponent {
       loading: true
     })
 
-    for (var name in data)
-      formData.append(data[name], this.state[data[name]]);
-
     fetch(this.baseUrl + '/v1/shoppinglists/' + this.state.chosen_list_id + '/items', {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
       },
-      body: formData
+      body: new FormData(e.target)
     })      // returns a promise object
       .then((resp) => {
         this.setState({ loading: false })

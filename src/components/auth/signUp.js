@@ -25,9 +25,6 @@ class SignUp extends BaseComponent {
     //prevent browser refresh on submit
     e.preventDefault();
 
-    var formData = new FormData();
-    var data = ["email", "username", "password", "password2"];
-
     //reset error variables
     this.setState({
       username_error: false,
@@ -38,12 +35,9 @@ class SignUp extends BaseComponent {
       loading: true
     })
 
-    for (var name in data)
-      formData.append(data[name], this.state[data[name]]);
-
     fetch(this.baseUrl + '/v1/auth/register', {
       method: 'POST',
-      body: formData
+      body: new FormData(e.target)
     })      // returns a promise object
       .then((resp) => {
         this.setState({ loading: false })

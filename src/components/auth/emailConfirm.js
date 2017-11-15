@@ -23,9 +23,6 @@ class EmailConfirm extends BaseComponent {
     //prevent browser refresh on submit
     e.preventDefault();
 
-    var formData = new FormData();
-    var data = ["email"];
-
     //reset error variables
     this.setState({ 
       email_error: false,
@@ -33,12 +30,9 @@ class EmailConfirm extends BaseComponent {
       loading: true
     })
 
-    for (var name in data)
-      formData.append(data[name], this.state[data[name]]);
-
     fetch(this.baseUrl + '/v1/auth/reset-password', {
       method: 'POST',
-      body: formData
+      body: new FormData(e.target)
     })      // returns a promise object
       .then((resp) => {
         this.setState({ loading: false })

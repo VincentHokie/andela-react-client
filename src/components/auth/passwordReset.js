@@ -22,9 +22,6 @@ class PasswordReset extends BaseComponent {
 
     //prevent browser refresh on submit
     e.preventDefault();
-
-    var formData = new FormData();
-    var data = ["password", "password_confirm"];
     var token = this.props.match.params.token;
 
     //reset error variables
@@ -34,13 +31,10 @@ class PasswordReset extends BaseComponent {
       general_msg: false,
       loading: true
     })
-    
-    for (var name in data)
-      formData.append(data[name], this.state[data[name]]);
 
     fetch(this.baseUrl + '/v1/auth/reset-password/' + token, {
       method: 'POST',
-      body: formData
+      body: new FormData(e.target)
     })      // returns a promise object
       .then((resp) => {
         this.setState({ loading: false })

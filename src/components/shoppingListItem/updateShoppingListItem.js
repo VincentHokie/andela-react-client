@@ -73,9 +73,6 @@ class UpdateShoppingListItem extends BaseComponent {
     //prevent browser refresh on submit
     e.preventDefault();
 
-    var formData = new FormData();
-    var data = ["name", "amount"];
-
     //reset error variables
     this.setState({ 
       name_error: false,
@@ -83,17 +80,13 @@ class UpdateShoppingListItem extends BaseComponent {
       general_msg: false,
       loading: true
     })
-    
-    for (var name in data)
-      formData.append(data[name], this.state[data[name]]);
-
 
     fetch(this.baseUrl + '/v1/shoppinglists/' + this.props.match.params.id + '/items/' + this.props.match.params.item_id, {
       method: 'PUT',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
       },
-      body: formData
+      body: new FormData(e.target)
     })      // returns a promise object
       .then((resp) => {
         this.setState({ loading: false })

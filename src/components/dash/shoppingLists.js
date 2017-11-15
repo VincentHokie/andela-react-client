@@ -11,10 +11,10 @@ import Paginate from "../dash/paginator"
 import FlashMsg from "../misc/flashMsg"
 import FormError from "../forms/formError.js"
 
-var vex = require('vex-js')
+let vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 
-var btoa = require('btoa')
+let btoa = require('btoa')
 
 class ShoppingLists extends BaseComponent {
 
@@ -221,7 +221,7 @@ class ShoppingLists extends BaseComponent {
         } else {
 
           this.setState({ general_msg: "You have successfully created the item : " + this.state.name + " into list : " + this.state.chosen_list })
-          var current_items = this.state.item_data;
+          let current_items = this.state.item_data;
           current_items.push(data)
 
           this.setState({ 
@@ -276,28 +276,28 @@ class ShoppingLists extends BaseComponent {
   render() {
 
     // Map through lists and return linked lists
-    const listNode = this.state.list_data ? this.state.list_data.map((list) => {
-      return (<List chosen={this.state.chosen_list_id} thisone={list.list_id} list={list} handleListSelect={this.handleListSelect} key={list.list_id} pushNavigation={this.pushNavigation} />)
-    }) : "";
+    const listNode = this.state.list_data ? this.state.list_data.map((list) => 
+      <List chosen={this.state.chosen_list_id} thisone={list.list_id} list={list} handleListSelect={this.handleListSelect} key={list.list_id} pushNavigation={this.pushNavigation} />
+    ) : "";
 
     // Map through items and return linked items
-    const itemNode = this.state.item_data ? this.state.item_data.map((item) => {
-      return (<ListItem chosen={this.state.chosen_list_id} item={item} key={item.item_id} list={item.list_id} pushNavigation={this.pushNavigation} />)
-    }) : "";
+    const itemNode = this.state.item_data ? this.state.item_data.map((item) =>
+      <ListItem chosen={this.state.chosen_list_id} item={item} key={item.item_id} list={item.list_id} pushNavigation={this.pushNavigation} />
+    ) : "";
 
     // Create list pagination
     const pagination_rows_lists = [];
-    var pages = Math.ceil(this.state.num_of_records_lists / this.state.lists_per_page)
+    let pages = Math.ceil(this.state.num_of_records_lists / this.state.lists_per_page)
 
-    for (var i = 0; i < pages; i++) {
+    for (let i = 0; i < pages; i++) {
       pagination_rows_lists.push(<Paginate page={i + 1} key={i + 1} page_selected={this.list_page_selected} chosen_page={this.state.list_page_selected} />);
     }
 
     // Create item pagination
     const pagination_rows_items = [];
-    var pages = Math.ceil(this.state.num_of_records_items / this.state.items_per_page)
+    pages = Math.ceil(this.state.num_of_records_items / this.state.items_per_page)
 
-    for (var i = 0; i < pages; i++) {
+    for (let i = 0; i < pages; i++) {
       pagination_rows_items.push(<Paginate page={i + 1} key={i + 1} page_selected={this.item_page_selected} chosen_page={this.state.item_page_selected} />);
     }
 

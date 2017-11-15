@@ -1,5 +1,5 @@
-var localStorageMock = (function () {
-  var store = {};
+let localStorageMock = (function () {
+  let store = {};
   return {
     getItem: function (key) {
       return store[key];

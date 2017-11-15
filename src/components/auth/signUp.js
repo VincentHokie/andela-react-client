@@ -71,8 +71,8 @@ class SignUp extends BaseComponent {
             return true;
           }
 
-          var fields = ["username", "email", "password", "password2"];
-          for (var field in fields) {
+          let fields = ["username", "email", "password", "password2"];
+          for (let field in fields) {
             field = fields[field];
             if (data[field])
               this.setState({ [field + "_error"]: data[field][0] })

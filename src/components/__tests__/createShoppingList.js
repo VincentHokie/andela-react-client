@@ -95,7 +95,7 @@ describe('API interaction Behaviour', () => {
 
     wrapper = mount(<CreateShoppingList />)
 
-    var input = wrapper.find('input');
+    let input = wrapper.find('input');
     input.simulate("change", { target: { value: "vince@gmail.com", name: "name" } });
 
     wrapper.find('form').simulate("submit", { preventDefault() { } });
@@ -124,7 +124,7 @@ describe('API interaction Behaviour', () => {
 
     wrapper = mount(<CreateShoppingList />)
 
-    var input = wrapper.find('input');
+    let input = wrapper.find('input');
     input.simulate("change", { target: { value: "vince@gmail.com", name: "name" } });
 
     wrapper.find('form').simulate("submit", { preventDefault() { } });
@@ -154,7 +154,7 @@ describe('API interaction Behaviour', () => {
 
     wrapper = mount(<CreateShoppingList />)
 
-    var input = wrapper.find('input');
+    let input = wrapper.find('input');
     input.simulate("change", { target: { value: "vince@gmail.com", name: "name" } });
 
     wrapper.find('form').simulate("submit", { preventDefault() { } });
@@ -183,7 +183,7 @@ describe('API interaction Behaviour', () => {
 
     wrapper = mount(<CreateShoppingList />)
 
-    var input = wrapper.find('input');
+    let input = wrapper.find('input');
     input.simulate("change", { target: { value: "vince@gmail.com", name: "name" } });
 
     wrapper.find('form').simulate("submit", { preventDefault() { } });

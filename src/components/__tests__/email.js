@@ -89,7 +89,7 @@ describe('Email confirmation', () => {
 
       wrapper = mount(<EmailConfirm />)
 
-      var input = wrapper.find('input');
+      let input = wrapper.find('input');
       input.simulate("change", { target: { value: "vince@gmail.com", name: "email" } });
 
       wrapper.find('form').simulate("submit", { preventDefault() { } });
@@ -119,7 +119,7 @@ describe('Email confirmation', () => {
 
       wrapper = mount(<EmailConfirm />)
 
-      var input = wrapper.find('input');
+      let input = wrapper.find('input');
       input.simulate("change", { target: { value: "vince@gmail.com", name: "email" } });
 
       wrapper.find('form').simulate("submit", { preventDefault() { } });
@@ -149,7 +149,7 @@ describe('Email confirmation', () => {
 
       wrapper = mount(<EmailConfirm />)
 
-      var input = wrapper.find('input');
+      let input = wrapper.find('input');
       input.simulate("change", { target: { value: "vince@gmail.com", name: "email" } });
 
       wrapper.find('form').simulate("submit", { preventDefault() { } });
@@ -179,7 +179,7 @@ describe('Email confirmation', () => {
 
       wrapper = mount(<EmailConfirm />)
 
-      var input = wrapper.find('input');
+      let input = wrapper.find('input');
       input.simulate("change", { target: { value: "vince@gmail.com", name: "email" } });
 
       wrapper.find('form').simulate("submit", { preventDefault() { } });

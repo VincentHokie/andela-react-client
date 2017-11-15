@@ -3,10 +3,10 @@ import BaseComponent from "../base"
 
 import '../../styles/css/template_logged_in.css';
 
-var vex = require('vex-js')
+let vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 
-var btoa = require('btoa')
+let btoa = require('btoa')
 
 class Navigation extends BaseComponent {
 
@@ -56,7 +56,7 @@ class Navigation extends BaseComponent {
 
   handleLogout = (event) => {
 
-    var component = this;
+    let component = this;
 
     vex.dialog.defaultOptions.showCloseButton = true;
     vex.dialog.defaultOptions.escapeButtonCloses = true;

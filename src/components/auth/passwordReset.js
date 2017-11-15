@@ -22,7 +22,7 @@ class PasswordReset extends BaseComponent {
 
     //prevent browser refresh on submit
     e.preventDefault();
-    var token = this.props.match.params.token;
+    let token = this.props.match.params.token;
 
     //reset error variables
     this.setState({ 

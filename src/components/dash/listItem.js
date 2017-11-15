@@ -1,10 +1,10 @@
 import React from 'react';
 import BaseComponent from "../base"
 
-var vex = require('vex-js')
+let vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 
-var btoa = require('btoa')
+let btoa = require('btoa')
 
 class ListItem extends BaseComponent {
 
@@ -20,7 +20,7 @@ class ListItem extends BaseComponent {
   deleteItem = (component) => {
 
     component.setState({ loading: true })
-    var parent = component._reactInternalInstance._currentElement._owner._instance;
+    let parent = component._reactInternalInstance._currentElement._owner._instance;
 
     fetch(this.baseUrl + '/v1/shoppinglists/' + component.props.list + '/items/' + component.props.item.item_id, {
       method: 'DELETE',
@@ -57,7 +57,7 @@ class ListItem extends BaseComponent {
 
   handleDeleteItem = (event) => {
 
-    var component = this;
+    let component = this;
 
     vex.dialog.defaultOptions.showCloseButton = true;
     vex.dialog.defaultOptions.escapeButtonCloses = true;
@@ -76,7 +76,7 @@ class ListItem extends BaseComponent {
 
   handleItemCheckboxChange = (event) => {
 
-    var parent = this._reactInternalInstance._currentElement._owner._instance;
+    let parent = this._reactInternalInstance._currentElement._owner._instance;
 
     fetch(this.baseUrl + '/v1/shoppinglists/' + this.props.item.list_id + '/items/' + this.props.item.item_id + '/checkbox', {
       method: 'PUT',

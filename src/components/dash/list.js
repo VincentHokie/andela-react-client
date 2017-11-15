@@ -1,10 +1,10 @@
 import React from 'react';
 import BaseComponent from "../base"
 
-var vex = require('vex-js')
+let vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 
-var btoa = require('btoa')
+let btoa = require('btoa')
 
 class Item extends BaseComponent {
 
@@ -19,7 +19,7 @@ class Item extends BaseComponent {
   deleteList = (component) => {
 
     component.setState({ loading: true })
-    var parent = component._reactInternalInstance._currentElement._owner._instance;
+    let parent = component._reactInternalInstance._currentElement._owner._instance;
 
     fetch(this.baseUrl + '/v1/shoppinglists/' + component.props.thisone, {
       method: 'DELETE',
@@ -60,8 +60,8 @@ class Item extends BaseComponent {
 
   handleDeleteList = (event) => {
 
-    var listId = event.target.getAttribute('data-listid');
-    var component = this;
+    let listId = event.target.getAttribute('data-listid');
+    let component = this;
 
     vex.dialog.defaultOptions.showCloseButton = true;
     vex.dialog.defaultOptions.escapeButtonCloses = true;

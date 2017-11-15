@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 
 import FormButton from '../formButton.js';
-var expect = require("chai").expect;
+let expect = require("chai").expect;
 
 describe('Form Button', () => {
   let wrapper;

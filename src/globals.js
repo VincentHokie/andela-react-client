@@ -1,39 +1,39 @@
+export const baseUrl = process.env.REACT_APP_BASE_URL;
 
-module.exports = {
+export const setGlobals = (component) => {
 
-	baseUrl : "https://andela-flask-api.herokuapp.com",
+    //get global variables
+    let localData = JSON.parse(localStorage.getItem("globals"));
 
-	// baseUrl : "http://127.0.0.1:5000",
+    if (localData) {
 
-	setGlobals : (component) => {
+        if (localData["logged_in"])
+            component.setState({ logged_in: localData["logged_in"] });
 
-		//get global variables
-		let localData = JSON.parse( localStorage.getItem("globals") );
+        if (localData["token"])
+            component.setState({ token: localData["token"] });
 
-		if( localData && localData["logged_in"] )
-			component.setState({ logged_in: localData["logged_in"]  });
+        if (localData["user_username"])
+            component.setState({ user_username: localData["user_username"] });
 
-		if( localData && localData["token"] )
-			component.setState({ token: localData["token"]  });
+        if (localData["flash"])
+            component.setState({ flash: localData["flash"] });
 
-		if( localData && localData["user_username"] )
-			component.setState({ user_username: localData["user_username"]  });
+        //once transfer of state is complete, leave no trace
+        // localStorage.setItem("globals", JSON.stringify(""));
 
-		if( localData && localData["flash"] )
-			component.setState({ flash: localData["flash"]  });
+    }
 
-		//add a listener to listen for page change/ refresh
-		window.addEventListener("beforeunload", function(){
-			localStorage.setItem("globals",
-				JSON.stringify({
-					logged_in: component.state.logged_in,
-					token: component.state.token,
-					user_username: component.state.user_username,
-					flash: component.state.flash
-				})
-			)
-		});
+    //add a listener to listen for page change/ refresh
+    window.addEventListener("beforeunload", function () {
+        localStorage.setItem("globals",
+            JSON.stringify({
+                logged_in: component.state.logged_in,
+                token: component.state.token,
+                user_username: component.state.user_username,
+                flash: component.state.flash
+            })
+        )
+    });
 
-	}
-
- }
+}

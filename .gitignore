@@ -1,5 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# dont track env variable
+.env
+
 # dependencies cache
 /node_modules/.cache/
 node_modules/

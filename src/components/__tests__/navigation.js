@@ -8,7 +8,7 @@ import fetchMock from "fetch-mock";
 
 import "../../localStorage";
 
-var GLOBAL = require("../../globals.js")
+import { baseUrl } from  "../../globals.js"
 
 import chai from "chai"; let expect = chai.expect
 
@@ -50,7 +50,7 @@ describe('Navigation bar', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/logout", {
+      fetchMock.post(baseUrl + "/v1/auth/logout", {
         status: 200,
         body: { success: "You have successfully logged out" }
 
@@ -67,7 +67,7 @@ describe('Navigation bar', () => {
         expect(wrapper.state().loading).equal(false);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/logout");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/logout");
 
         done();
 
@@ -78,7 +78,7 @@ describe('Navigation bar', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/logout", {
+      fetchMock.post(baseUrl + "/v1/auth/logout", {
         status: 200,
         body: { error: "Something went wrong" }
       })
@@ -93,7 +93,7 @@ describe('Navigation bar', () => {
         expect(wrapper.state().loading).equal(false);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/logout");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/logout");
 
         done();
 
@@ -103,7 +103,7 @@ describe('Navigation bar', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/logout", {
+      fetchMock.post(baseUrl + "/v1/auth/logout", {
         status: 401,
         body: "Unauthorized access"
       })
@@ -119,7 +119,7 @@ describe('Navigation bar', () => {
         expect(wrapper.state().loading).equal(false);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/logout");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/logout");
 
         done();
 

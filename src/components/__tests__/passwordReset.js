@@ -5,7 +5,7 @@ import PasswordReset from '../auth/passwordReset';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-var GLOBAL = require("../../globals.js")
+import { baseUrl } from  "../../globals.js"
 import fetchMock from "fetch-mock";
 import chai from "chai"; let expect = chai.expect
 import "../../localStorage";
@@ -87,7 +87,7 @@ describe('Password reset', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret", {
+      fetchMock.post(baseUrl + "/v1/auth/reset-password/a-real-secret", {
         status: 200,
         body: JSON.stringify({ success: "Your password has been successfully reset" })
       })
@@ -109,7 +109,7 @@ describe('Password reset', () => {
         expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/reset-password/a-real-secret");
 
         done();
 
@@ -120,7 +120,7 @@ describe('Password reset', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret", {
+      fetchMock.post(baseUrl + "/v1/auth/reset-password/a-real-secret", {
         status: 200,
         body: JSON.stringify({ error: "Were here" })
       })
@@ -142,7 +142,7 @@ describe('Password reset', () => {
         expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/reset-password/a-real-secret");
 
         done();
 
@@ -153,7 +153,7 @@ describe('Password reset', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret", {
+      fetchMock.post(baseUrl + "/v1/auth/reset-password/a-real-secret", {
         status: 200,
         body: JSON.stringify({ error: { password_confirm: ["Password confirm error"], password: ["Password error"] } })
       })
@@ -177,7 +177,7 @@ describe('Password reset', () => {
         expect(wrapper.find("span.label").length).equal(2);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/reset-password/a-real-secret");
 
         done();
 
@@ -187,7 +187,7 @@ describe('Password reset', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret", {
+      fetchMock.post(baseUrl + "/v1/auth/reset-password/a-real-secret", {
         status: 200,
         body: "Unauthorized access"
       })
@@ -209,7 +209,7 @@ describe('Password reset', () => {
         expect(wrapper.find(".message").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password/a-real-secret");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/reset-password/a-real-secret");
 
         done();
 

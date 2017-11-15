@@ -5,7 +5,7 @@ import ShoppingLists from '../dash/shoppingLists';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-var GLOBAL = require("../../globals.js")
+import { baseUrl } from  "../../globals.js"
 import fetchMock from "fetch-mock";
 import chai from "chai"; let expect = chai.expect
 import "../../localStorage";
@@ -29,7 +29,7 @@ describe('Behaviour', () => {
   beforeEach(() => {
     localStorage.setItem("globals", JSON.stringify({ "logged_in": true }));
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+    fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
       status: 200,
       body: []
     })
@@ -89,7 +89,7 @@ describe('Behaviour', () => {
 
   it('shopping list click, sets the currently selected list, its ID and on a small screen hides the shopping lists', () => {
 
-    fetchMock.get(GLOBAL.baseUrl + "/v2/shoppinglists/1/items?limit=5&page=1", {
+    fetchMock.get(baseUrl + "/v2/shoppinglists/1/items?limit=5&page=1", {
       status: 200,
       body: []
     })

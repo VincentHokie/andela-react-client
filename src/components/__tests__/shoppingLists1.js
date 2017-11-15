@@ -5,7 +5,7 @@ import ShoppingLists from '../dash/shoppingLists';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-var GLOBAL = require("../../globals.js")
+import { baseUrl } from  "../../globals.js"
 import fetchMock from "fetch-mock";
 import chai from "chai"; let expect = chai.expect
 import "../../localStorage";
@@ -18,7 +18,7 @@ describe('Flash Message Behaviour', () => {
 
     localStorage.setItem("globals", JSON.stringify({ "flash": "Message", "logged_in": true }));
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+    fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
       status: 200,
       body: "[]"
     })
@@ -50,7 +50,7 @@ describe('API interaction Behaviour', () => {
 
   it('form submission done properly and success responses are handled properly', (done) => {
 
-    fetchMock.mock(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+    fetchMock.mock(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
       status: 200,
       body: list_data
     })
@@ -66,7 +66,7 @@ describe('API interaction Behaviour', () => {
       expect(wrapper.find(".shopping-list").length).equal(wrapper.state().list_data.length);
 
       expect(fetchMock.called()).equal(true);
-      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1");
+      expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists?limit=5&page=1");
 
       done();
 
@@ -76,7 +76,7 @@ describe('API interaction Behaviour', () => {
 
   it('form submission done properly and success responses are handled properlyy', (done) => {
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+    fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
       status: 401,
       body: "Unauthorized access"
     })
@@ -91,7 +91,7 @@ describe('API interaction Behaviour', () => {
       expect(wrapper.state().general_msg).equal("Check your internet connection and try again");
 
       expect(fetchMock.called()).equal(true);
-      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1");
+      expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists?limit=5&page=1");
 
       done();
 
@@ -101,12 +101,12 @@ describe('API interaction Behaviour', () => {
 
   it('form submission done properly and error responses are handled properly', (done) => {
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+    fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
       status: 200,
       body: list_data
     })
 
-    fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists/1/items", {
+    fetchMock.post(baseUrl + "/v1/shoppinglists/1/items", {
       status: 200,
       body: { success: "Were here" }
     })
@@ -129,7 +129,7 @@ describe('API interaction Behaviour', () => {
       expect(wrapper.find(".message").length).equal(1);
 
       expect(fetchMock.called()).equal(true);
-      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items");
+      expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists/1/items");
 
       done();
 
@@ -140,12 +140,12 @@ describe('API interaction Behaviour', () => {
 
   it('form submission done properly and error responses are handled properly', (done) => {
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+    fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
       status: 200,
       body: list_data
     })
 
-    fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists/1/items", {
+    fetchMock.post(baseUrl + "/v1/shoppinglists/1/items", {
       status: 200,
       body: { error: "Were here" }
     })
@@ -168,7 +168,7 @@ describe('API interaction Behaviour', () => {
       expect(wrapper.find(".message").length).equal(1);
 
       expect(fetchMock.called()).equal(true);
-      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items");
+      expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists/1/items");
 
       done();
 
@@ -178,12 +178,12 @@ describe('API interaction Behaviour', () => {
 
   it('form submission done properly and error responses are handled properly', (done) => {
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+    fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
       status: 200,
       body: list_data
     })
 
-    fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists/1/items", {
+    fetchMock.post(baseUrl + "/v1/shoppinglists/1/items", {
       status: 200,
       body: "Unauthorized access"
     })
@@ -207,7 +207,7 @@ describe('API interaction Behaviour', () => {
       expect(wrapper.find(".message").length).equal(1);
 
       expect(fetchMock.called()).equal(true);
-      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items");
+      expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists/1/items");
 
       done();
 
@@ -218,12 +218,12 @@ describe('API interaction Behaviour', () => {
 
   it('form submission done properly and form error message responses are handled properly', (done) => {
 
-    fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+    fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
       status: 200,
       body: list_data
     })
 
-    fetchMock.post(GLOBAL.baseUrl + "/v1/shoppinglists/1/items", {
+    fetchMock.post(baseUrl + "/v1/shoppinglists/1/items", {
       status: 200,
       body: { error: { name: ["Name error"], amount: ["Amount error"] } }
     })
@@ -248,7 +248,7 @@ describe('API interaction Behaviour', () => {
       expect(wrapper.find("span.label").length).equal(2);
 
       expect(fetchMock.called()).equal(true);
-      expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/1/items");
+      expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists/1/items");
 
       done();
 
@@ -258,7 +258,7 @@ describe('API interaction Behaviour', () => {
 
   // it('form submission done properly and form error message responses are handled properly', (done) => {
 
-  //   fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+  //   fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
   //      status: 200,
   //      body: list_data
   //    })
@@ -275,7 +275,7 @@ describe('API interaction Behaviour', () => {
   //     expect( wrapper.find(".message").length ).equal(1);
 
   //     expect(fetchMock.called()).equal(true);
-  //     expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1");
+  //     expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists?limit=5&page=1");
 
   //     done();
 
@@ -285,7 +285,7 @@ describe('API interaction Behaviour', () => {
 
   // it('form submission done properly and form error message responses are handled properly', (done) => {
 
-  //   fetchMock.get(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1", {
+  //   fetchMock.get(baseUrl + "/v1/shoppinglists?limit=5&page=1", {
   //      status: 200,
   //      body: { error : "Unauthorized access"}
   //    })
@@ -302,7 +302,7 @@ describe('API interaction Behaviour', () => {
   //     expect( wrapper.find(".message").length ).equal(1);
 
   //     expect(fetchMock.called()).equal(true);
-  //     expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists?limit=5&page=1");
+  //     expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists?limit=5&page=1");
 
   //     done();
 

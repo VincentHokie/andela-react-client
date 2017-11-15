@@ -4,7 +4,7 @@ import { shallow, mount, render } from 'enzyme';
 import ListItem from '../dash/list';
 import { BrowserRouter } from 'react-router-dom'
 
-var GLOBAL = require("../../globals.js")
+import { baseUrl } from  "../../globals.js"
 import fetchMock from "fetch-mock";
 import chai from "chai"; let expect = chai.expect
 import "../../localStorage";
@@ -59,7 +59,7 @@ describe('Shopping list', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.delete(GLOBAL.baseUrl + "/v1/shoppinglists/2", {
+      fetchMock.delete(baseUrl + "/v1/shoppinglists/2", {
         status: 200,
         body: { success: "The list has been successfully deleted" }
       })
@@ -75,7 +75,7 @@ describe('Shopping list', () => {
         expect(wrapper.state().loading).equal(false);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/2");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists/2");
 
         done();
 
@@ -86,7 +86,7 @@ describe('Shopping list', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
 
-      fetchMock.delete(GLOBAL.baseUrl + "/v1/shoppinglists/2", {
+      fetchMock.delete(baseUrl + "/v1/shoppinglists/2", {
         status: 200,
         body: { error: "Something went wrong" }
       })
@@ -102,7 +102,7 @@ describe('Shopping list', () => {
         //        expect( wrapper.state().general_msg ).equal("Something went wrong");
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/2");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists/2");
 
         done();
 
@@ -112,7 +112,7 @@ describe('Shopping list', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
 
-      fetchMock.delete(GLOBAL.baseUrl + "/v1/shoppinglists/2", {
+      fetchMock.delete(baseUrl + "/v1/shoppinglists/2", {
         status: 200,
         body: "Unauthorized access"
       })
@@ -128,7 +128,7 @@ describe('Shopping list', () => {
         //        expect( wrapper.state().general_msg ).equal("Check your internet connection and try again");
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/shoppinglists/2");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/shoppinglists/2");
 
         done();
 

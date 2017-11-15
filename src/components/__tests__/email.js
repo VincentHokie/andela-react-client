@@ -5,7 +5,7 @@ import EmailConfirm from '../auth/emailConfirm';
 
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 
-var GLOBAL = require("../../globals.js")
+import { baseUrl } from  "../../globals.js"
 import fetchMock from "fetch-mock";
 import chai from "chai"; let expect = chai.expect
 import "../../localStorage";
@@ -82,7 +82,7 @@ describe('Email confirmation', () => {
 
     it('form submission done properly and success responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password", {
+      fetchMock.post(baseUrl + "/v1/auth/reset-password", {
         status: 200,
         body: { success: "Were here" }
       })
@@ -101,7 +101,7 @@ describe('Email confirmation', () => {
 
         expect(wrapper.find("FlashMsg").length).equal(1);
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/reset-password");
 
         done();
 
@@ -112,7 +112,7 @@ describe('Email confirmation', () => {
 
     it('form submission done properly and error responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password", {
+      fetchMock.post(baseUrl + "/v1/auth/reset-password", {
         status: 200,
         body: { error: "Were here" }
       })
@@ -131,7 +131,7 @@ describe('Email confirmation', () => {
         expect(wrapper.find("FlashMsg").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/reset-password");
 
         done();
 
@@ -142,7 +142,7 @@ describe('Email confirmation', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password", {
+      fetchMock.post(baseUrl + "/v1/auth/reset-password", {
         status: 200,
         body: { error: { email: ["Were here"] } }
       })
@@ -162,7 +162,7 @@ describe('Email confirmation', () => {
         expect(wrapper.find("FormError").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/reset-password");
 
         done();
 
@@ -172,7 +172,7 @@ describe('Email confirmation', () => {
 
     it('form submission done properly and form error message responses are handled properly', (done) => {
 
-      fetchMock.post(GLOBAL.baseUrl + "/v1/auth/reset-password", {
+      fetchMock.post(baseUrl + "/v1/auth/reset-password", {
         status: 200,
         body: "Unauthorized access"
       })
@@ -190,7 +190,7 @@ describe('Email confirmation', () => {
         expect(wrapper.find("FlashMsg").length).equal(1);
 
         expect(fetchMock.called()).equal(true);
-        expect(fetchMock.lastUrl()).equal(GLOBAL.baseUrl + "/v1/auth/reset-password");
+        expect(fetchMock.lastUrl()).equal(baseUrl + "/v1/auth/reset-password");
 
         done();
 

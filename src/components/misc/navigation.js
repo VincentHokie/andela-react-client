@@ -31,23 +31,31 @@ class Navigation extends BaseComponent {
       })
       .then((data) => {
 
-        if (data["success"]) {
+        if (data["success"])
+          return data;
 
-          component.setState({ 
+        throw data;
+
+      })
+      .then((data) => {
+
+          component.setState({
             flash: data["success"],
             user_username: false,
             logged_in: false,
             token: false
           })
-          
+
           window.location = "/login";
 
-        }
-        else
-          component.setState({ flash: data["error"] })
-
       }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
+      .catch((data) => {
+
+        if (data["error"]) {
+          component.setState({ flash: data["error"] })
+          return ;
+        }
+
         component.setState({ general_msg: "Check your internet connection and try again" })
       });
 

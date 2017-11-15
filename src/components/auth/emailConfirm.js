@@ -24,7 +24,7 @@ class EmailConfirm extends BaseComponent {
     e.preventDefault();
 
     //reset error variables
-    this.setState({ 
+    this.setState({
       email_error: false,
       general_msg: false,
       loading: true
@@ -40,12 +40,21 @@ class EmailConfirm extends BaseComponent {
       })
       .then((data) => {
 
-        if (data["success"]) {
+        if (data["success"])
+          return data;
 
-          data = data["success"];
-          this.setState({ general_msg: data })
+        throw data;
 
-        } else if (data["error"]) {
+      })
+      .then((data) => {
+
+        data = data["success"];
+        this.setState({ general_msg: data })
+
+      }) // still returns a promise object, U need to chain it again
+      .catch((data) => {
+
+        if (data["error"]) {
 
           data = data["error"];
 
@@ -59,10 +68,10 @@ class EmailConfirm extends BaseComponent {
           if (data["email"])
             this.setState({ email_error: data["email"][0] })
 
+          return;
+
         }
 
-      }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 

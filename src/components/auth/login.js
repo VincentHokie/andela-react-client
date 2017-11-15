@@ -25,8 +25,8 @@ class Login extends BaseComponent {
     e.preventDefault();
 
     //reset error variables
-    this.setState({ 
-      username_error: false, 
+    this.setState({
+      username_error: false,
       password_error: false,
       general_msg: false,
       loading: true
@@ -38,31 +38,40 @@ class Login extends BaseComponent {
     })      // returns a promise object
       .then((resp) => {
         this.setState({ loading: false })
-        return resp.json()
+        return resp.json();
       })
       .then((data) => {
 
-        if (data["success"]) {
+        if (data["success"])
+          return data;
 
-          this.setState({ general_msg: data["success"] })
+        throw data;
 
-          //if a token is sent back, the login was successful, so we set global variables to store these states
-          if (data["token"]) {
+      })
+      .then((data) => {
 
-            this.setState({ 
-              token: data["token"],
-              user_username: this.state.username
-            })
-            this.state.logged_in = true;
+        this.setState({ general_msg: data["success"] })
 
-            setTimeout(() => {
-              window.dispatchEvent(new Event('beforeunload'));
-              this.props.history.push('/shopping-lists')
-            }, 500);
+        //if a token is sent back, the login was successful, so we set global variables to store these states
+        if (data["token"]) {
 
-          }
+          this.setState({
+            token: data["token"],
+            user_username: this.state.username
+          })
+          this.state.logged_in = true;
 
-        } else if (data["error"]) {
+          setTimeout(() => {
+            window.dispatchEvent(new Event('beforeunload'));
+            this.props.history.push('/shopping-lists')
+          }, 500);
+
+        }
+
+      }) // still returns a promise object, U need to chain it again
+      .catch((data) => {
+
+        if (data["error"]) {
 
           data = data["error"];
 
@@ -72,18 +81,19 @@ class Login extends BaseComponent {
             return true;
           }
 
-         // show form errors if their respective keys are returned by the API
+          // show form errors if their respective keys are returned by the API
           if (data["username"])
             this.setState({ ["username_error"]: data["username"][0] })
 
           if (data["password"])
             this.setState({ ["password_error"]: data["password"][0] })
 
+          return ;
+          
         }
 
-      }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
         this.setState({ general_msg: "Check your internet connection and try again" })
+
       });
 
   }
@@ -96,7 +106,7 @@ class Login extends BaseComponent {
 
         {this.state.general_msg ? <FlashMsg msg={this.state.general_msg} /> : null}
 
-        <form onSubmit={this.handleSubmit} className="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 form-login form" style={{ marginTop: "40px"}}>
+        <form onSubmit={this.handleSubmit} className="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 form-login form" style={{ marginTop: "40px" }}>
 
           <h2 className="form-heading">Andela Shopping List</h2>
 

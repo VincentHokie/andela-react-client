@@ -25,7 +25,7 @@ class UpdateShoppingList extends BaseComponent {
     //show a flash message if it exists in the globals module
     if (this.state.flash) {
 
-      this.setState({ 
+      this.setState({
         general_msg: this.state.flash,
         flash: false
       });
@@ -47,21 +47,29 @@ class UpdateShoppingList extends BaseComponent {
       })
       .then((data) => {
 
-        //if the data is not a json object, create a general messge..otherwise, its a list object
-        if (typeof data !== "object") {
-          this.setState({ general_msg: data })
-          return true;
-        }
+        if (data["name"])
+          return data;
+
+        throw data;
+
+      })
+      .then((data) => {
 
         //we got a list object back, populate state & therefore input field
-        this.setState({ 
+        this.setState({
           name: data["name"],
           retrieved: true
         })
 
-
       }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
+      .catch((data) => {
+
+        //if the data is not a json object, create a general messge..otherwise, its a list object
+        if (data["error"]) {
+          this.setState({ general_msg: data["error"] })
+          return true;
+        }
+
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
@@ -72,9 +80,9 @@ class UpdateShoppingList extends BaseComponent {
 
     //prevent browser refresh on submit
     e.preventDefault();
-    
+
     //reset error variables
-    this.setState({ 
+    this.setState({
       name_error: false,
       general_msg: false,
       loading: true
@@ -93,16 +101,25 @@ class UpdateShoppingList extends BaseComponent {
       })
       .then((data) => {
 
-        if (data["success"]) {
+        if (data["error"])
+          throw data;
 
-          data = data["success"];
-          this.setState({ general_msg: data })
-          
-          setTimeout(() => {
-            this.props.history.push('/shopping-lists')
-          }, 1000);
+        return data;
 
-        } else if (data["error"]) {
+      })
+      .then((data) => {
+
+        data = data["success"];
+        this.setState({ general_msg: data })
+
+        setTimeout(() => {
+          this.props.history.push('/shopping-lists')
+        }, 1000);
+
+      }) // still returns a promise object, U need to chain it again
+      .catch((data) => {
+
+        if (data["error"]) {
 
           data = data["error"];
 
@@ -112,14 +129,14 @@ class UpdateShoppingList extends BaseComponent {
             return true;
           }
 
-          if (data["name"]){
+          if (data["name"]) {
             this.setState({ ["name_error"]: data["name"][0] })
           }
 
+          return;
+
         }
 
-      }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 

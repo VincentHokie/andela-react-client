@@ -9,10 +9,7 @@ import List from "../dash/list"
 import Paginate from "../dash/paginator"
 
 import FlashMsg from "../misc/flashMsg"
-
 import FormError from "../forms/formError.js"
-
-var GLOBAL = require("../../globals.js")
 
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
@@ -49,7 +46,7 @@ class ShoppingLists extends BaseComponent {
     this.setState({ getting_lists: true });
 
     //get user shopping list objects from database
-    fetch(GLOBAL.baseUrl + '/v1/shoppinglists?limit=' + limit + '&page=' + page + q, {
+    fetch(this.baseUrl + '/v1/shoppinglists?limit=' + limit + '&page=' + page + q, {
       method: 'GET',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
@@ -93,7 +90,7 @@ class ShoppingLists extends BaseComponent {
     this.setState({ getting_items: true })
 
     //get user shopping list item objects from database
-    fetch(GLOBAL.baseUrl + '/v2/shoppinglists/' + list_id + '/items?limit=' + limit + '&page=' + page + q, {
+    fetch(this.baseUrl + '/v2/shoppinglists/' + list_id + '/items?limit=' + limit + '&page=' + page + q, {
       method: 'GET',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
@@ -195,7 +192,7 @@ class ShoppingLists extends BaseComponent {
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
-    fetch(GLOBAL.baseUrl + '/v1/shoppinglists/' + this.state.chosen_list_id + '/items', {
+    fetch(this.baseUrl + '/v1/shoppinglists/' + this.state.chosen_list_id + '/items', {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')

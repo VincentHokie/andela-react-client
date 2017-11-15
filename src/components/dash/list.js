@@ -1,8 +1,6 @@
 import React from 'react';
 import BaseComponent from "../base"
 
-var GLOBAL = require("../../globals.js")
-
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 
@@ -23,7 +21,7 @@ class Item extends BaseComponent {
     component.setState({ loading: true })
     var parent = component._reactInternalInstance._currentElement._owner._instance;
 
-    fetch(GLOBAL.baseUrl + '/v1/shoppinglists/' + component.props.thisone, {
+    fetch(this.baseUrl + '/v1/shoppinglists/' + component.props.thisone, {
       method: 'DELETE',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')

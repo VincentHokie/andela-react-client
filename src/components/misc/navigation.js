@@ -6,7 +6,6 @@ import '../../styles/css/template_logged_in.css';
 var vex = require('vex-js')
 vex.defaultOptions.className = 'vex-theme-os'
 
-var GLOBAL = require("../../globals.js")
 var btoa = require('btoa')
 
 class Navigation extends BaseComponent {
@@ -20,7 +19,7 @@ class Navigation extends BaseComponent {
 
     component.setState({ loading: true })
 
-    fetch(GLOBAL.baseUrl + '/v1/auth/logout', {
+    fetch(this.baseUrl + '/v1/auth/logout', {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')

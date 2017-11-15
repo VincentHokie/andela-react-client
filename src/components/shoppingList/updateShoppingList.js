@@ -7,8 +7,6 @@ import FormError from "../forms/formError"
 import FormButton from "../forms/formButton"
 import BackButton from "../misc/backButton"
 
-var GLOBAL = require("../../globals.js")
-
 class UpdateShoppingList extends BaseComponent {
 
   constructor() {
@@ -37,7 +35,7 @@ class UpdateShoppingList extends BaseComponent {
     this.setState({ loading: true })
 
     //get list object from database
-    fetch(GLOBAL.baseUrl + '/v2/shoppinglists/' + this.props.match.params.id, {
+    fetch(this.baseUrl + '/v2/shoppinglists/' + this.props.match.params.id, {
       method: 'GET',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')
@@ -89,7 +87,7 @@ class UpdateShoppingList extends BaseComponent {
       formData.append(data[name], this.state[data[name]]);
 
 
-    fetch(GLOBAL.baseUrl + '/v1/shoppinglists/' + this.props.match.params.id, {
+    fetch(this.baseUrl + '/v1/shoppinglists/' + this.props.match.params.id, {
       method: 'PUT',
       headers: {
         'Authorization': 'Basic ' + btoa(this.state.token + ':x')

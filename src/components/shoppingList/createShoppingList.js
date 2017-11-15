@@ -8,8 +8,6 @@ import BackButton from "../misc/backButton"
 
 import BaseComponent from "../base"
 
-var GLOBAL = require("../../globals.js")
-
 class CreateShoppingList extends BaseComponent {
 
   constructor() {
@@ -42,7 +40,7 @@ class CreateShoppingList extends BaseComponent {
       formData.append(data[name], this.state[data[name]]);
 
 
-    fetch(GLOBAL.baseUrl + '/v1/shoppinglists', {
+    fetch(this.baseUrl + '/v1/shoppinglists', {
       method: 'POST',
       body: formData,
       headers: {

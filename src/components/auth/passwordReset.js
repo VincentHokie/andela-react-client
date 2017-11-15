@@ -5,8 +5,6 @@ import FlashMsg from "../misc/flashMsg"
 import FormError from "../forms/formError"
 import FormButton from "../forms/formButton"
 
-var GLOBAL = require("../../globals.js")
-
 class PasswordReset extends BaseComponent {
 
   constructor() {
@@ -40,7 +38,7 @@ class PasswordReset extends BaseComponent {
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
-    fetch(GLOBAL.baseUrl + '/v1/auth/reset-password/' + token, {
+    fetch(this.baseUrl + '/v1/auth/reset-password/' + token, {
       method: 'POST',
       body: formData
     })      // returns a promise object

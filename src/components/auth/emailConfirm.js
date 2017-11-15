@@ -5,8 +5,6 @@ import FormError from "../forms/formError"
 import FormButton from "../forms/formButton"
 import BaseComponent from "../base"
 
-var GLOBAL = require("../../globals.js")
-
 class EmailConfirm extends BaseComponent {
 
   constructor() {
@@ -38,7 +36,7 @@ class EmailConfirm extends BaseComponent {
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
-    fetch(GLOBAL.baseUrl + '/v1/auth/reset-password', {
+    fetch(this.baseUrl + '/v1/auth/reset-password', {
       method: 'POST',
       body: formData
     })      // returns a promise object

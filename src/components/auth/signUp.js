@@ -7,8 +7,6 @@ import FlashMsg from "../misc/flashMsg"
 import FormError from "../forms/formError"
 import FormButton from "../forms/formButton"
 
-var GLOBAL = require("../../globals.js")
-
 class SignUp extends BaseComponent {
 
   constructor() {
@@ -43,7 +41,7 @@ class SignUp extends BaseComponent {
     for (var name in data)
       formData.append(data[name], this.state[data[name]]);
 
-    fetch(GLOBAL.baseUrl + '/v1/auth/register', {
+    fetch(this.baseUrl + '/v1/auth/register', {
       method: 'POST',
       body: formData
     })      // returns a promise object

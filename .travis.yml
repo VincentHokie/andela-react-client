@@ -1,3 +1,5 @@
 language: node_js
 node_js:
   - "6.11.2"
+env:
+  - REACT_APP_BASE_URL="https://andela-flask-api.herokuapp.com"

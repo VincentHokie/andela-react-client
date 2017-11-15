@@ -53,7 +53,7 @@ class ShoppingLists extends BaseComponent {
       }
     })      // returns a promise object
       .then((resp) => {
-        this.setState({ 
+        this.setState({
           general_msg: false,
           getting_lists: false,
           loading: false
@@ -62,19 +62,28 @@ class ShoppingLists extends BaseComponent {
       })
       .then((data) => {
 
-        if (data["error"]) {
-          this.setState({ general_msg: data["error"] })
-          return true;
-        }
+        if (data["error"])
+          throw data;
 
-        this.setState({ 
+        return data;
+
+      })
+      .then((data) => {
+
+        this.setState({
           list_data: data["lists"],
           num_of_records_lists: data["count"],
           loading: false
         });
 
       }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
+      .catch((data) => {
+
+        if (data["error"]) {
+          this.setState({ general_msg: data["error"] })
+          return true;
+        }
+
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
@@ -102,19 +111,28 @@ class ShoppingLists extends BaseComponent {
       })
       .then((data) => {
 
-        if (data["error"]) {
-          this.setState({ general_msg: data["error"] })
-          return true;
-        }
+        if (data["error"])
+          throw data;
+
+        return data;
+
+      })
+      .then((data) => {
 
         //we got item objects back, populate component state
-        this.setState({ 
+        this.setState({
           item_data: data["items"],
           num_of_records_items: data["count"]
         });
 
       }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
+      .catch((data) => {
+
+        if (data["error"]) {
+          this.setState({ general_msg: data["error"] })
+          return true;
+        }
+
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
@@ -122,15 +140,15 @@ class ShoppingLists extends BaseComponent {
 
   componentDidMount() {
 
-    this.setState({ 
-      loading: true, 
+    this.setState({
+      loading: true,
       general_msg: "Loading your updated shopping lists.."
     })
 
     //show a flash message if it exists in the globals module
     if (this.state.flash) {
 
-      this.setState({ 
+      this.setState({
         general_msg: this.state.flash,
         flash: false
       });
@@ -154,7 +172,7 @@ class ShoppingLists extends BaseComponent {
   }
 
   numberOfListsPerPageChange = (event) => {
-    this.setState({ 
+    this.setState({
       lists_per_page: parseInt(event.target.value),
       showing_all_lists: event.target.value == "all" ? true : false
     });
@@ -164,7 +182,7 @@ class ShoppingLists extends BaseComponent {
   }
 
   numberOfItemsPerPageChange = (event) => {
-    this.setState({ 
+    this.setState({
       items_per_page: event.target.value,
       showing_all_items: event.target.value == "all" ? true : false
     });
@@ -179,7 +197,7 @@ class ShoppingLists extends BaseComponent {
     e.preventDefault();
 
     //reset error variables
-    this.setState({ 
+    this.setState({
       name_error: false,
       general_msg: false,
       loading: true
@@ -198,6 +216,27 @@ class ShoppingLists extends BaseComponent {
       })
       .then((data) => {
 
+        if (data["success"])
+          return data;
+
+        throw data;
+
+      })
+      .then((data) => {
+
+        this.setState({ general_msg: "You have successfully created the item : " + this.state.name + " into list : " + this.state.chosen_list })
+        let current_items = this.state.item_data;
+        current_items.push(data)
+
+        this.setState({
+          item_data: current_items,
+          name: '',
+          amount: ''
+        })
+
+      }) // still returns a promise object, U need to chain it again
+      .catch((data) => {
+
         if (data["error"]) {
 
           data = data["error"];
@@ -209,31 +248,18 @@ class ShoppingLists extends BaseComponent {
           }
 
           // display form errors if their respective keys exists
-          if (data["name"]){
+          if (data["name"]) {
             this.setState({ ["name_error"]: data["name"][0] })
           }
 
-          if (data["amount"]){
+          if (data["amount"]) {
             this.setState({ ["amount_error"]: data["amount"][0] })
           }
-          
 
-        } else {
-
-          this.setState({ general_msg: "You have successfully created the item : " + this.state.name + " into list : " + this.state.chosen_list })
-          let current_items = this.state.item_data;
-          current_items.push(data)
-
-          this.setState({ 
-            item_data: current_items,
-            name: '',
-            amount: ''
-          })
+          return;
 
         }
 
-      }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 
@@ -258,7 +284,7 @@ class ShoppingLists extends BaseComponent {
   }
 
   handleListSelect = (event) => {
-    this.setState({ 
+    this.setState({
       chosen_list: event.target.getAttribute("data-listname"),
       chosen_list_id: event.target.id
     })
@@ -276,7 +302,7 @@ class ShoppingLists extends BaseComponent {
   render() {
 
     // Map through lists and return linked lists
-    const listNode = this.state.list_data ? this.state.list_data.map((list) => 
+    const listNode = this.state.list_data ? this.state.list_data.map((list) =>
       <List chosen={this.state.chosen_list_id} thisone={list.list_id} list={list} handleListSelect={this.handleListSelect} key={list.list_id} pushNavigation={this.pushNavigation} />
     ) : "";
 

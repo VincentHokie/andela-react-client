@@ -45,7 +45,13 @@ class SignUp extends BaseComponent {
       })
       .then((data) => {
 
-        if (data["success"]) {
+        if (data["success"])
+          return data;
+
+        throw data;
+
+      })
+      .then((data) => {
 
           data = data["success"];
           this.setState({
@@ -61,7 +67,10 @@ class SignUp extends BaseComponent {
             this.props.history.push('/login')
           }, 1000);
 
-        } else if (data["error"]) {
+      }) // still returns a promise object, U need to chain it again
+      .catch((data) => {
+
+        if (data["error"]) {
 
           data = data["error"];
 
@@ -78,10 +87,10 @@ class SignUp extends BaseComponent {
               this.setState({ [field + "_error"]: data[field][0] })
           }
 
+          return ;
+          
         }
 
-      }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 

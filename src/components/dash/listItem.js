@@ -34,21 +34,30 @@ class ListItem extends BaseComponent {
       })
       .then((data) => {
 
-        if (data["success"]) {
+        if (data["success"])
+          return data;
 
-          data = data["success"];
-          parent.setState({ general_msg: data })
-          component.setState({ show: false })
+        throw data;
 
-        } else if (data["error"]) {
+      })
+      .then((data) => {
+
+        data = data["success"];
+        parent.setState({ general_msg: data })
+        component.setState({ show: false })
+
+      }) // still returns a promise object, U need to chain it again
+      .catch((data) => {
+
+        if (data["error"]) {
 
           data = data["error"];
           parent.setState({ general_msg: data })
 
+          return;
+
         }
 
-      }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
         parent.setState({ general_msg: "Check your internet connection and try again" })
       });
 

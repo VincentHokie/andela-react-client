@@ -21,13 +21,13 @@ class CreateShoppingList extends BaseComponent {
 
   }
 
-  handleSubmit = (e) =>  {
+  handleSubmit = (e) => {
 
     //prevent browser refresh on submit
     e.preventDefault();
 
     //reset error variables
-    this.setState({ 
+    this.setState({
       name_error: false,
       general_msg: false,
       loading: true
@@ -46,6 +46,22 @@ class CreateShoppingList extends BaseComponent {
       })
       .then((data) => {
 
+        if (data["error"])
+          throw data;
+
+        return data;
+
+      })
+      .then((data) => {
+
+          this.setState({
+            general_msg: "You have successfully created the List : " + this.state.name,
+            name: ''
+          })
+
+      }) // still returns a promise object, U need to chain it again
+      .catch((data) => {
+
         if (data["error"]) {
 
           data = data["error"];
@@ -59,20 +75,11 @@ class CreateShoppingList extends BaseComponent {
           // display the name form error if the name key exists
           if (data["name"])
             this.setState({ ["name_error"]: data["name"][0] })
-          
 
-        } else {
-          
-          this.setState({ 
-            general_msg: "You have successfully created the List : " + this.state.name,
-            name: ''
-          })
-          
+          return ;
+
         }
 
-
-      }) // still returns a promise object, U need to chain it again
-      .catch((error) => {
         this.setState({ general_msg: "Check your internet connection and try again" })
       });
 

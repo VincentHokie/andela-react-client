@@ -302,17 +302,17 @@ class ShoppingLists extends BaseComponent {
   render() {
 
     // Map through lists and return linked lists
-    const listNode = this.state.list_data ? this.state.list_data.map((list) =>
+    let listNode = this.state.list_data ? this.state.list_data.map((list) =>
       <List chosen={this.state.chosen_list_id} thisone={list.list_id} list={list} handleListSelect={this.handleListSelect} key={list.list_id} pushNavigation={this.pushNavigation} />
     ) : "";
 
     // Map through items and return linked items
-    const itemNode = this.state.item_data ? this.state.item_data.map((item) =>
+    let itemNode = this.state.item_data ? this.state.item_data.map((item) =>
       <ListItem chosen={this.state.chosen_list_id} item={item} key={item.item_id} list={item.list_id} pushNavigation={this.pushNavigation} />
     ) : "";
 
     // Create list pagination
-    const pagination_rows_lists = [];
+    let pagination_rows_lists = [];
     let pages = Math.ceil(this.state.num_of_records_lists / this.state.lists_per_page)
 
     for (let i = 0; i < pages; i++) {
@@ -320,7 +320,7 @@ class ShoppingLists extends BaseComponent {
     }
 
     // Create item pagination
-    const pagination_rows_items = [];
+    let pagination_rows_items = [];
     pages = Math.ceil(this.state.num_of_records_items / this.state.items_per_page)
 
     for (let i = 0; i < pages; i++) {

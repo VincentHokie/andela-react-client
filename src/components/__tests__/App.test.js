@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import "../../localStorage";
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
+  let div = document.createElement('div');
   localStorage.setItem("globals", JSON.stringify({"logged_in":false}));
 
   ReactDOM.render(

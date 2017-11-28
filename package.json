@@ -59,7 +59,6 @@
     "es-abstract": "^1.9.0",
     "escape-string-regexp": "^1.0.5",
     "escodegen": "^1.9.0",
-    "eslint": "^4.9.0",
     "esprima": "^4.0.0",
     "esrecurse": "^4.2.0",
     "estraverse": "^4.2.0",
@@ -216,6 +215,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.0.1",
+    "eslint": "^4.11.0",
     "eslint-plugin-react": "^7.4.0"
   }
 }

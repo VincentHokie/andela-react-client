@@ -210,7 +210,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --env=jsdom",
+    "test": "react-scripts test --coverage --env=jsdom && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "eject": "react-scripts eject"
   },
   "devDependencies": {

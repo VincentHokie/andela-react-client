@@ -66,4 +66,4 @@ chrome-user-data
 # sass
 .sass-cache/
 *.css.map
-*/*/scss/
+*.scss

@@ -2,36 +2,54 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.6
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+machine:
+  environment:
+    PROJECT_ID: vagrant-195109
+    CLUSTER_NAME: cp-cluster
+    COMPUTE_ZONE: us-central1-a
+    #As specified in Deployment.yml
+    DEPLOYMENT_NAME: cp-react
+    CONTAINER_NAME: cp-react
 
-    working_directory: ~/andela-react-client
+#Ensure that gcloud and kubectl are updated.
+dependencies:
+  pre:
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 120.0.0
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 120.0.0 kubectl
 
-    steps:
-      - checkout
+deployment:
+    production:
+        branch: master
+        commands:
+        # Save the string to a text file
+        - echo $SERVICE_KEY > key.txt
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+        # Decode the Service Account
+        - base64 -i key.txt -d > ${HOME}/gcloud-service-key.json
 
-      - run: npm install
+        # Authenticate CircleCI with the service account file
+        - sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account ${ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
 
-      - save_cache:
-          paths:
-            - node_modules 
-          key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
-      - run: npm test
+        # Set the default project
+        - sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_ID
+
+        # Set the default container
+        - sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
+
+        # Set the compute zone
+        - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone $COMPUTE_ZONE
+
+        # Get the cluster credentials.
+        - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+
+        # Start good old Docker
+        - sudo service docker start
+
+        # Build a Docker image and use the Github commit hash ($CIRCLE_SHA1) as the tag
+        - docker build -t gcr.io/${PROJECT_ID}/react-application:$CIRCLE_SHA1 .
+
+        # Push the Image to the GCP Container Registry
+        - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push gcr.io/${PROJECT_ID}/react-application:$CIRCLE_SHA1
+
+        # Update the default image for the deployment
+        - sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=gcr.io/${PROJECT_ID}/node-app:$CIRCLE_SHA1
